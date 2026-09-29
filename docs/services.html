@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>지원사업 신청 도움 | 제조업 지원사업 브리핑</title>
+<meta name="description" content="제조업 정부지원사업 신청 가능 여부 무료 진단, 사업계획서 검토, 작성 지원. 성공보수 없는 고정 요금, 세금계산서 발행.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#EDF0EE;--sheet:#fff;--ink:#1C2529;--steel:#5B6B70;--rule:#C9D1CE;--run:#2F8F5B;--warn:#E0A800;--alarm:#C43D2F;--focus:#1F5FBF;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;word-break:keep-all}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+header.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:2px solid var(--ink)}
+.logo{font-weight:700;font-size:17px;text-decoration:none;color:var(--ink)}
+.logo span{display:inline-block;width:10px;height:10px;background:var(--run);border-radius:50%;margin-right:8px}
+nav a{color:var(--steel);text-decoration:none;font-size:14px;margin-left:16px}
+.hero{padding:44px 0 10px}.hero h1{font-size:clamp(26px,4.2vw,38px);margin:0 0 12px;letter-spacing:-.02em;line-height:1.3;max-width:24ch}
+.hero p{margin:0;color:var(--steel);line-height:1.65;max-width:62ch}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:34px 0 10px;border:2px solid var(--ink);background:var(--sheet)}
+.step{padding:22px;border-right:1px solid var(--rule);position:relative}
+.step:last-child{border-right:none}
+.step .no{font-size:13px;color:var(--steel)}.step h2{font-size:18px;margin:4px 0 6px}
+.step .price{font-size:24px;font-weight:700;margin:6px 0 10px}.step .price small{font-size:13px;font-weight:400;color:var(--steel)}
+.step p{margin:0 0 8px;font-size:14px;line-height:1.6}.step ul{margin:0;padding-left:18px;font-size:14px;line-height:1.7;color:var(--steel)}
+.step.free{background:#F4FAF6}
+.rules{margin:26px 0;padding:18px 22px;background:var(--sheet);border-left:6px solid var(--run);font-size:14.5px;line-height:1.8}
+.rules b{display:block;margin-bottom:4px}
+.pay{font-size:14px;color:var(--steel);line-height:1.7;margin:0 0 30px}
+form{background:var(--sheet);border:2px solid var(--ink);padding:26px;margin:10px 0 40px}
+form h2{margin:0 0 4px;font-size:22px}.sub{color:var(--steel);font-size:14px;margin:0 0 20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+label{display:block;font-size:14px;font-weight:500;margin-bottom:6px}
+label .req{color:var(--alarm)}
+input,select,textarea{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1.5px solid #8A9894;border-radius:4px;background:#fff;color:var(--ink)}
+textarea{min-height:90px;resize:vertical}
+.full{grid-column:1/-1}
+.radio{display:flex;flex-wrap:wrap;gap:8px}
+.radio label{font-weight:400;border:1.5px solid var(--rule);padding:9px 12px;border-radius:4px;cursor:pointer;margin:0}
+.radio input{width:auto;margin-right:6px}
+.radio label:has(input:checked){border-color:var(--ink);background:#F4F6F5}
+.consent{font-size:13px;color:var(--steel);background:#F4F6F5;padding:12px 14px;border-radius:4px;line-height:1.65;margin:18px 0 10px}
+.check{display:flex;gap:8px;align-items:flex-start;font-weight:400}.check input{width:auto;margin-top:4px}
+button{font:inherit;font-weight:700;font-size:16px;background:var(--ink);color:#fff;border:none;padding:14px 22px;border-radius:4px;cursor:pointer;margin-top:10px}
+button:disabled{opacity:.5;cursor:default}
+.msg{margin-top:14px;font-size:15px;line-height:1.6}.msg.ok{color:var(--run);font-weight:700}.msg.err{color:var(--alarm)}
+.program{background:#FFF7D6;padding:10px 12px;border-radius:4px;font-size:14px;margin-bottom:16px;display:none}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+footer{padding:24px 0 48px;font-size:13px;color:var(--steel);border-top:1px solid var(--rule);line-height:1.7}
+@media(max-width:760px){.steps{grid-template-columns:1fr}.step{border-right:none;border-bottom:1px solid var(--rule)}.grid{grid-template-columns:1fr}nav a:first-child{display:none}}
+</style></head><body><div class="wrap">
+<header class="top"><a class="logo" href="./"><span aria-hidden="true"></span>제조업 지원사업 브리핑</a>
+<nav><a href="./">공고 검색</a><a href="resources.html">자료실</a></nav></header>
+
+<section class="hero"><h1>지원사업, 신청할 수 있는지부터 확인하세요.</h1>
+<p>스마트공장과 산업안전 지원사업 실무를 해온 제조 IT 회사가 직접 봐드립니다. 신청 가능 여부 진단은 무료이고, 사업계획서가 필요할 때만 정해진 요금으로 도와드립니다.</p></section>
+
+<section class="steps" aria-label="서비스와 요금">
+<div class="step free"><div class="no">먼저</div><h2>신청 가능 여부 진단</h2><div class="price">무료</div>
+<p>회사 정보를 보고 지금 신청할 수 있는 공고와 준비할 서류를 정리해 드립니다.</p>
+<ul><li>2영업일 안에 이메일 회신</li><li>관심 공고의 자격 요건 확인</li></ul></div>
+<div class="step"><div class="no">계획서를 직접 썼다면</div><h2>사업계획서 검토</h2><div class="price">99,000원 <small>VAT 별도</small></div>
+<p>작성하신 계획서를 항목별로 읽고 수정 의견을 드립니다.</p>
+<ul><li>문제-해결-성과 연결, 성과지표 점검</li><li>5영업일, 수정본 1회 재검토</li></ul></div>
+<div class="step"><div class="no">처음부터 막막하다면</div><h2>사업계획서 작성 지원</h2><div class="price">290,000원~ <small>VAT 별도</small></div>
+<p>회사가 제공한 자료와 수치로 계획서 구성과 초안 문장을 함께 만듭니다.</p>
+<ul><li>화상 인터뷰 1회로 현장 문제 정리</li><li>공고 양식에 맞춘 초안, 수정 2회</li></ul></div>
+</section>
+
+<div class="rules"><b>이렇게 일합니다</b>
+성공보수를 받지 않습니다. 선정 여부와 관계없이 위 고정 요금만 받습니다.<br>
+선정을 보장하지 않으며, 신청서 제출은 회사가 직접 합니다.<br>
+사실과 다른 내용은 쓰지 않습니다. 모든 수치와 내용은 회사가 제공한 자료를 기준으로 하며, 최종 확인은 회사가 합니다.</div>
+<p class="pay">결제는 계좌이체로 받고 전자세금계산서 또는 현금영수증을 발행합니다. 작업 범위와 금액을 먼저 확인해 드린 뒤 진행하므로, 신청만으로는 비용이 발생하지 않습니다.</p>
+
+<form id="apply" novalidate>
+<h2>신청하기</h2><p class="sub">빨간 별표만 필수입니다. 나머지는 아는 만큼만 적어주세요.</p>
+<div class="program" id="programBox"></div>
+<div class="grid">
+<div class="full"><label>원하는 서비스 <span class="req">*</span></label>
+<div class="radio" role="radiogroup">
+<label><input type="radio" name="service" value="무료 진단" checked>신청 가능 여부 무료 진단</label>
+<label><input type="radio" name="service" value="계획서 검토">사업계획서 검토</label>
+<label><input type="radio" name="service" value="작성 지원">사업계획서 작성 지원</label>
+<label><input type="radio" name="service" value="공고 알림">맞는 공고 알림만</label>
+<label><input type="radio" name="service" value="자료 구매">서식·가이드 구매</label></div></div>
+<div><label for="company">회사명 <span class="req">*</span></label><input id="company" name="company" required autocomplete="organization"></div>
+<div><label for="name">담당자 성함 <span class="req">*</span></label><input id="name" name="name" required autocomplete="name"></div>
+<div><label for="phone">연락처 <span class="req">*</span></label><input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="010-0000-0000"></div>
+<div><label for="email">이메일 <span class="req">*</span></label><input id="email" name="email" type="email" required autocomplete="email"></div>
+<div><label for="region">사업장 지역</label><select id="region" name="region"><option value="">선택</option>
+<option>서울</option><option>부산</option><option>대구</option><option>인천</option><option>광주</option><option>대전</option><option>울산</option><option>세종</option>
+<option>경기</option><option>강원</option><option>충북</option><option>충남</option><option>전북</option><option>전남</option><option>경북</option><option>경남</option><option>제주</option></select></div>
+<div><label for="staff">상시 근로자 수</label><select id="staff" name="staff"><option value="">선택</option>
+<option>5인 미만</option><option>5~9인</option><option>10~49인</option><option>50~99인</option><option>100인 이상</option></select></div>
+<div class="full"><label for="biz">업종과 주력 제품</label><input id="biz" name="biz" placeholder="예: CNC 정밀가공, 자동차 부품"></div>
+<div class="full"><label for="program">관심 있는 사업</label><input id="program" name="program" placeholder="예: 스마트공장 기초구축, 산업안전 지원사업"></div>
+<div class="full"><label for="memo">현재 고민이나 궁금한 점</label><textarea id="memo" name="memo" placeholder="예: 작업일보를 종이로 써서 생산 현황을 모른다, 올해 처음 신청해 본다"></textarea></div>
+<div><label for="when">진행 희망 시기</label><select id="when" name="when"><option value="">선택</option><option>이번 공고 마감 전</option><option>1개월 안</option><option>다음 해 사업 준비</option><option>정보만 알아보는 중</option></select></div>
+<div><label for="pay">결제 방법 선호 (유료 서비스 선택 시)</label><select id="pay" name="pay"><option value="">선택</option><option>계좌이체 + 세금계산서</option><option>계좌이체 + 현금영수증</option><option>카드결제 희망</option></select></div>
+</div>
+<div class="consent">수집 항목: 회사명, 담당자 성함, 연락처, 이메일, 지역, 근로자 수, 업종, 문의 내용<br>
+이용 목적: 신청 가능 여부 진단, 서비스 상담과 견적 안내, 요청하신 공고 알림<br>
+보유 기간: 상담 종료 후 1년 (요청 시 즉시 삭제) · 자세한 내용은 <a href="privacy.html">개인정보처리방침</a></div>
+<label class="check"><input type="checkbox" id="agree" required>위 개인정보 수집·이용에 동의합니다. <span class="req">*</span></label>
+<input type="hidden" name="program_id" id="program_id">
+<input type="text" name="website" id="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+<button type="submit" id="submit">신청하기</button>
+<div class="msg" id="msg" role="status" aria-live="polite"></div>
+</form>
+
+<footer>상호: 주식회사 이노팩 · 문의: acekh@outlook.kr · <a href="privacy.html">개인정보처리방침</a><br>
+본 서비스는 사업계획서 작성을 돕는 자문 서비스이며 정부 및 공공기관과 관계가 없습니다. 선정 여부는 각 사업 운영기관의 평가로 결정됩니다.</footer>
+</div>
+<script>
+const ENDPOINT="", EMAIL="acekh@outlook.kr";
+const q=new URLSearchParams(location.search);
+if(q.get("title")){const b=document.getElementById("programBox");b.style.display="block";b.textContent=(q.get("service")==="자료 구매"?"선택한 자료: ":"선택한 공고: ")+q.get("title");
+document.getElementById("program").value=q.get("title");document.getElementById("program_id").value=q.get("program")||""}
+if(q.get("service")){const r=document.querySelector(`input[name=service][value="${CSS.escape(q.get("service"))}"]`);if(r)r.checked=true}
+const f=document.getElementById("apply"),msg=document.getElementById("msg"),btn=document.getElementById("submit");
+f.addEventListener("submit",async e=>{e.preventDefault();msg.className="msg";
+const need=["company","name","phone","email"].filter(id=>!document.getElementById(id).value.trim());
+if(need.length){msg.className="msg err";msg.textContent="회사명, 성함, 연락처, 이메일을 입력해 주세요.";document.getElementById(need[0]).focus();return}
+if(!document.getElementById("email").checkValidity()){msg.className="msg err";msg.textContent="이메일 형식을 확인해 주세요.";return}
+if(!document.getElementById("agree").checked){msg.className="msg err";msg.textContent="개인정보 수집·이용에 동의해 주세요.";return}
+if(document.getElementById("website").value)return;
+const data=Object.fromEntries(new FormData(f));data.page=location.href;data.submitted=new Date().toISOString();
+if(!ENDPOINT){const body=Object.entries(data).map(([k,v])=>`${k}: ${v}`).join("\n");
+location.href=`mailto:${EMAIL}?subject=${encodeURIComponent("[신청] "+data.service+" - "+data.company)}&body=${encodeURIComponent(body)}`;return}
+btn.disabled=true;btn.textContent="보내는 중";
+try{await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
+f.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=true);
+msg.className="msg ok";msg.textContent="신청이 접수되었습니다. 2영업일 안에 "+data.email+"로 연락드리겠습니다.";btn.textContent="접수 완료"}
+catch(err){btn.disabled=false;btn.textContent="신청하기";msg.className="msg err";msg.textContent="전송하지 못했습니다. 잠시 후 다시 시도하거나 "+EMAIL+"로 메일 주세요."}});
+</script></body></html>
