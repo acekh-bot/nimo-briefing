@@ -19,7 +19,13 @@ bizinfo.go.kr 로그인 → 활용정보 → 정책정보 개방 → 지원사�
 
 ### 2. GitHub 저장소
 1. github.com 가입 → New repository → 이름 예: `nimo-briefing`, **Public** (무료 Pages 조건)
-2. 이 폴더 전체 업로드 (`.env`는 올리지 않음)
+2. 이 폴더 전체 업로드 (`.env`는 올리지 않음). 이 폴더는 이미 git 저장소로 첫 커밋이 되어 있으므로
+   `사이트_코드` 폴더에서 아래 두 줄만 실행하면 됩니다 (처음 push할 때 GitHub 로그인 창이 뜹니다).
+   ```
+   git remote add origin https://github.com/(깃허브아이디)/nimo-briefing.git
+   git push -u origin main
+   ```
+   저장소를 만들 때 README·.gitignore 추가 옵션은 모두 끄고 빈 저장소로 만드세요.
 3. Settings → Secrets and variables → Actions → New secret
    이름 `BIZINFO_API_KEY`, 값에 1번 키
 4. Settings → Pages → Source: Deploy from a branch → `main` / `/docs`
