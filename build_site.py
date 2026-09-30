@@ -11,6 +11,7 @@ import argparse, json, html, datetime as dt
 from pathlib import Path
 import gongo_bot as gb
 import seo
+import landing
 
 DOCS = gb.BASE / "docs"
 
@@ -91,7 +92,8 @@ def main():
     import shutil
     if (gb.BASE / "static").exists():
         shutil.copytree(gb.BASE / "static", DOCS, dirs_exist_ok=True)
-    verify_meta, n_arch = seo.build(DOCS, items, gb.CFG)
+    extra = landing.build(DOCS, items, gb.CFG)
+    verify_meta, n_arch = seo.build(DOCS, items, gb.CFG, extra_paths=extra)
     for res in [DOCS / "resources.html", DOCS / "services.html", DOCS / "privacy.html"]:
         if not res.exists():
             continue

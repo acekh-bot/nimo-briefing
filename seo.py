@@ -94,7 +94,7 @@ def page(item, cfg, today, verify_meta):
 운영: 주식회사 이노팩 · {esc(cfg['footer'])} · <a href="../privacy.html">개인정보처리방침</a></footer>
 </div></body></html>"""
 
-def build(docs, items, cfg, today=None):
+def build(docs, items, cfg, today=None, extra_paths=()):
     today = today or dt.date.today()
     arch_path = docs / "data" / "archive.json"
     arch = json.loads(arch_path.read_text(encoding="utf-8")) if arch_path.exists() else {}
@@ -111,6 +111,7 @@ def build(docs, items, cfg, today=None):
     base = cfg["site_url"]
     urls = [f"{base}/", f"{base}/services.html", f"{base}/resources.html", f"{base}/weekly/"]
     urls += [f"{base}/weekly/{f.name}" for f in sorted((docs / "weekly").glob("20*.html"))]
+    urls += [f"{base}/{x}" for x in extra_paths]
     urls += [f"{base}/p/{k}.html" for k in arch if re.fullmatch(r"[A-Za-z0-9_\-]+", k or "")]
     sm = "".join(f"<url><loc>{esc(u)}</loc><lastmod>{today.isoformat()}</lastmod></url>" for u in urls)
     (docs / "sitemap.xml").write_text(
@@ -168,7 +169,7 @@ def _meta_for(html_text, url, cfg, fname, verify_meta):
 def enrich(docs, items, cfg, verify_meta=""):
     """모든 페이지 <head>에 canonical·og·아이콘·RSS 링크를 넣고 rss.xml을 만든다 (이미 있으면 건너뜀)"""
     base = cfg["site_url"]
-    pages = [p for p in docs.glob("*.html")] + list((docs / "weekly").glob("*.html")) + list((docs / "p").glob("*.html"))
+    pages = [p for p in docs.glob("*.html")] + [f for sub in ("weekly", "p", "r", "c", "m") for f in (docs / sub).glob("*.html")]
     for p in pages:
         rel = p.relative_to(docs).as_posix()
         url = f"{base}/" if rel == "index.html" else f"{base}/weekly/" if rel == "weekly/index.html" else f"{base}/{rel}"
