@@ -117,3 +117,81 @@ def build(docs, items, cfg, today=None):
         f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sm}</urlset>', encoding="utf-8")
     (docs / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {base}/sitemap.xml\n", encoding="utf-8")
     return verify_meta, len(arch)
+
+# ---------- 공통 메타 태그 · RSS (검색·공유 미리보기) ----------
+DEFAULT_DESC = {
+    "index.html": "스마트공장, 산업안전, 제조 기술개발 등 제조업이 신청할 수 있는 정부지원사업만 모아 마감일 순으로 보여줍니다. 매주 월요일 갱신.",
+    "services.html": "제조업 정부지원사업 신청 가능 여부 무료 진단, 사업계획서 검토, 작성 지원. 성공보수 없는 고정 요금.",
+    "resources.html": "소규모 제조업 위험성평가표 등 산업안전 서식과 사업계획서 작성 가이드.",
+    "privacy.html": "제조업 지원사업 브리핑 개인정보처리방침.",
+    "weekly/index.html": "매주 월요일 새로 올라온 제조업 정부지원사업 공고를 모은 주간 브리핑 목록.",
+}
+KEYWORDS = "제조업 지원사업, 정부지원사업, 스마트공장 지원사업, 산업안전 지원사업, 중소기업 지원사업, 기업마당, 사업계획서"
+FAVICON = ('<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E'
+           '%3Ccircle cx=%228%22 cy=%228%22 r=%226%22 fill=%22%232F8F5B%22/%3E%3C/svg%3E">')
+
+
+def _meta_for(html_text, url, cfg, fname, verify_meta):
+    t = re.search(r"<title>(.*?)</title>", html_text, re.S)
+    title = t.group(1).strip() if t else cfg["brand"]
+    d = re.search(r'<meta name="description" content="([^"]*)"', html_text)
+    desc = d.group(1) if d else esc(DEFAULT_DESC.get(fname, cfg["brand"]))
+    add = []
+    if not d:
+        add.append(f'<meta name="description" content="{desc}">')
+    if verify_meta and "naver-site-verification" not in html_text:
+        add.append(verify_meta)
+    if 'rel="canonical"' not in html_text:
+        add.append(f'<link rel="canonical" href="{esc(url)}">')
+    if 'property="og:title"' not in html_text:
+        add += [f'<meta property="og:title" content="{title}">', f'<meta property="og:description" content="{desc}">',
+                f'<meta property="og:url" content="{esc(url)}">', '<meta property="og:type" content="website">']
+    if 'property="og:image"' not in html_text:
+        add += [f'<meta property="og:image" content="{cfg["site_url"]}/og.png">',
+                '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">',
+                f'<meta property="og:site_name" content="{esc(cfg["brand"])}">', '<meta property="og:locale" content="ko_KR">',
+                '<meta name="twitter:card" content="summary_large_image">']
+    if 'name="keywords"' not in html_text and fname in ("index.html", "services.html"):
+        add.append(f'<meta name="keywords" content="{KEYWORDS}">')
+    if 'rel="icon"' not in html_text:
+        add.append(FAVICON)
+    if 'type="application/rss+xml"' not in html_text:
+        add.append(f'<link rel="alternate" type="application/rss+xml" title="{esc(cfg["brand"])}" href="{cfg["site_url"]}/rss.xml">')
+    if fname == "index.html" and "application/ld+json" not in html_text:
+        ld = {"@context": "https://schema.org", "@type": "WebSite", "name": cfg["brand"], "url": cfg["site_url"] + "/",
+              "description": DEFAULT_DESC["index.html"],
+              "publisher": {"@type": "Organization", "name": "주식회사 이노팩", "email": cfg.get("contact_email", "")}}
+        add.append(f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>')
+    return "\n".join(add)
+
+
+def enrich(docs, items, cfg, verify_meta=""):
+    """모든 페이지 <head>에 canonical·og·아이콘·RSS 링크를 넣고 rss.xml을 만든다 (이미 있으면 건너뜀)"""
+    base = cfg["site_url"]
+    pages = [p for p in docs.glob("*.html")] + list((docs / "weekly").glob("*.html")) + list((docs / "p").glob("*.html"))
+    for p in pages:
+        rel = p.relative_to(docs).as_posix()
+        url = f"{base}/" if rel == "index.html" else f"{base}/weekly/" if rel == "weekly/index.html" else f"{base}/{rel}"
+        t = p.read_text(encoding="utf-8")
+        add = _meta_for(t, url, cfg, rel, verify_meta)
+        if add:
+            p.write_text(t.replace("</head>", add + "\n</head>", 1), encoding="utf-8")
+    # RSS: 최근 등록 순 50건 (네이버 서치어드바이저 RSS 제출용)
+    now = dt.datetime.now(dt.timezone(dt.timedelta(hours=9)))
+    def pub(i):
+        try:
+            d = dt.date.fromisoformat((i.get("start") or "")[:10])
+        except ValueError:
+            d = now.date()
+        return dt.datetime(d.year, d.month, d.day, 9, tzinfo=now.tzinfo)
+    rows = sorted(items, key=pub, reverse=True)[:50]
+    fmt = lambda x: x.strftime("%a, %d %b %Y %H:%M:%S +0900")
+    entries = "".join(
+        f"<item><title>{esc(i['title'])}</title><link>{base}/p/{esc(i['id'])}.html</link>"
+        f"<guid>{base}/p/{esc(i['id'])}.html</guid><pubDate>{fmt(pub(i))}</pubDate>"
+        f"<description>{esc(('마감 ' + i['end'] + ' · ') if i.get('end') else '')}{esc(i.get('one') or '')}</description></item>"
+        for i in rows if re.fullmatch(r"[A-Za-z0-9_\-]+", i["id"] or ""))
+    (docs / "rss.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel>'
+        f"<title>{esc(cfg['brand'])}</title><link>{base}/</link><description>{esc(DEFAULT_DESC['index.html'])}</description>"
+        f"<language>ko</language><lastBuildDate>{fmt(now)}</lastBuildDate>{entries}</channel></rss>", encoding="utf-8")

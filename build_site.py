@@ -104,6 +104,7 @@ def main():
     idx = DOCS / "index.html"
     idx.write_text(idx.read_text(encoding="utf-8").replace("%%VERIFY%%", verify_meta), encoding="utf-8")
     (DOCS / "CNAME").write_text(gb.CFG["site_url"].replace("https://", ""), encoding="utf-8")
+    seo.enrich(DOCS, items, gb.CFG, verify_meta)
     if not a.sample:
         gb.STATE.write_text(json.dumps(sorted(seen | {i["id"] for i in items}), ensure_ascii=False))
     print(f"사이트 생성 완료: 공고 {len(items)}건, 이번 주 신규 {len(new)}건")
