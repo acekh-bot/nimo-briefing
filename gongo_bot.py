@@ -41,6 +41,54 @@ def fetch_api():
         arr = arr.get("item") or []
     return arr
 
+# K-Startup(창업진흥원) 공식 API — 공공데이터포털 무료 키(KSTARTUP_API_KEY)가 있을 때만 추가 수집
+KS_REGION = {"서울특별시": "서울", "부산광역시": "부산", "대구광역시": "대구", "인천광역시": "인천", "광주광역시": "광주",
+             "대전광역시": "대전", "울산광역시": "울산", "세종특별자치시": "세종", "경기도": "경기", "강원특별자치도": "강원",
+             "강원도": "강원", "충청북도": "충북", "충청남도": "충남", "전북특별자치도": "전북", "전라북도": "전북",
+             "전라남도": "전남", "경상북도": "경북", "경상남도": "경남", "제주특별자치도": "제주"}
+
+def _ymd(s):
+    s = re.sub(r"\D", "", str(s or ""))[:8]
+    return f"{s[:4]}-{s[4:6]}-{s[6:8]}" if len(s) == 8 else ""
+
+def fetch_kstartup():
+    """모집 중인 K-Startup 공고를 기업마당 응답 형태로 바꿔 돌려준다. 실패해도 빈 목록 (기업마당만으로 계속)"""
+    key = os.environ.get("KSTARTUP_API_KEY")
+    if not key:
+        return []
+    out = []
+    try:
+        for page in range(1, 21):
+            q = urllib.parse.urlencode({"serviceKey": key, "page": page, "perPage": 100, "returnType": "json",
+                                        "cond[rcrt_prgs_yn::EQ]": "Y"})
+            url = "https://apis.data.go.kr/B552735/kisedKstartupService01/getAnnouncementInformation01?" + q
+            with urllib.request.urlopen(url, timeout=60) as r:
+                data = json.loads(r.read().decode("utf-8"))
+            rows = data.get("data") or []
+            for x in rows:
+                if str(x.get("rcrt_prgs_yn", "Y")).upper() != "Y" or not x.get("biz_pbanc_nm"):
+                    continue
+                region = KS_REGION.get(str(x.get("supt_regin", "")).strip(), "")
+                title = str(x["biz_pbanc_nm"]).strip()
+                if region and not title.startswith("["):
+                    title = f"[{region}] {title}"
+                b, e = _ymd(x.get("pbanc_rcpt_bgng_dt")), _ymd(x.get("pbanc_rcpt_end_dt"))
+                out.append({
+                    "pblancId": f"KS_{x.get('pbanc_sn')}", "pblancNm": title,
+                    "jrsdInsttNm": x.get("pbanc_ntrp_nm") or "창업진흥원", "excInsttNm": x.get("biz_prch_dprt_nm") or "",
+                    "pldirSportRealmLclasCodeNm": x.get("supt_biz_clsfc") or "창업",
+                    "reqstBeginEndDe": f"{b} ~ {e}" if e else "", "bsnsSumryCn": x.get("pbanc_ctnt") or "",
+                    "trgetNm": x.get("aply_trgt") or "창업벤처", "hashtags": "K-Startup",
+                    "pblancUrl": x.get("detl_pg_url") or "https://www.k-startup.go.kr", "rceptEngnHmpgUrl": x.get("detl_pg_url") or "",
+                    "refrncNm": x.get("prch_cnpl_no") or "", "reqstMthPapersCn": "K-Startup 공고 확인",
+                })
+            if len(rows) < 100:
+                break
+        print(f"K-Startup {len(out)}건")
+    except Exception as err:  # 키 오류·장애가 있어도 사이트 갱신은 계속
+        print("K-Startup 수집 건너뜀:", err)
+    return out
+
 def g(d, *keys):
     for k in keys:
         if d.get(k):

@@ -18,6 +18,11 @@ briefing.nimo.ai.kr 사이트와 카카오톡용 텍스트를 갱신합니다. �
 bizinfo.go.kr 로그인 → 활용정보 → 정책정보 개방 → 지원사업정보 API 사용신청.
 승인 후 마이페이지에서 키 복사.
 
+### 1-1. (선택) K-Startup API 키 (무료)
+data.go.kr 로그인 → '창업진흥원_K-Startup(사업소개,사업공고,콘텐츠 등) 조회서비스' 검색 → 활용신청 (자동승인).
+마이페이지 → 개발계정에서 **일반 인증키(Decoding)** 복사 → `.env`의 `KSTARTUP_API_KEY=` 뒤에 붙여넣고,
+GitHub Secret `KSTARTUP_API_KEY`로도 등록. 없으면 기업마당만으로 동작합니다.
+
 ### 2. GitHub 저장소
 1. github.com 가입 → New repository → 이름 예: `nimo-briefing`, **Public** (무료 Pages 조건)
 2. 이 폴더 전체 업로드 (`.env`는 올리지 않음). 이 폴더는 이미 git 저장소로 첫 커밋이 되어 있으므로

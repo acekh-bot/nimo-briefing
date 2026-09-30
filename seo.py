@@ -89,7 +89,7 @@ def page(item, cfg, today, verify_meta):
 {cta}
 <h2>사업 개요</h2><div class="body">{body}</div>
 {f'<h2>공고 첨부 서류</h2><ul class="files">{files}</ul>' if files else ''}
-<h2>원문 공고</h2><p><a href="{esc(item['url'])}" target="_blank" rel="noopener">기업마당에서 원문 공고 보기</a></p>
+<h2>원문 공고</h2><p><a href="{esc(item['url'])}" target="_blank" rel="noopener">{"K-Startup" if "k-startup" in (item.get("url") or "") else "기업마당"}에서 원문 공고 보기</a></p>
 <footer>이 페이지는 기업마당(bizinfo.go.kr) 공개 정보를 정리한 참고자료입니다. 지원 조건과 일정은 반드시 원문 공고와 운영기관에서 확인하세요. 최종 갱신 {today.isoformat()}<br>
 운영: 주식회사 이노팩 · {esc(cfg['footer'])} · <a href="../privacy.html">개인정보처리방침</a></footer>
 </div></body></html>"""

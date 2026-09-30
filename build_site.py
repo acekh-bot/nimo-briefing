@@ -75,7 +75,7 @@ def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--sample"); ap.add_argument("--weekly", action="store_true")
     a = ap.parse_args()
     gb.load_env()
-    raw = json.loads(Path(a.sample).read_text(encoding="utf-8")) if a.sample else gb.fetch_api()
+    raw = json.loads(Path(a.sample).read_text(encoding="utf-8")) if a.sample else gb.fetch_api() + gb.fetch_kstartup()
     items, seen = build_items(raw)
     date = dt.date.today().isoformat()
     (DOCS / "data").mkdir(parents=True, exist_ok=True)
