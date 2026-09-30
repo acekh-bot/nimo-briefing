@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>스마트공장 지원사업과 설비 모니터링·MES — NIMO | %%BRAND%%</title>%%VERIFY%%
+<meta name="description" content="스마트공장 기초·고도화, 제조 AI 지원사업에 필요한 설비 데이터 수집과 MES. 가동률·OEE, 생산실적, 도입 전후 효과 리포트, 스마트공장 사용로그 전송까지 NIMO 하나로.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#EDF0EE;--sheet:#fff;--ink:#1C2529;--steel:#5B6B70;--rule:#C9D1CE;--run:#2F8F5B;--warn:#E0A800;--alarm:#C43D2F;--focus:#1F5FBF;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+header.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:2px solid var(--ink)}
+.logo{font-weight:700;font-size:17px;text-decoration:none;color:var(--ink)}
+.logo span{display:inline-block;width:10px;height:10px;background:var(--run);border-radius:50%;margin-right:8px}
+nav a{color:var(--steel);text-decoration:none;font-size:14px;margin-left:16px}
+.hero{padding:44px 0 18px}
+.eyebrow{font-size:13px;font-weight:700;color:var(--run);letter-spacing:.04em;margin:0 0 10px}
+.hero h1{font-size:clamp(26px,4.2vw,38px);margin:0 0 14px;letter-spacing:-.02em;line-height:1.3;max-width:24ch}
+.hero p{margin:0;color:var(--steel);line-height:1.7;max-width:64ch;font-size:16px}
+/* 설비 상태 막대 (간트) */
+.board{margin:28px 0 8px;background:var(--ink);border-radius:6px;padding:18px 20px;color:#C9D1CE;font-size:13px}
+.board .row{display:grid;grid-template-columns:92px 1fr 56px;gap:12px;align-items:center;margin:8px 0}
+.board .bar{height:14px;display:flex;border-radius:2px;overflow:hidden;background:#2B363B}
+.board .bar i{display:block;height:100%}
+.r{background:var(--run)}.w{background:var(--warn)}.a{background:var(--alarm)}.o{background:#51606A}
+.board .pct{text-align:right;color:#fff;font-weight:700}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px;border-radius:2px;background:var(--c)}
+h2{font-size:22px;margin:44px 0 6px;letter-spacing:-.01em}
+.sub{color:var(--steel);margin:0 0 18px;line-height:1.65}
+.stages{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink);background:var(--sheet)}
+.stage{padding:22px;border-right:1px solid var(--rule)}.stage:last-child{border-right:none}
+.stage .no{font-size:13px;color:var(--steel)}.stage h3{font-size:18px;margin:4px 0 8px}
+.stage p{margin:0 0 10px;font-size:14.5px;line-height:1.65}
+.stage .how{font-size:13.5px;color:var(--run);font-weight:500;line-height:1.6}
+.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:0;background:var(--sheet);border:1px solid var(--rule)}
+.feat{padding:18px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.feat:nth-child(2n){border-right:none}
+.feat b{display:block;font-size:16px;margin-bottom:4px}.feat span{font-size:14px;color:var(--steel);line-height:1.6}
+.fair{margin:34px 0;padding:18px 22px;background:var(--sheet);border-left:6px solid var(--run);font-size:14.5px;line-height:1.8}
+.fair b{display:block;margin-bottom:4px}
+.cta{margin:36px 0 40px;padding:26px;background:var(--ink);color:#fff;border-radius:6px}
+.cta h2{margin:0 0 6px;color:#fff;font-size:21px}.cta p{margin:0 0 16px;color:#C9D1CE;font-size:14.5px;line-height:1.65}
+.cta a{display:inline-block;background:var(--warn);color:var(--ink);font-weight:700;text-decoration:none;padding:12px 18px;border-radius:4px;margin:0 8px 8px 0}
+.cta a.ghost{background:transparent;color:#fff;border:1.5px solid #fff}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+footer{padding:24px 0 48px;font-size:13px;color:var(--steel);border-top:1px solid var(--rule);line-height:1.7}
+footer a{color:var(--steel)}
+@media(max-width:760px){.stages{grid-template-columns:1fr}.stage{border-right:none;border-bottom:1px solid var(--rule)}.feats{grid-template-columns:1fr}.feat{border-right:none}.board .row{grid-template-columns:70px 1fr 44px}nav a:not(:last-child){display:none}}
+</style></head><body><div class="wrap">
+<header class="top"><a class="logo" href="./"><span aria-hidden="true"></span>%%BRAND%%</a>
+<nav><a href="./">공고 검색</a><a href="guide.html">모아보기</a><a href="services.html">신청 도움</a></nav></header>
+
+<section class="hero">
+<p class="eyebrow">설비 모니터링 · MES · NIMO</p>
+<h1>지원사업의 시작과 끝에는 늘 설비 데이터가 있습니다.</h1>
+<p>스마트공장 사업계획서의 성과지표는 지금 가동률에서 출발하고, 구축 뒤에는 MES 사용 기록과 도입 효과를 숫자로 보고해야 합니다. NIMO는 CNC·PLC 설비에서 데이터를 직접 모으고, 생산실적과 불량을 관리하는 MES를 한 프로그램에 담았습니다.</p>
+<div class="board" aria-label="설비 가동 현황 예시">
+<div class="row"><span>MCT #1</span><div class="bar"><i class="r" style="width:78%"></i><i class="w" style="width:10%"></i><i class="a" style="width:4%"></i><i class="o" style="width:8%"></i></div><span class="pct">78%</span></div>
+<div class="row"><span>CNC 선반 #2</span><div class="bar"><i class="r" style="width:64%"></i><i class="w" style="width:20%"></i><i class="a" style="width:9%"></i><i class="o" style="width:7%"></i></div><span class="pct">64%</span></div>
+<div class="row"><span>MCT #3</span><div class="bar"><i class="r" style="width:41%"></i><i class="w" style="width:31%"></i><i class="a" style="width:3%"></i><i class="o" style="width:25%"></i></div><span class="pct">41%</span></div>
+<div class="legend"><span style="--c:var(--run)">가동</span><span style="--c:var(--warn)">대기·준비</span><span style="--c:var(--alarm)">알람</span><span style="--c:#51606A">꺼짐</span><span>· 화면 예시</span></div>
+</div>
+</section>
+
+<h2>지원사업 단계마다 필요한 것</h2>
+<p class="sub">공고문이 요구하는 것과 NIMO가 채워주는 부분을 단계별로 정리했습니다.</p>
+<section class="stages">
+<div class="stage"><div class="no">1. 신청할 때</div><h3>지금 수준을 숫자로</h3>
+<p>사업계획서에는 "가동률 ○% → ○%" 같은 성과지표가 들어갑니다. 기준값이 추정이면 설득력이 약합니다.</p>
+<p class="how">설비별 가동률·OEE·알람 이력을 자동 집계해 현재 수준을 실측값으로 제시</p></div>
+<div class="stage"><div class="no">2. 구축할 때</div><h3>설비 연동 MES</h3>
+<p>스마트공장 기초·고도화 사업은 생산관리 시스템과 설비 데이터 수집을 함께 구축하는 경우가 많습니다.</p>
+<p class="how">FOCAS·Modbus 설비 연동 + 수주·생산실적·불량·재고·납품까지 내장 MES</p></div>
+<div class="stage"><div class="no">3. 끝난 뒤</div><h3>사용 기록과 성과 보고</h3>
+<p>구축 후에는 솔루션 사용 로그 전송과 도입 효과 보고가 따라옵니다.</p>
+<p class="how">스마트공장 사용로그 자동 전송, 도입 전후 효과 리포트 PDF</p></div>
+</section>
+
+<h2>NIMO 주요 기능</h2>
+<p class="sub">현재 배포 중인 버전에 들어 있는 기능입니다. 자세한 화면은 시연 페이지에서 볼 수 있습니다.</p>
+<section class="feats">
+<div class="feat"><b>설비 실시간 모니터링</b><span>FANUC FOCAS·Modbus 설비를 5초 간격으로 수집해 가동·대기·알람·꺼짐 상태를 구분합니다.</span></div>
+<div class="feat"><b>가동률·OEE·MTBF·MTTR</b><span>설비별·기간별 핵심 지표와 알람 패턴, 시간대별 가동률을 자동으로 계산합니다.</span></div>
+<div class="feat"><b>내장 MES</b><span>수주, 작업지시, 생산실적, 불량, 재고, 납품·명세서를 설비 데이터와 한 프로그램에서 관리합니다.</span></div>
+<div class="feat"><b>작업자 모바일 실적 입력</b><span>현장 휴대폰이나 스테이션 화면에서 양품·불량을 바로 등록하고 사이클타임을 실측합니다.</span></div>
+<div class="feat"><b>안돈 보드·공장 평면도</b><span>공장 평면도 위에 설비 상태와 작업 흐름을 띄워 현장 모니터로 공유합니다.</span></div>
+<div class="feat"><b>도입 전후 효과 리포트</b><span>기준 기간과 현재 기간을 골라 가동률·OEE 변화를 비교한 증빙용 PDF를 만듭니다.</span></div>
+<div class="feat"><b>스마트공장 사용로그 전송</b><span>스마트제조혁신추진단 가이드에 맞춘 솔루션 사용 로그를 주기적으로 자동 전송합니다.</span></div>
+<div class="feat"><b>AI 분석</b><span>고장 위험 설비 예측, 손실 분석, 데이터 질의로 개선 포인트를 찾아 예방정비 작업까지 제안합니다.</span></div>
+</section>
+
+<div class="fair"><b>공정하게 안내합니다</b>
+NIMO는 이 사이트 운영사(주식회사 이노팩)의 제품입니다.<br>
+무료 진단과 지원사업 안내는 NIMO 도입 여부와 관계없이 똑같이 제공합니다.<br>
+지원사업에서 어떤 공급기업과 솔루션을 쓸지는 신청 기업이 자유롭게 정하며, 사업별 공급기업 요건은 공고문 기준으로 확인해 드립니다.</div>
+
+<section class="cta"><h2>우리 공장 설비로 가능한지 먼저 확인해 보세요</h2>
+<p>보유 설비(제조사·컨트롤러 종류)와 대수만 알려주시면 연동 가능 여부와 함께 볼 만한 지원사업을 정리해 드립니다.</p>
+<a href="services.html?service=NIMO%20%EC%83%81%EB%8B%B4&title=NIMO%20%EC%84%A4%EB%B9%84%20%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81%C2%B7MES%20%EB%8F%84%EC%9E%85%20%EC%83%81%EB%8B%B4#apply">NIMO 도입 상담 신청</a><a class="ghost" href="https://inno.nimo.ai.kr/#demo" target="_blank" rel="noopener">화면 시연 보기</a><a class="ghost" href="https://inno.nimo.ai.kr/#nimo" target="_blank" rel="noopener">제품 자세히 보기</a></section>
+
+<footer>NIMO · 주식회사 이노팩 · <a href="https://inno.nimo.ai.kr" target="_blank" rel="noopener">inno.nimo.ai.kr</a> · 문의: %%EMAIL%%<br>
+지원사업 선정 여부는 각 사업 운영기관의 평가로 결정되며, 솔루션 도입이 선정을 보장하지 않습니다. · <a href="privacy.html">개인정보처리방침</a></footer>
+</div></body></html>

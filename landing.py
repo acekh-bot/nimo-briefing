@@ -7,7 +7,7 @@
   docs/m/YYYY-MM.html       "10월 마감 지원사업" 월별 정리 (지난 달 페이지는 그대로 보관)
 """
 import datetime as dt, json, re, shutil
-from seo import CSS, HEAD_FONTS, esc
+from seo import CSS, HEAD_FONTS, esc, nimo_box
 
 REGIONS = {"서울": "seoul", "부산": "busan", "대구": "daegu", "인천": "incheon", "광주": "gwangju",
            "대전": "daejeon", "울산": "ulsan", "세종": "sejong", "경기": "gyeonggi", "강원": "gangwon",
@@ -101,7 +101,7 @@ def _page(cfg, today, title, h1, crumb, lead, body, desc):
 {EXTRA_CSS}</style></head>
 <body><div class="wrap">
 <header class="top"><a class="logo" href="../"><span aria-hidden="true"></span>{esc(cfg['brand'])}</a>
-<nav><a href="../guide.html">모아보기</a><a href="../services.html">신청 도움</a></nav></header>
+<nav><a href="../guide.html">모아보기</a><a href="../nimo.html">NIMO</a><a href="../services.html">신청 도움</a></nav></header>
 <div class="crumb"><a href="../">제조업 지원사업</a> / <a href="../guide.html">모아보기</a> / {esc(crumb)}</div>
 <h1>{esc(h1)}</h1>
 <p class="lead">{lead}</p>
@@ -159,7 +159,9 @@ def build(docs, items, cfg, today=None):
                 f"{esc(', '.join(regions[:8]))}{' 등' if len(regions) > 8 else ''} 지역 공고가 있습니다.")
         (docs / "c" / f"{slug}.html").write_text(_page(
             cfg, today, f"{CAT_TITLE[c]} {today.year} 모음 ({len(lst)}건) | 제조업 지원사업 브리핑",
-            f"{CAT_TITLE[c]} 모음", c, lead, _facts(lst, today) + _sections(lst, today),
+            f"{CAT_TITLE[c]} 모음", c, lead,
+            _facts(lst, today) + (nimo_box({"title": "", "cats": ["스마트공장"]}) if c in ("스마트공장", "AI·바우처") else "")
+            + _sections(lst, today),
             f"진행 중인 {CAT_TITLE[c]} {len(lst)}건. 지역, 마감일, 지원 내용, 신청방법을 한 페이지에 정리."),
             encoding="utf-8")
         made["c"].append((c, f"c/{slug}.html", len(lst)))

@@ -64,7 +64,7 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);border-top:1px soli
 <link rel="alternate" type="application/rss+xml" title="제조업 지원사업 브리핑" href="https://briefing.nimo.ai.kr/rss.xml">
 </head><body><div class="wrap">
 <header class="top"><a class="logo" href="./"><span aria-hidden="true"></span>제조업 지원사업 브리핑</a>
-<nav><a href="./">공고 검색</a><a href="resources.html">자료실</a></nav></header>
+<nav><a href="./">공고 검색</a><a href="resources.html">자료실</a><a href="nimo.html">NIMO</a></nav></header>
 
 <section class="hero"><h1>지원사업, 신청할 수 있는지부터 확인하세요.</h1>
 <p>스마트공장과 산업안전 지원사업 실무를 해온 제조 IT 회사가 직접 봐드립니다. 신청 가능 여부 진단은 무료이고, 사업계획서가 필요할 때만 정해진 요금으로 도와드립니다.</p></section>
@@ -97,7 +97,8 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);border-top:1px soli
 <label><input type="radio" name="service" value="계획서 검토">사업계획서 검토</label>
 <label><input type="radio" name="service" value="작성 지원">사업계획서 작성 지원</label>
 <label><input type="radio" name="service" value="공고 알림">맞는 공고 알림만</label>
-<label><input type="radio" name="service" value="자료 구매">서식·가이드 구매</label></div></div>
+<label><input type="radio" name="service" value="자료 구매">서식·가이드 구매</label>
+<label><input type="radio" name="service" value="NIMO 상담">설비 모니터링·MES(NIMO) 상담</label></div></div>
 <div><label for="company">회사명 <span class="req">*</span></label><input id="company" name="company" required autocomplete="organization"></div>
 <div><label for="name">담당자 성함 <span class="req">*</span></label><input id="name" name="name" required autocomplete="name"></div>
 <div><label for="phone">연락처 <span class="req">*</span></label><input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="010-0000-0000"></div>
@@ -129,7 +130,7 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);border-top:1px soli
 <script>
 const ENDPOINT="https://script.google.com/macros/s/AKfycby1BGgIF2tOLnhkuYS-e2-A1OwKnb_37kxYJFhmyzr3pJQB2_CczUywAA0_DkcwAsYm/exec", EMAIL="acekh@outlook.kr";
 const q=new URLSearchParams(location.search);
-if(q.get("title")){const b=document.getElementById("programBox");b.style.display="block";b.textContent=(q.get("service")==="자료 구매"?"선택한 자료: ":"선택한 공고: ")+q.get("title");
+if(q.get("title")){const b=document.getElementById("programBox");b.style.display="block";b.textContent=({"자료 구매":"선택한 자료: ","NIMO 상담":"상담 주제: "}[q.get("service")]||"선택한 공고: ")+q.get("title");
 document.getElementById("program").value=q.get("title");document.getElementById("program_id").value=q.get("program")||""}
 if(q.get("service")){const r=document.querySelector(`input[name=service][value="${CSS.escape(q.get("service"))}"]`);if(r)r.checked=true}
 const f=document.getElementById("apply"),msg=document.getElementById("msg"),btn=document.getElementById("submit");

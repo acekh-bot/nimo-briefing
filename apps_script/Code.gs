@@ -188,7 +188,14 @@ function sendCustomerReply_(c, r) {
   L.push("■ 대부분의 공고에서 요구하는 기본 서류", BASIC_DOCS.map(x => "- " + x).join("\n"),
     "  (공고마다 다르므로 공고문 기준으로 확인이 필요합니다)", "");
   const service = c.service || "무료 진단";
-  if (service === "무료 진단" || service === "공고 알림") {
+  if (service === "NIMO 상담") {
+    L.push("NIMO(설비 모니터링·MES) 상담을 신청해 주셔서 감사합니다.",
+      "연동 가능 여부 확인을 위해 이 메일에 아래 내용을 회신해 주시면 더 정확히 안내드릴 수 있습니다.",
+      "- 설비 제조사와 컨트롤러 (예: 두산 MCT / FANUC 0i-F, 화천 선반 / FANUC 0i-TF, PLC 제조사)",
+      "- 설비 대수, 현재 생산관리 방식 (종이 일보, 엑셀, 기존 MES 등)",
+      "화면 시연: https://inno.nimo.ai.kr/#demo  ·  소개: " + SITE + "/nimo.html",
+      "", "담당자가 2영업일 안에 연락드리겠습니다. NIMO 도입 여부와 관계없이 지원사업 안내는 똑같이 받으실 수 있습니다.");
+  } else if (service === "무료 진단" || service === "공고 알림") {
     L.push("담당자가 공고문을 직접 확인해 신청 가능 여부와 추가로 확인할 점을 2영업일 안에 다시 연락드리겠습니다.");
   } else {
     L.push("요청하신 '" + service + "'의 진행 조건과 금액은 담당자가 확인 후 2영업일 안에 안내드리겠습니다.",

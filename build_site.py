@@ -100,7 +100,7 @@ def main():
         shutil.copytree(gb.BASE / "static", DOCS, dirs_exist_ok=True)
     extra = landing.build(DOCS, items, gb.CFG)
     verify_meta, n_arch = seo.build(DOCS, items, gb.CFG, extra_paths=extra)
-    for res in [DOCS / "resources.html", DOCS / "services.html", DOCS / "privacy.html"]:
+    for res in [DOCS / "resources.html", DOCS / "services.html", DOCS / "privacy.html", DOCS / "nimo.html"]:
         if not res.exists():
             continue
         t = res.read_text(encoding="utf-8").replace("%%VERIFY%%", verify_meta)
@@ -182,7 +182,7 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);line-height:1.7;bor
 </style></head>
 <body><div class="wrap">
 <header class="top"><a class="logo" href="./"><span aria-hidden="true"></span>%%BRAND%%</a>
-<nav><a href="resources.html">자료실</a><a href="weekly/">주간 브리핑</a><a href="services.html">신청 도움</a></nav></header>
+<nav><a href="resources.html">자료실</a><a href="weekly/">주간 브리핑</a><a href="nimo.html">NIMO</a><a href="services.html">신청 도움</a></nav></header>
 
 <section class="hero">
 <h1>우리 공장이 신청할 수 있는 정부지원사업, 마감 순서대로.</h1>
@@ -203,6 +203,9 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);line-height:1.7;bor
 <div class="axis" aria-hidden="true"><div id="count"></div><div class="ticks" id="ticks"></div></div>
 <ul class="list" id="list"></ul>
 
+<section style="margin:40px 0 0;padding:20px 22px;background:#fff;border:1px solid var(--rule);border-left:6px solid var(--run);display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+<div><b style="font-size:16px">스마트공장 사업을 준비한다면, 설비 데이터부터</b><p style="margin:4px 0 0;font-size:14px;color:var(--steel);line-height:1.6">가동률 실측, 설비 연동 MES, 사용로그 전송과 도입 효과 리포트까지. 운영사 이노팩의 NIMO를 소개합니다.</p></div>
+<a href="nimo.html" style="font-weight:700;color:var(--ink);white-space:nowrap">NIMO 알아보기 →</a></section>
 <section class="cta" id="subscribe">
 <div><h3>우리 회사에 맞는 공고만 받아보세요</h3>
 <p>업종과 지역을 남겨주시면 신청 가능한 공고를 골라 알려드립니다. 신청 가능 여부 진단은 무료입니다.</p></div>

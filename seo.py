@@ -51,6 +51,19 @@ def status_of(item, today):
         return "오늘 마감", "alarm"
     return f"마감 D-{d}", "alarm" if d <= 7 else "warn" if d <= 21 else ""
 
+NIMO_WORDS = ("스마트공장", "스마트제조", "MES", "디지털전환", "DX", "AX", "제조데이터", "제조 데이터", "제조AI", "제조 AI",
+              "자율제조", "모니터링", "공정개선", "생산성", "설비")
+
+def nimo_box(item, prefix="../"):
+    """스마트공장·제조 데이터 관련 공고에만 NIMO 안내 (운영사 제품임을 밝힘)"""
+    text = " ".join([item["title"], " ".join(item.get("cats", [])), (item.get("summary_full") or "")[:600]])
+    if "스마트공장" not in item.get("cats", []) and not any(w in text for w in NIMO_WORDS):
+        return ""
+    return (f'<aside style="margin:26px 0;padding:16px 18px;background:#fff;border:1px solid var(--rule);border-left:6px solid var(--run);font-size:14.5px;line-height:1.65">'
+            f'<b>이 사업에 설비 데이터나 MES가 필요하다면</b><br>가동률 실측(성과지표 기준값), 설비 연동 MES, 스마트공장 사용로그 전송, 도입 전후 효과 리포트를 '
+            f'NIMO 하나로 준비할 수 있습니다. <a href="{prefix}nimo.html">NIMO 알아보기</a>'
+            f'<br><span style="font-size:12.5px;color:var(--steel)">NIMO는 이 사이트 운영사(이노팩) 제품이며, 무료 진단은 도입 여부와 관계없이 제공합니다. 공급기업 선택은 신청 기업이 정합니다.</span></aside>')
+
 def page(item, cfg, today, verify_meta):
     st, cls = status_of(item, today)
     closed = cls == "closed"
@@ -81,12 +94,13 @@ def page(item, cfg, today, verify_meta):
 <script type="application/ld+json">{ld}</script>{HEAD_FONTS}<style>{CSS}</style></head>
 <body><div class="wrap">
 <header class="top"><a class="logo" href="../"><span aria-hidden="true"></span>{esc(cfg['brand'])}</a>
-<nav><a href="../">공고 검색</a><a href="../services.html">신청 도움</a></nav></header>
+<nav><a href="../">공고 검색</a><a href="../nimo.html">NIMO</a><a href="../services.html">신청 도움</a></nav></header>
 <div class="crumb"><a href="../">제조업 지원사업</a> / {esc(item['region'])} / {esc(', '.join(item['cats']))}</div>
 <h1>{esc(item['title'])}</h1>
 <span class="status {cls}">{st}</span>
 <table>{trs}</table>
 {cta}
+{nimo_box(item)}
 <h2>사업 개요</h2><div class="body">{body}</div>
 {f'<h2>공고 첨부 서류</h2><ul class="files">{files}</ul>' if files else ''}
 <h2>원문 공고</h2><p><a href="{esc(item['url'])}" target="_blank" rel="noopener">{"K-Startup" if "k-startup" in (item.get("url") or "") else "기업마당"}에서 원문 공고 보기</a></p>
@@ -109,7 +123,7 @@ def build(docs, items, cfg, today=None, extra_paths=()):
             continue
         (docs / "p" / f"{i['id']}.html").write_text(page(i, cfg, today, verify_meta), encoding="utf-8")
     base = cfg["site_url"]
-    urls = [f"{base}/", f"{base}/services.html", f"{base}/resources.html", f"{base}/weekly/"]
+    urls = [f"{base}/", f"{base}/services.html", f"{base}/resources.html", f"{base}/nimo.html", f"{base}/weekly/"]
     urls += [f"{base}/weekly/{f.name}" for f in sorted((docs / "weekly").glob("20*.html"))]
     urls += [f"{base}/{x}" for x in extra_paths]
     urls += [f"{base}/p/{k}.html" for k in arch if re.fullmatch(r"[A-Za-z0-9_\-]+", k or "")]
