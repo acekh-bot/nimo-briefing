@@ -81,10 +81,11 @@ def main():
     new = [p for p in gb.select(raw, include_seen=False)]
     for p in new:
         p["ai"] = gb.summarize(p)
-    (DOCS / "weekly" / f"{date}.html").write_text(gb.render_html(new, date), encoding="utf-8")
-    gb.OUT.mkdir(exist_ok=True)
-    (gb.OUT / f"kakao_{date}.txt").write_text(
-        gb.render_text(new, date) + f"\n\n전체 공고 검색: {gb.CFG['site_url']}", encoding="utf-8")
+    if new:  # 새 공고가 없으면 빈 브리핑을 만들지 않는다 (수동 재실행 대비)
+        (DOCS / "weekly" / f"{date}.html").write_text(gb.render_html(new, date), encoding="utf-8")
+        gb.OUT.mkdir(exist_ok=True)
+        (gb.OUT / f"kakao_{date}.txt").write_text(
+            gb.render_text(new, date) + f"\n\n전체 공고 검색: {gb.CFG['site_url']}", encoding="utf-8")
     dates = [f.stem for f in (DOCS / "weekly").glob("20*.html")]
     (DOCS / "weekly" / "index.html").write_text(page_archive(dates), encoding="utf-8")
     import shutil
