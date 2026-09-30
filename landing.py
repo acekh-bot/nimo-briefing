@@ -14,10 +14,13 @@ REGIONS = {"서울": "seoul", "부산": "busan", "대구": "daegu", "인천": "i
            "충북": "chungbuk", "충남": "chungnam", "전북": "jeonbuk", "전남": "jeonnam", "경북": "gyeongbuk",
            "경남": "gyeongnam", "제주": "jeju"}
 CATS = {"스마트공장": "smart-factory", "산업안전": "safety", "기술·R&D": "rnd",
-        "판로·수출": "export", "에너지·환경": "energy"}   # 자금·금융(정책자금)은 자문 보류 원칙에 따라 따로 모으지 않음
+        "판로·수출": "export", "에너지·환경": "energy", "소공인·소상공인": "small-business",
+        "AI·바우처": "ai-voucher", "인증·지재권": "certification", "인력·고용": "hr"}   # 자금·금융(정책자금)은 자문 보류 원칙에 따라 따로 모으지 않음
 CAT_TITLE = {"스마트공장": "스마트공장·디지털전환 지원사업", "산업안전": "산업안전·중대재해 예방 지원사업",
              "기술·R&D": "제조 기술개발·R&D 지원사업", "판로·수출": "제조업 판로·수출 지원사업",
-             "에너지·환경": "제조업 에너지·환경 지원사업"}
+             "에너지·환경": "제조업 에너지·환경 지원사업", "소공인·소상공인": "소공인·소상공인 지원사업",
+             "AI·바우처": "AI 도입·디지털 바우처 지원사업", "인증·지재권": "인증·특허·지식재산 지원사업",
+             "인력·고용": "중소기업 인력·고용 지원사업"}
 
 EXTRA_CSS = """.lead{font-size:15.5px;line-height:1.75;margin:0 0 18px;color:var(--ink)}
 .facts{display:flex;flex-wrap:wrap;gap:22px;margin:0 0 20px;font-size:13px;color:var(--steel)}
@@ -65,6 +68,18 @@ def _rows(lst, today):
     return '<ul class="rows">' + "".join(out) + "</ul>"
 
 
+def _sections(lst, today, cap=120):
+    core = [i for i in lst if i.get("tier", 1) == 1]
+    rest = [i for i in lst if i.get("tier", 1) != 1]
+    out = ""
+    if core:
+        out += (f"<h2>제조업 핵심 공고 {len(core)}건</h2>" if rest else "") + _rows(core, today)
+    if rest:
+        more = f" (마감 가까운 {cap}건만 표시)" if len(rest) > cap else ""
+        out += f"<h2>그 밖의 중소기업 지원사업 {len(rest)}건{more}</h2>" + _rows(rest[:cap], today)
+    return out
+
+
 def _sort(lst, today):
     return sorted(lst, key=lambda i: (_dday(i.get("end"), today) is None, _dday(i.get("end"), today) or 0))
 
@@ -94,7 +109,7 @@ def _page(cfg, today, title, h1, crumb, lead, body, desc):
 <section class="cta"><h2>우리 회사가 신청할 수 있는지 궁금하다면</h2>
 <p>회사 정보를 남겨주시면 신청할 만한 공고와 준비할 서류를 바로 메일로 보내드리고, 담당자가 공고문을 확인해 다시 연락드립니다. 무료입니다.</p>
 <a href="../services.html#apply">신청 가능 여부 무료 진단</a><a class="ghost" href="../">전체 공고 검색</a></section>
-<footer>이 페이지는 기업마당(bizinfo.go.kr) 공개 정보를 자동으로 정리한 참고자료이며 매주 월요일 갱신됩니다. 지원 조건과 일정은 반드시 원문 공고와 운영기관에서 확인하세요. 최종 갱신 {today.isoformat()}<br>
+<footer>이 페이지는 기업마당(bizinfo.go.kr) 공개 정보를 자동으로 정리한 참고자료이며 매일 아침 갱신됩니다. 지원 조건과 일정은 반드시 원문 공고와 운영기관에서 확인하세요. 최종 갱신 {today.isoformat()}<br>
 운영: 주식회사 이노팩 · {esc(cfg['footer'])} · <a href="../privacy.html">개인정보처리방침</a></footer>
 </div></body></html>"""
 
@@ -123,12 +138,13 @@ def build(docs, items, cfg, today=None):
         if not lst:
             continue
         nat = sum(1 for i in items if i["region"] == "전국" and not any(x in i["title"] for x in REGIONS))
-        lead = (f"{ymd} 기준, 기업마당에 올라온 공고 가운데 {r} 지역 제조업체가 신청할 수 있는 지원사업 {len(lst)}건을 "
-                f"마감이 가까운 순서로 정리했습니다. 분야는 {esc(_cat_mix(lst))} 순으로 많습니다. "
+        core_n = sum(1 for i in lst if i.get("tier", 1) == 1)
+        lead = (f"{ymd} 기준, 기업마당에 올라온 공고 가운데 {r} 지역 기업이 신청할 수 있는 지원사업 {len(lst)}건"
+                f"(제조업 핵심 {core_n}건)을 마감이 가까운 순서로 정리했습니다. 분야는 {esc(_cat_mix(lst))} 순으로 많습니다. "
                 f"지역 제한이 없는 전국 공고 {nat}건은 <a href=\"../\">전체 공고 검색</a>에서 함께 볼 수 있습니다.")
         (docs / "r" / f"{slug}.html").write_text(_page(
             cfg, today, f"{r} 제조업 지원사업 {today.year} 모음 ({len(lst)}건) | 마감일·신청방법",
-            f"{r} 제조업 지원사업 모음", f"{r}", lead, _facts(lst, today) + _rows(lst, today),
+            f"{r} 제조업 지원사업 모음", f"{r}", lead, _facts(lst, today) + _sections(lst, today),
             f"{r} 지역 제조업체가 신청할 수 있는 정부지원사업 {len(lst)}건을 마감일 순으로 정리. 스마트공장, 산업안전, 기술개발 공고 신청방법과 문의처."),
             encoding="utf-8")
         made["r"].append((r, f"r/{slug}.html", len(lst)))
@@ -143,7 +159,7 @@ def build(docs, items, cfg, today=None):
                 f"{esc(', '.join(regions[:8]))}{' 등' if len(regions) > 8 else ''} 지역 공고가 있습니다.")
         (docs / "c" / f"{slug}.html").write_text(_page(
             cfg, today, f"{CAT_TITLE[c]} {today.year} 모음 ({len(lst)}건) | 제조업 지원사업 브리핑",
-            f"{CAT_TITLE[c]} 모음", c, lead, _facts(lst, today) + _rows(lst, today),
+            f"{CAT_TITLE[c]} 모음", c, lead, _facts(lst, today) + _sections(lst, today),
             f"진행 중인 {CAT_TITLE[c]} {len(lst)}건. 지역, 마감일, 지원 내용, 신청방법을 한 페이지에 정리."),
             encoding="utf-8")
         made["c"].append((c, f"c/{slug}.html", len(lst)))
@@ -165,7 +181,7 @@ def build(docs, items, cfg, today=None):
         (docs / "m" / f"{key}.html").write_text(_page(
             cfg, today, f"{first.year}년 {first.month}월 마감 제조업 지원사업 정리 ({len(lst)}건)",
             f"{first.month}월 마감 제조업 지원사업", f"{first.year}년 {first.month}월", lead,
-            _facts(lst, today) + _rows(lst, today),
+            _facts(lst, today) + _sections(lst, today),
             f"{first.year}년 {first.month}월 마감 제조업 정부지원사업 {len(lst)}건. 스마트공장, 산업안전, 기술개발 공고 마감일과 신청방법."),
             encoding="utf-8")
     for f in sorted((docs / "m").glob("20*.html"), reverse=True):

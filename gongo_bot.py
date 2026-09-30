@@ -98,7 +98,16 @@ def score(p):
         s -= 10
     return round(s, 1)
 
-def select(items, include_seen=False, limit=None):
+def is_tier2(p):
+    """제조 핵심은 아니지만 중소기업이 신청할 수 있는 일반 공고"""
+    t2 = CFG.get("tier2") or {}
+    if not t2 or p["field"] in t2.get("skip_fields", []):
+        return False
+    if any(x in p["title"] + " " + p["target"] for x in t2.get("exclude", []) + CFG["exclude"]):
+        return False
+    return any(x in p["target"] for x in t2.get("targets", []))
+
+def select(items, include_seen=False, limit=None, tier2=False):
     seen = set(json.loads(STATE.read_text())) if STATE.exists() else set()
     today = dt.date.today()
     picked = []
@@ -113,11 +122,12 @@ def select(items, include_seen=False, limit=None):
         if regions and m and m.group(1) not in regions:
             continue  # 지역 공고인데 구독 지역이 아니면 제외 (전국 공고는 통과)
         p["score"] = score(p)
-        if p["score"] >= CFG["min_score"]:
+        p["tier"] = 1 if p["score"] >= CFG["min_score"] else 2 if tier2 and is_tier2(p) else 0
+        if p["tier"]:
             p["deadline"] = e.isoformat() if e else "상시/미정"
             p["dday"] = (e - today).days if e else None
             picked.append(p)
-    picked.sort(key=lambda x: (-x["score"], x["dday"] if x["dday"] is not None else 999))
+    picked.sort(key=lambda x: (x["tier"], -x["score"], x["dday"] if x["dday"] is not None else 999))
     return picked[: (limit or CFG["max_items"])]
 
 # ---------- 3. 규칙 기반 요약 (비용 0원) ----------
@@ -143,7 +153,7 @@ def extract_amount(text):
 def categorize(p):
     text = " ".join([p["title"], key_sentence(p["summary"], 200), p["field"]])
     cats = [c for c, kws in CFG["categories"].items() if any(k in text for k in kws)]
-    return cats or ["제조 일반"]
+    return cats or (["제조 일반"] if p.get("tier", 1) == 1 else ["중소기업 일반"])
 
 def region(p):
     m = re.match(r"\[(.+?)\]", p["title"])

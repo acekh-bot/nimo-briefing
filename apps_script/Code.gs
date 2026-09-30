@@ -87,7 +87,7 @@ function loadPrograms_() {
   if (hit) return JSON.parse(hit);
   const txt = UrlFetchApp.fetch(SITE + "/data/programs.json", { muteHttpExceptions: false }).getContentText("UTF-8");
   const slim = JSON.parse(txt).map(it => ({
-    id: it.id, title: it.title, region: it.region, cats: it.cats, one: it.one || "", end: it.end,
+    id: it.id, title: it.title, tier: it.tier || 1, region: it.region, cats: it.cats, one: it.one || "", end: it.end,
     method: it.method || "", inquiry: it.inquiry || "", target: it.target || it.who || "",
     body: (it.summary_full || "").slice(0, 800), files: (it.files || []).slice(0, 5)
   }));
@@ -138,7 +138,8 @@ function recommend_(c) {
     if (whyNot_(it, c, d)) return;
     const body = tokens_([it.title, it.one, it.target, it.body].join(" "));
     let s = 4 * overlap_(ask, tokens_(it.title)) + overlap_(ask, body) + 1.5 * overlap_(ctx, body)
-          + 3 * want.filter(w => it.cats.indexOf(w) >= 0).length + (it.region !== "전국" ? 1 : 0);
+          + 3 * want.filter(w => it.cats.indexOf(w) >= 0).length + (it.region !== "전국" ? 1 : 0)
+          + (it.tier === 1 ? 2 : 0);   // 제조 핵심 공고 우선
     if (s > 0) picked.push({ s: s, it: it, d: d });
   });
   picked.sort((a, b) => b.s - a.s || (a.d === null ? 999 : a.d) - (b.d === null ? 999 : b.d));
@@ -257,7 +258,7 @@ function weeklyBlogDraft() {
   const key = ty + "-" + String(tm).padStart(2, "0");
   const rows = items.filter(it => {
     const d = dday_(it);
-    if (d === null || d < 5 || !(it.end || "").startsWith(key)) return false;
+    if (it.tier !== 1 || d === null || d < 5 || !(it.end || "").startsWith(key)) return false;
     const body = it.title + " " + it.body;
     return !NOT_FOR_DEMAND.some(w => it.title.indexOf(w) >= 0) && !LOAN_WORDS.some(w => body.indexOf(w) >= 0);
   }).sort((a, b) => dday_(a) - dday_(b));
