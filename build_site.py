@@ -208,8 +208,8 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);line-height:1.7;bor
 <a href="nimo.html" style="font-weight:700;color:var(--ink);white-space:nowrap">NIMO 알아보기 →</a></section>
 <section class="cta" id="subscribe">
 <div><h3>우리 회사에 맞는 공고만 받아보세요</h3>
-<p>업종과 지역을 남겨주시면 신청 가능한 공고를 골라 알려드립니다. 신청 가능 여부 진단은 무료입니다.</p></div>
-<a href="services.html#apply">무료 알림 신청</a>
+<p>지역·규모·업종을 한 번 남기면 매주 월요일 아침, 조건에 맞는 새 공고와 마감 임박 공고만 메일로 보내드립니다. 첫 달 무료, 이후 연 9,900원(한 달 825원꼴). 자동 결제는 없습니다.</p></div>
+<a href="services.html?service=%EB%A7%9E%EC%B6%A4%20%EC%95%8C%EB%A6%BC%20%EA%B5%AC%EB%8F%85&title=%EB%A7%9E%EC%B6%A4%20%EA%B3%B5%EA%B3%A0%20%EC%95%8C%EB%A6%BC%20%EA%B5%AC%EB%8F%85#apply">첫 달 무료로 받아보기</a>
 </section>
 
 <footer>본 사이트는 기업마당(bizinfo.go.kr) 공개 정보를 자동으로 분류한 참고자료입니다. 지원 조건과 일정은 반드시 원문 공고에서 확인하세요.<br>%%FOOTER%%<br>운영: 주식회사 이노팩 · briefing.nimo.ai.kr</footer>

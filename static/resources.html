@@ -1,61 +1,113 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>자료실 | %%BRAND%%</title>
-<meta name="description" content="소규모 제조업을 위한 산업안전 서류 서식과 스마트공장 사업계획서 작성 가이드. 위험성평가표는 무료로 받을 수 있습니다.">
+<title>자료실 — 제조업 지원사업 서식·가이드 | %%BRAND%%</title>%%VERIFY%%
+<meta name="description" content="지원사업 신청 체크리스트, 마감 관리표, 성과지표 계산기, 사업계획서 템플릿, 위험성평가표 등 무료 서식과 스마트공장·제조 AI 사업계획서 작성 가이드, 산업안전·정산 서식 패키지.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#EDF0EE;--sheet:#fff;--ink:#1C2529;--steel:#5B6B70;--rule:#C9D1CE;--run:#2F8F5B;--warn:#E0A800;--focus:#1F5FBF;
+:root{--paper:#EDF0EE;--sheet:#fff;--ink:#1C2529;--steel:#5B6B70;--rule:#C9D1CE;--run:#2F8F5B;--warn:#E0A800;--alarm:#C43D2F;--focus:#1F5FBF;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *,*::before,*::after{box-sizing:inherit}
-html,body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;word-break:keep-all}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;word-break:keep-all;overflow-wrap:anywhere}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 header.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:2px solid var(--ink)}
 .logo{font-weight:700;font-size:17px;text-decoration:none;color:var(--ink)}
-.logo span{display:inline-block;width:10px;height:10px;background:var(--run);border-radius:50%;margin-right:8px;box-shadow:0 0 0 3px #2F8F5B33}
-nav a{color:var(--steel);text-decoration:none;font-size:14px;margin-left:18px}
-.hero{padding:44px 0 20px}.hero h1{font-size:clamp(26px,4.2vw,38px);margin:0 0 10px;letter-spacing:-.02em}
-.hero p{margin:0;color:var(--steel);line-height:1.6;max-width:60ch}
-.free{margin:28px 0;padding:26px;border:2px solid var(--ink);background:var(--sheet);border-radius:6px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
-.free h2{margin:0 0 6px;font-size:20px}.free p{margin:0;color:var(--steel);font-size:14px;line-height:1.6}
-.btn{display:inline-block;font-weight:700;text-decoration:none;padding:12px 18px;border-radius:4px;white-space:nowrap}
+.logo span{display:inline-block;width:10px;height:10px;background:var(--run);border-radius:50%;margin-right:8px}
+.hero{padding:40px 0 10px}.hero h1{font-size:clamp(26px,4.2vw,38px);margin:0 0 10px;letter-spacing:-.02em}
+.hero p{margin:0;color:var(--steel);line-height:1.65;max-width:64ch}
+.jump{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0}
+.jump a{font-size:14px;padding:7px 13px;border:1px solid var(--rule);background:var(--sheet);border-radius:999px;color:var(--ink);text-decoration:none}
+h2{font-size:22px;margin:44px 0 6px;letter-spacing:-.01em}
+.sub{color:var(--steel);margin:0 0 18px;line-height:1.6;font-size:14.5px}
+.tag{font-size:12px;color:var(--steel);font-weight:500;margin-bottom:6px}
+.btn{display:inline-block;font-weight:700;text-decoration:none;padding:11px 16px;border-radius:4px;white-space:nowrap;font-size:14.5px}
 .btn.dark{background:var(--ink);color:#fff}.btn.yellow{background:var(--warn);color:var(--ink)}
-.products{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:36px 0}
-.prod{background:var(--sheet);border-top:6px solid var(--ink);padding:24px 24px 26px}
-.prod.safety{border-top-color:var(--warn)}.prod.guide{border-top-color:var(--run)}
-.prod h3{margin:0 0 6px;font-size:19px}.prod .for{color:var(--steel);font-size:14px;margin:0 0 14px}
-.prod ul{margin:0 0 20px;padding-left:18px;line-height:1.75;font-size:14.5px}
-.contact{margin:40px 0;padding:24px 0;border-top:1px solid var(--rule);font-size:14px;line-height:1.7}
+.frees{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.fcard{background:var(--sheet);border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column}
+.fcard h3{margin:0 0 8px;font-size:17px}.fcard p{margin:0 0 16px;font-size:14px;line-height:1.6;color:var(--steel);flex:1}
+.fcard .btn{align-self:flex-start}
+.subbox{margin:40px 0 0;padding:26px;background:var(--ink);color:#fff;border-radius:6px;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}
+.subbox h2{margin:0 0 6px;color:#fff;font-size:21px}.subbox p{margin:0;color:#C9D1CE;font-size:14.5px;line-height:1.7}
+.subbox .price{font-size:28px;font-weight:700;color:#fff}.subbox .price small{font-size:13px;color:#C9D1CE;font-weight:400}
+.subbox ul{margin:10px 0 0;padding-left:18px;color:#C9D1CE;font-size:14px;line-height:1.7}
+.prods{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.prod{background:var(--sheet);border-top:6px solid var(--ink);padding:22px 22px 20px;display:flex;flex-direction:column}
+.prod.run{border-top-color:var(--run)}.prod.warn{border-top-color:var(--warn)}
+.prod h3{margin:0 0 6px;font-size:19px}.prod .for{color:var(--steel);font-size:14px;margin:0 0 12px;line-height:1.55}
+.prod ul{margin:0 0 18px;padding-left:18px;line-height:1.75;font-size:14.5px;flex:1}
+.buy{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.price{font-size:22px;font-weight:700}.price small{font-size:13px;font-weight:400;color:var(--steel)}
+.bundle{margin:18px 0 0;padding:22px 24px;border:2px solid var(--ink);background:var(--sheet);display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+.bundle h3{margin:0 0 4px;font-size:19px}.bundle p{margin:0;color:var(--steel);font-size:14px}
+.bundle s{color:var(--steel);font-weight:400;font-size:15px;margin-right:8px}
+.how{margin:40px 0;padding:22px 0;border-top:1px solid var(--rule);font-size:14.5px;line-height:1.8}
+.how ol{margin:6px 0 0;padding-left:20px}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-footer{padding:24px 0 48px;font-size:13px;color:var(--steel);border-top:1px solid var(--rule)}
-@media(max-width:720px){.free,.products{grid-template-columns:1fr}nav a:first-child{display:none}}
+footer{padding:24px 0 48px;font-size:13px;color:var(--steel);border-top:1px solid var(--rule);line-height:1.7}
+@media(max-width:860px){.frees{grid-template-columns:1fr 1fr}.prods{grid-template-columns:1fr}}
+@media(max-width:600px){.frees,.subbox,.bundle{grid-template-columns:1fr}}
 </style></head><body><div class="wrap">
-<header class="top"><a class="logo" href="./"><span aria-hidden="true"></span>%%BRAND%%</a>
-<nav><a href="./">지원사업 검색</a><a href="services.html">신청 도움</a></nav></header>
-<section class="hero"><h1>현장에서 바로 쓰는 제조업 서류</h1>
-<p>안전 담당자를 따로 두기 어려운 작은 공장과, 스마트공장 지원사업을 처음 준비하는 회사를 위해 만든 서식과 가이드입니다.</p></section>
+<header class="top"><a class="logo" href="./"><span aria-hidden="true"></span>%%BRAND%%</a></header>
+<section class="hero"><h1>현장에서 바로 쓰는 제조업 서식과 가이드</h1>
+<p>지원사업을 찾고, 신청하고, 선정 뒤 정산하고, 공장 안전 서류를 갖추는 데까지 필요한 자료를 모았습니다. 무료 서식은 바로 내려받을 수 있습니다.</p>
+<nav class="jump" aria-label="자료실 바로가기"><a href="#free">무료 서식 6종</a><a href="#alert">맞춤 공고 알림</a><a href="#paid">가이드·서식 패키지 6종</a><a href="#how">구매 방법</a></nav></section>
 
-<section class="free">
-<div><h2>위험성평가표 무료 서식</h2>
-<p>가능성과 중대성만 입력하면 위험성 점수와 판정이 자동으로 계산됩니다. CNC 공정 작성 예시와 판정 기준표가 들어 있습니다. (엑셀)</p></div>
-<a class="btn dark" href="files/free-risk-assessment.xlsx" download>무료로 내려받기</a>
+<h2 id="free">무료 서식</h2>
+<p class="sub">회원가입 없이 바로 내려받습니다. 엑셀 서식은 노란 칸만 채우면 계산은 자동으로 됩니다.</p>
+<section class="frees">
+<article class="fcard"><div class="tag">산업안전 · 엑셀</div><h3>위험성평가표</h3><p>가능성과 중대성만 입력하면 위험성 점수와 판정이 자동으로 계산됩니다. CNC 공정 작성 예시와 판정 기준표 포함.</p>
+<a class="btn dark" href="files/free-risk-assessment.xlsx" download>무료로 내려받기</a></article>
+<article class="fcard"><div class="tag">신청 준비 · 엑셀</div><h3>지원사업 신청 준비 체크리스트</h3><p>자격 확인 12항목(업종·규모·지역·중복 수혜 등)과 공통 서류 15종의 발급처·준비 상태를 한 장으로. 준비 완료율 자동 계산.</p>
+<a class="btn dark" href="files/free-application-checklist.xlsx" download>무료로 내려받기</a></article>
+<article class="fcard"><div class="tag">신청 준비 · 엑셀</div><h3>지원사업 마감 관리표</h3><p>관심 공고를 적으면 D-day가 자동 계산되고, 7일 이내 빨강·21일 이내 노랑으로 표시됩니다.</p>
+<a class="btn dark" href="files/free-deadline-tracker.xlsx" download>무료로 내려받기</a></article>
+<article class="fcard"><div class="tag">사업계획서 · 엑셀</div><h3>사업계획서 성과지표(KPI) 계산기</h3><p>가동률·OEE·불량률·납기 준수율·리드타임·인당 생산성·에너지 원단위·MTBF 8종의 현재·목표·개선율 자동 계산과 차트.</p>
+<a class="btn dark" href="files/free-kpi-calculator.xlsx" download>무료로 내려받기</a></article>
+<article class="fcard"><div class="tag">사업계획서 · 워드</div><h3>스마트공장 사업계획서 목차 템플릿</h3><p>기업 현황부터 성과지표·사업비까지 8개 장의 흐름과 항목별 작성 요령, 제출 전 점검표.</p>
+<a class="btn dark" href="files/free-business-plan-template.docx" download>무료로 내려받기</a></article>
+<article class="fcard"><div class="tag">스마트공장 · 엑셀</div><h3>설비 현황 조사표</h3><p>설비별 제조사·컨트롤러·통신 포트·관리 방식을 정리하는 표. 스마트공장 견적과 계획서 &#x27;현황&#x27; 작성에 바로 씁니다.</p>
+<a class="btn dark" href="files/free-equipment-survey.xlsx" download>무료로 내려받기</a></article>
 </section>
 
-<section class="products">
-<article class="prod safety"><h3>소규모 제조업 산업안전 서류 패키지</h3>
-<p class="for">안전보건 기본 서류를 한 파일로 관리하고 싶은 50인 미만 사업장</p>
-<ul><li>위험성평가표 (자동 판정, 개선 전후 비교)</li><li>TBM 작업 전 안전점검회의 일지</li><li>안전보건교육 일지 (참석 인원 자동 집계)</li>
-<li>아차사고 보고서</li><li>보호구 지급대장</li><li>공작기계 일일 안전점검표 (부적합 자동 집계)</li><li>인쇄용 A4 레이아웃, 작성 예시 포함</li></ul>
-<p style="font-size:22px;font-weight:700;margin:0 0 14px">15,000원 <small style="font-size:13px;font-weight:400;color:#5B6B70">VAT 별도</small></p><a class="btn yellow" href="services.html?service=%EC%9E%90%EB%A3%8C%20%EA%B5%AC%EB%A7%A4&title=%EC%82%B0%EC%97%85%EC%95%88%EC%A0%84%20%EC%84%9C%EB%A5%98%20%ED%8C%A8%ED%82%A4%EC%A7%80#apply">구매 신청</a></article>
-<article class="prod guide"><h3>스마트공장 사업계획서 작성 가이드</h3>
-<p class="for">스마트공장 지원사업 계획서를 직접 써야 하는 대표·실무자</p>
-<ul><li>심사위원이 보는 문제-해결-성과 연결 논리</li><li>항목별 좋은 예시와 피해야 할 표현</li><li>성과지표(KPI) 산식과 측정 방법 10종</li>
-<li>CNC 가공 업체 가상 사례 연결표</li><li>자주 감점되는 실수 10가지</li><li>제출 전 최종 점검표 (PDF 9쪽)</li></ul>
-<p style="font-size:22px;font-weight:700;margin:0 0 14px">19,000원 <small style="font-size:13px;font-weight:400;color:#5B6B70">VAT 별도</small></p><a class="btn yellow" href="services.html?service=%EC%9E%90%EB%A3%8C%20%EA%B5%AC%EB%A7%A4&title=%EC%82%AC%EC%97%85%EA%B3%84%ED%9A%8D%EC%84%9C%20%EC%9E%91%EC%84%B1%20%EA%B0%80%EC%9D%B4%EB%93%9C#apply">구매 신청</a></article>
+<section class="subbox" id="alert">
+<div><h2>맞춤 공고 알림</h2>
+<p>회사 지역·규모·업종·관심 분야를 한 번 남기면, 매주 월요일 아침에 조건에 맞는 새 공고와 2주 안에 마감되는 공고만 골라 메일로 보내드립니다.</p>
+<ul><li>첫 30일 무료 — 신청하면 바로 첫 알림이 갑니다</li><li>이후 연 9,900원 (한 달 825원꼴, 부가세 포함) · 계좌이체</li><li>자동 결제 없음 — 기간이 끝나면 안내 메일만 드리고 멈춥니다</li></ul></div>
+<div><div class="price">첫 달 무료 <small>이후 연 9,900원</small></div><p style="margin:10px 0 0"><a class="btn yellow" href="services.html?service=%EB%A7%9E%EC%B6%A4%20%EC%95%8C%EB%A6%BC%20%EA%B5%AC%EB%8F%85&title=%EB%A7%9E%EC%B6%A4%20%EA%B3%B5%EA%B3%A0%20%EC%95%8C%EB%A6%BC%20%EA%B5%AC%EB%8F%85#apply">무료로 시작하기</a></p></div>
 </section>
 
-<section class="contact" id="contact"><b>문의</b><br>구매 신청을 남겨주시면 입금 안내와 세금계산서 발행 후 이메일로 파일을 보내드립니다.<br>
-<a href="services.html#apply">신청 폼</a> · %%FOOTER%%</section>
-<footer>서식과 가이드는 실무 참고자료이며, 법정 의무사항과 지원사업 기준은 관계 법령과 공고문을 우선합니다.<br>운영: 주식회사 이노팩 · briefing.nimo.ai.kr</footer>
+<h2 id="paid">가이드·서식 패키지</h2>
+<p class="sub">실무에서 오래 걸리는 부분을 줄이도록 만든 자료입니다. 구매 신청을 남기면 입금 안내를 드리고, 입금 확인 후 이메일로 파일을 보내드립니다.</p>
+<section class="prods">
+<article class="prod run"><div class="tag">사업계획서 · PDF 9쪽</div><h3>스마트공장 사업계획서 작성 가이드</h3>
+<p class="for">스마트공장 지원사업 계획서를 직접 써야 하는 대표·실무자</p><ul><li>심사위원이 보는 문제-해결-성과 연결 논리</li><li>항목별 좋은 예시와 피해야 할 표현</li><li>성과지표(KPI) 산식과 측정 방법 10종</li><li>CNC 가공 업체 가상 사례 연결표</li><li>자주 감점되는 실수 10가지</li><li>제출 전 최종 점검표</li></ul>
+<div class="buy"><span class="price">19,000원 <small>VAT 별도</small></span><a class="btn yellow" href="services.html?service=%EC%9E%90%EB%A3%8C%20%EA%B5%AC%EB%A7%A4&title=%EC%8A%A4%EB%A7%88%ED%8A%B8%EA%B3%B5%EC%9E%A5%20%EC%82%AC%EC%97%85%EA%B3%84%ED%9A%8D%EC%84%9C%20%EC%9E%91%EC%84%B1%20%EA%B0%80%EC%9D%B4%EB%93%9C#apply">구매 신청</a></div></article>
+<article class="prod run"><div class="tag">사업계획서 · PDF 12쪽</div><h3>제조 AI·AX 사업계획서 작성 가이드</h3>
+<p class="for">제조 AI·디지털전환(AX·DX) 지원사업 계획서를 준비하는 제조기업</p><ul><li>심사위원이 묻는 5가지 질문으로 쓰는 구성</li><li>데이터 준비도 자가진단 10문항</li><li>예지보전·품질검사·공정최적화 등 유형별 서술 틀</li><li>AI 과제 성과지표 설계 (기준값 측정 방법 포함)</li><li>CNC 가공 업체 예지보전 가상 사례</li><li>감점 실수 10가지와 제출 전 점검표</li></ul>
+<div class="buy"><span class="price">19,000원 <small>VAT 별도</small></span><a class="btn yellow" href="services.html?service=%EC%9E%90%EB%A3%8C%20%EA%B5%AC%EB%A7%A4&title=%EC%A0%9C%EC%A1%B0%20AI%C2%B7AX%20%EC%82%AC%EC%97%85%EA%B3%84%ED%9A%8D%EC%84%9C%20%EC%9E%91%EC%84%B1%20%EA%B0%80%EC%9D%B4%EB%93%9C#apply">구매 신청</a></div></article>
+<article class="prod warn"><div class="tag">산업안전 · PDF 9쪽 + 엑셀</div><h3>산업안전 지원사업 신청 가이드 + 자가진단표</h3>
+<p class="for">안전일터 조성, 위험성평가 컨설팅, 방호장치 지원 등을 처음 신청하는 50인 미만 제조업</p><ul><li>산업안전 지원사업 유형 한눈에 보기</li><li>신청 전 준비 5단계</li><li>위험요인 → 개선 조치 → 효과 작성 예시 (제조 현장 6종)</li><li>견적·증빙 준비 요령과 자주 하는 실수</li><li>자가진단 26문항 (영역별 점수·해석 자동)</li><li>개선계획표·신청서류 체크리스트</li></ul>
+<div class="buy"><span class="price">15,000원 <small>VAT 별도</small></span><a class="btn yellow" href="services.html?service=%EC%9E%90%EB%A3%8C%20%EA%B5%AC%EB%A7%A4&title=%EC%82%B0%EC%97%85%EC%95%88%EC%A0%84%20%EC%A7%80%EC%9B%90%EC%82%AC%EC%97%85%20%EC%8B%A0%EC%B2%AD%20%EA%B0%80%EC%9D%B4%EB%93%9C%20%2B%20%EC%9E%90%EA%B0%80%EC%A7%84%EB%8B%A8%ED%91%9C#apply">구매 신청</a></div></article>
+<article class="prod warn"><div class="tag">산업안전 · 엑셀 6종</div><h3>소규모 제조업 산업안전 서류 패키지</h3>
+<p class="for">안전보건 기본 서류를 한 파일로 관리하고 싶은 50인 미만 사업장</p><ul><li>위험성평가표 (자동 판정, 개선 전후 비교)</li><li>TBM 작업 전 안전점검회의 일지</li><li>안전보건교육 일지 (참석 인원 자동 집계)</li><li>아차사고 보고서 · 보호구 지급대장</li><li>공작기계 일일 안전점검표 (부적합 자동 집계)</li><li>인쇄용 A4 레이아웃, 작성 예시 포함</li></ul>
+<div class="buy"><span class="price">15,000원 <small>VAT 별도</small></span><a class="btn yellow" href="services.html?service=%EC%9E%90%EB%A3%8C%20%EA%B5%AC%EB%A7%A4&title=%EC%86%8C%EA%B7%9C%EB%AA%A8%20%EC%A0%9C%EC%A1%B0%EC%97%85%20%EC%82%B0%EC%97%85%EC%95%88%EC%A0%84%20%EC%84%9C%EB%A5%98%20%ED%8C%A8%ED%82%A4%EC%A7%80#apply">구매 신청</a></div></article>
+<article class="prod warn"><div class="tag">산업안전 · 워드</div><h3>안전보건관리체계 기본 서류 세트</h3>
+<p class="for">중대재해 예방을 위해 안전보건관리체계 기본 문서를 갖추려는 50인 미만 제조업 대표</p><ul><li>안전보건 경영방침 예시 문안</li><li>안전보건 목표·추진계획표, 예산 편성·집행표</li><li>유해·위험요인 확인·개선 절차와 기록표</li><li>종사자 의견 청취 기록부, 도급·용역 안전 점검표</li><li>비상조치 절차와 비상연락망</li><li>반기 이행 점검표 (경영책임자 확인란)</li></ul>
+<div class="buy"><span class="price">19,000원 <small>VAT 별도</small></span><a class="btn yellow" href="services.html?service=%EC%9E%90%EB%A3%8C%20%EA%B5%AC%EB%A7%A4&title=%EC%95%88%EC%A0%84%EB%B3%B4%EA%B1%B4%EA%B4%80%EB%A6%AC%EC%B2%B4%EA%B3%84%20%EA%B8%B0%EB%B3%B8%20%EC%84%9C%EB%A5%98%20%EC%84%B8%ED%8A%B8#apply">구매 신청</a></div></article>
+<article class="prod ink"><div class="tag">선정 이후 · 엑셀 + 워드</div><h3>지원사업 정산·결과보고 서식 패키지</h3>
+<p class="for">지원사업에 선정된 뒤 집행·정산·결과보고를 처음 해 보는 실무자</p><ul><li>사업비 구성과 부담 비율 자동 계산</li><li>비목별 예산·집행·잔액 관리 (집행률 경고 색)</li><li>집행내역 대장과 증빙 체크 (드롭다운)</li><li>성과지표 달성표와 도입 전후 비교 차트</li><li>협약~사후관리 일정 D-day</li><li>설치 전·후 사진대지 양식 (워드)</li></ul>
+<div class="buy"><span class="price">19,000원 <small>VAT 별도</small></span><a class="btn yellow" href="services.html?service=%EC%9E%90%EB%A3%8C%20%EA%B5%AC%EB%A7%A4&title=%EC%A7%80%EC%9B%90%EC%82%AC%EC%97%85%20%EC%A0%95%EC%82%B0%C2%B7%EA%B2%B0%EA%B3%BC%EB%B3%B4%EA%B3%A0%20%EC%84%9C%EC%8B%9D%20%ED%8C%A8%ED%82%A4%EC%A7%80#apply">구매 신청</a></div></article>
+</section>
+<section class="bundle"><div><h3>전체 묶음 (6종)</h3><p>위 가이드와 서식 패키지를 모두 받습니다. 개별 구매 합계 106,000원.</p></div>
+<div class="buy"><span class="price"><s>106,000원</s>59,000원 <small>VAT 별도</small></span>
+<a class="btn yellow" href="services.html?service=%EC%9E%90%EB%A3%8C%20%EA%B5%AC%EB%A7%A4&title=%EC%A0%84%EC%B2%B4%20%EB%AC%B6%EC%9D%8C%20%286%EC%A2%85%29#apply">구매 신청</a></div></section>
+
+<section class="how" id="how"><b>구매 방법</b>
+<ol><li>원하는 자료의 "구매 신청"을 누르고 신청 폼을 보냅니다.</li>
+<li>입금 계좌와 금액을 메일로 안내드립니다. 세금계산서(사업자등록증 회신) 또는 현금영수증을 발행합니다.</li>
+<li>입금을 확인한 날 이메일로 파일을 보내드립니다.</li></ol>
+디지털 파일 특성상 파일을 받은 뒤에는 환불이 어렵습니다. 파일을 받기 전에는 언제든 취소할 수 있습니다. 문의: %%EMAIL%%</section>
+<footer>서식과 가이드는 실무 참고자료이며, 법정 의무사항과 지원사업 기준은 관계 법령과 공고문을 우선합니다. 자료를 쓴다고 지원사업 선정이 보장되지는 않습니다.<br>
+운영: 주식회사 이노팩 · briefing.nimo.ai.kr · <a href="privacy.html">개인정보처리방침</a></footer>
 </div></body></html>

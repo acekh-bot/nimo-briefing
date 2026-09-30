@@ -27,6 +27,13 @@ function doPost(e) {
     FIELDS.forEach(k => plain[k] = String(d[k] || "").slice(0, 2000).trim());
 
     let result = null, status = "신규";
+    if (plain.service === "맞춤 알림 구독") {           // 구독은 별도 시트 + 환영 메일(첫 알림 포함)
+      try { status = subscribe_(plain); } catch (err) { status = "구독 등록 실패: " + err; }
+      sheet_().appendRow(FIELDS.map(k => clean(d[k])).concat([status]));
+      MailApp.sendEmail({ to: NOTIFY_EMAIL, subject: `[nimo 구독] ${plain.company} (${status})`,
+        body: FIELDS.map((k, i) => `${HEADERS[i]}: ${plain[k]}`).join("\n") + "\n\n시트 열기: " + SpreadsheetApp.getActive().getUrl() });
+      return ok_();
+    }
     try {
       if (AUTO_REPLY && canAutoReply_(plain.email)) {
         result = recommend_(plain);
@@ -89,7 +96,7 @@ function loadPrograms_() {
   const slim = JSON.parse(txt).map(it => ({
     id: it.id, title: it.title, tier: it.tier || 1, region: it.region, cats: it.cats, one: it.one || "", end: it.end,
     method: it.method || "", inquiry: it.inquiry || "", target: it.target || it.who || "",
-    body: (it.summary_full || "").slice(0, 800), files: (it.files || []).slice(0, 5)
+    body: (it.summary_full || "").slice(0, 800), files: (it.files || []).slice(0, 5), isNew: !!it.new
   }));
   const s = JSON.stringify(slim);
   if (s.length < 95000) cache.put("programs", s, 6 * 3600);
@@ -119,7 +126,7 @@ function whyNot_(it, c, d) {
   return "";
 }
 
-function recommend_(c) {
+function recommend_(c, limit) {
   const items = loadPrograms_().filter(it => { const d = dday_(it); return d === null || d >= 0; });
   const text = [c.program, c.memo, c.biz].join(" ").toLowerCase();
   const want = Object.keys(CAT_HINTS).filter(k => CAT_HINTS[k].some(h => text.indexOf(h.toLowerCase()) >= 0));
@@ -143,7 +150,7 @@ function recommend_(c) {
     if (s > 0) picked.push({ s: s, it: it, d: d });
   });
   picked.sort((a, b) => b.s - a.s || (a.d === null ? 999 : a.d) - (b.d === null ? 999 : b.d));
-  return { asked: asked, askedWarn: asked ? whyNot_(asked, c, dday_(asked)) : "", picked: picked.slice(0, 3) };
+  return { asked: asked, askedWarn: asked ? whyNot_(asked, c, dday_(asked)) : "", picked: picked.slice(0, limit || 3) };
 }
 
 /* ---------- 메일 ---------- */
@@ -195,7 +202,7 @@ function sendCustomerReply_(c, r) {
       "- 설비 대수, 현재 생산관리 방식 (종이 일보, 엑셀, 기존 MES 등)",
       "설치 없이 화면 시연: " + SITE + "/nimo.html (\"설치 없이 시연하기\" 버튼)",
       "", "담당자가 2영업일 안에 연락드리겠습니다. NIMO 도입 여부와 관계없이 지원사업 안내는 똑같이 받으실 수 있습니다.");
-  } else if (service === "무료 진단" || service === "공고 알림") {
+  } else if (service === "무료 진단") {
     L.push("담당자가 공고문을 직접 확인해 신청 가능 여부와 추가로 확인할 점을 2영업일 안에 다시 연락드리겠습니다.");
   } else {
     L.push("요청하신 '" + service + "'의 진행 조건과 금액은 담당자가 확인 후 2영업일 안에 안내드리겠습니다.",
@@ -302,9 +309,123 @@ function weeklyBlogDraft() {
   MailApp.sendEmail({ to: NOTIFY_EMAIL, subject: "[nimo 블로그 초안] " + title, body: L.join("\n") });
 }
 
-function installWeeklyTrigger() {
-  ScriptApp.getProjectTriggers().filter(t => t.getHandlerFunction() === "weeklyBlogDraft")
+function installWeeklyTrigger() { installTriggers(); }   // 예전 이름 호환
+
+
+/* ---------- 맞춤 공고 알림 구독 (첫 30일 무료, 이후 연 9,900원 계좌이체) ----------
+ * "구독" 시트: 상태 = 체험 / 유료 / 만료 / 해지. 입금 확인 후 상태를 "유료", 만료일을 1년 뒤로 직접 바꾼다.
+ * 매주 월요일 8시 sendWeeklyAlerts 가 체험·유료 구독자에게 조건에 맞는 새 공고와 마감 임박 공고를 보낸다.
+ * 자동 결제는 없다. 기간이 끝나면 안내 메일 한 통만 보내고 멈춘다.
+ */
+const SUB_HEADERS = ["신청일", "회사명", "담당자", "이메일", "지역", "근로자수", "업종", "관심 키워드", "메모",
+                     "상태", "만료일", "최근 발송", "입금 확인일", "비고"];
+const SUB_PRICE = "연 9,900원 (부가세 포함)";
+const TRIAL_DAYS = 30;
+const PAY_INFO = "";   // 입금 계좌가 정해지면 예: "OO은행 000-0000-0000 (예금주 주식회사 이노팩)"
+
+function subSheet_() {
+  const ss = SpreadsheetApp.getActive();
+  let sh = ss.getSheetByName("구독");
+  if (!sh) { sh = ss.insertSheet("구독"); sh.appendRow(SUB_HEADERS); sh.setFrozenRows(1); }
+  return sh;
+}
+function today_() { return new Date(Utilities.formatDate(new Date(), "Asia/Seoul", "yyyy-MM-dd") + "T00:00:00"); }
+function ymd_(d) { return Utilities.formatDate(d, "Asia/Seoul", "yyyy-MM-dd"); }
+
+function subscribe_(c) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c.email)) return "이메일 형식 오류";
+  const sh = subSheet_();
+  const rows = sh.getDataRange().getValues();
+  const clean = v => String(v || "").slice(0, 500).replace(/^[=+\-@]/, "'$&");
+  for (let i = 1; i < rows.length; i++) {
+    if (String(rows[i][3]).toLowerCase() === c.email.toLowerCase() && ["체험", "유료"].indexOf(rows[i][9]) >= 0) {
+      return "이미 구독 중";
+    }
+  }
+  const exp = new Date(today_().getTime() + TRIAL_DAYS * 864e5);
+  sh.appendRow([ymd_(new Date()), clean(c.company), clean(c.name), clean(c.email), clean(c.region), clean(c.staff),
+                clean(c.biz), clean(c.program), clean(c.memo), "체험", ymd_(exp), ymd_(new Date()), "", ""]);
+  sendAlert_(c, true, ymd_(exp));
+  return "구독(체험) 등록";
+}
+
+function alertBody_(c, welcome, exp) {
+  const r = recommend_(c, 40);
+  const fresh = r.picked.filter(p => p.it.isNew).slice(0, 7);
+  const soon = r.picked.filter(p => !p.it.isNew && p.d !== null && p.d <= 14).slice(0, 5);
+  const who = c.name ? c.name + "님" : "담당자님";
+  const line = p => "- " + p.it.title + " (" + dlabel_(p.d) + ")\n  " + (p.it.one ? p.it.one.slice(0, 70) + "\n  " : "") + pageUrl_(p.it);
+  const L = [who + ", 안녕하세요. " + BRAND + "입니다."];
+  if (welcome) {
+    L.push("", "맞춤 공고 알림 구독을 시작했습니다. 첫 " + TRIAL_DAYS + "일은 무료이며(" + exp + "까지), 매주 월요일 아침에 "
+      + (c.company || "귀사") + "의 조건(" + [c.region, c.staff, c.biz, c.program].filter(Boolean).join(" · ") + ")에 맞는 공고를 보내드립니다.",
+      "아래는 지금 기준으로 조건에 맞는 공고입니다.");
+  } else {
+    L.push("", "이번 주 " + (c.company || "귀사") + "의 조건에 맞는 공고입니다.");
+  }
+  L.push("", "■ 이번 주 새로 올라온 공고" + (fresh.length ? "" : " — 조건에 맞는 새 공고가 없습니다."));
+  fresh.forEach(p => L.push(line(p)));
+  if (welcome && !fresh.length) r.picked.slice(0, 5).forEach(p => L.push(line(p)));
+  L.push("", "■ 2주 안에 마감되는 공고" + (soon.length ? "" : " — 해당 없음"));
+  soon.forEach(p => L.push(line(p)));
+  L.push("", "전체 공고 검색: " + SITE + "  ·  신청 가능 여부 무료 진단: " + SITE + "/services.html",
+    "", "※ 공고 정보를 규칙에 따라 자동으로 고른 참고자료입니다. 신청 자격은 원문 공고와 운영기관에서 확인하세요.",
+    "※ 조건(지역·업종·관심 키워드)을 바꾸거나 해지하려면 이 메일에 회신해 주세요.",
+    "", BRAND + " | 주식회사 이노팩");
+  return L.join("\n");
+}
+
+function sendAlert_(c, welcome, exp) {
+  MailApp.sendEmail({ to: c.email, replyTo: NOTIFY_EMAIL, name: BRAND,
+    subject: welcome ? "[nimo] 맞춤 공고 알림 구독을 시작했습니다" : "[nimo] 이번 주 맞춤 공고 — " + Utilities.formatDate(new Date(), "Asia/Seoul", "M월 d일"),
+    body: alertBody_(c, welcome, exp) });
+}
+
+function payNotice_(c, exp, final) {
+  const pay = PAY_INFO ? "입금 계좌: " + PAY_INFO : "이 메일에 회신해 주시면 입금 계좌를 안내드립니다.";
+  const L = [(c.name || "담당자") + "님, 안녕하세요. " + BRAND + "입니다.", "",
+    final ? "맞춤 공고 알림 이용 기간이 " + exp + "에 끝나 발송을 멈췄습니다."
+          : "맞춤 공고 알림 이용 기간이 " + exp + "에 끝납니다.",
+    "계속 받아보시려면 " + SUB_PRICE + "을 입금해 주세요. 입금 확인 후 1년간 매주 보내드립니다.",
+    pay, "입금자명은 회사명으로 해 주시고, 현금영수증·세금계산서가 필요하면 회신으로 알려주세요.",
+    "원하지 않으시면 따로 하실 일은 없습니다. 자동으로 결제되지 않습니다.", "", BRAND + " | 주식회사 이노팩"];
+  MailApp.sendEmail({ to: c.email, replyTo: NOTIFY_EMAIL, name: BRAND,
+    subject: final ? "[nimo] 맞춤 공고 알림이 종료되었습니다" : "[nimo] 맞춤 공고 알림 이용 기간 안내", body: L.join("\n") });
+}
+
+/** 매주 월요일 실행: 알림 발송 + 만료 안내 */
+function sendWeeklyAlerts() {
+  const sh = subSheet_();
+  const rows = sh.getDataRange().getValues();
+  const t = today_();
+  let sent = 0, skipped = 0;
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i], status = r[9];
+    if (["체험", "유료"].indexOf(status) < 0) continue;
+    const c = { company: r[1], name: r[2], email: r[3], region: r[4], staff: r[5], biz: r[6], program: r[7], memo: r[8], program_id: "" };
+    const exp = r[10] instanceof Date ? r[10] : new Date(String(r[10]) + "T00:00:00");
+    const left = Math.round((exp - t) / 864e5);
+    if (MailApp.getRemainingDailyQuota() < 5) { skipped++; continue; }
+    if (left < 0) {                                   // 만료: 한 번 안내하고 멈춤
+      payNotice_(c, ymd_(exp), true);
+      sh.getRange(i + 1, 10).setValue("만료");
+      continue;
+    }
+    sendAlert_(c, false, ymd_(exp));
+    sh.getRange(i + 1, 12).setValue(ymd_(new Date()));
+    if (left <= 7) payNotice_(c, ymd_(exp), false);  // 만료 1주 전 안내
+    sent++;
+  }
+  MailApp.sendEmail({ to: NOTIFY_EMAIL, subject: "[nimo 구독] 주간 알림 발송 " + sent + "건" + (skipped ? " / 한도 초과로 " + skipped + "건 미발송" : ""),
+    body: "구독 시트: " + SpreadsheetApp.getActive().getUrl() + "\n하루 메일 한도(무료 계정 약 100통)에 가까워지면 발송을 나눠야 합니다." });
+}
+
+/** 트리거 설치: 월요일 8시 맞춤 알림, 9시 블로그 초안 (편집기에서 한 번 실행) */
+function installTriggers() {
+  const want = { sendWeeklyAlerts: 8, weeklyBlogDraft: 9 };
+  ScriptApp.getProjectTriggers().filter(t => want[t.getHandlerFunction()] !== undefined)
     .forEach(t => ScriptApp.deleteTrigger(t));
-  ScriptApp.newTrigger("weeklyBlogDraft").timeBased().onWeekDay(ScriptApp.WeekDay.MONDAY).atHour(9)
-    .inTimezone("Asia/Seoul").create();
+  Object.keys(want).forEach(fn => ScriptApp.newTrigger(fn).timeBased().onWeekDay(ScriptApp.WeekDay.MONDAY)
+    .atHour(want[fn]).inTimezone("Asia/Seoul").create());
+  subSheet_();
 }
