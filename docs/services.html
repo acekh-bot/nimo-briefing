@@ -114,7 +114,7 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);border-top:1px soli
 본 서비스는 사업계획서 작성을 돕는 자문 서비스이며 정부 및 공공기관과 관계가 없습니다. 선정 여부는 각 사업 운영기관의 평가로 결정됩니다.</footer>
 </div>
 <script>
-const ENDPOINT="", EMAIL="acekh@outlook.kr";
+const ENDPOINT="https://script.google.com/macros/s/AKfycby1BGgIF2tOLnhkuYS-e2-A1OwKnb_37kxYJFhmyzr3pJQB2_CczUywAA0_DkcwAsYm/exec", EMAIL="acekh@outlook.kr";
 const q=new URLSearchParams(location.search);
 if(q.get("title")){const b=document.getElementById("programBox");b.style.display="block";b.textContent=(q.get("service")==="자료 구매"?"선택한 자료: ":"선택한 공고: ")+q.get("title");
 document.getElementById("program").value=q.get("title");document.getElementById("program_id").value=q.get("program")||""}

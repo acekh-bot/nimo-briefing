@@ -103,7 +103,7 @@
     ]
   },
   "site_url": "https://briefing.nimo.ai.kr",
-  "form_endpoint": "",
+  "form_endpoint": "https://script.google.com/macros/s/AKfycby1BGgIF2tOLnhkuYS-e2-A1OwKnb_37kxYJFhmyzr3pJQB2_CczUywAA0_DkcwAsYm/exec",
   "contact_email": "acekh@outlook.kr",
   "naver_verification": ""
 }
