@@ -1,57 +1,411 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>스마트공장 지원사업과 설비 모니터링·MES — NIMO | 제조업 지원사업 브리핑</title><meta name="naver-site-verification" content="c4ad9b8af98c88279581ae1cb842d1ce3b0784ae">
-<meta name="description" content="스마트공장 기초·고도화, 제조 AI 지원사업에 필요한 설비 데이터 수집과 MES. 가동률·OEE, 생산실적, 도입 전후 효과 리포트, 스마트공장 사용로그 전송까지 NIMO 하나로.">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스마트공장 지원사업과 설비 모니터링·MES — NIMO 시연 | 제조업 지원사업 브리핑</title><meta name="naver-site-verification" content="c4ad9b8af98c88279581ae1cb842d1ce3b0784ae">
+<meta name="description" content="설치 없이 브라우저에서 NIMO 설비 모니터링과 MES를 시연해 보세요. 스마트공장 기초·고도화, 제조 AI 지원사업에 필요한 가동률 실측, 설비 연동 MES, 사용로그 전송, 도입 효과 리포트.">
 <style>
-:root{--paper:#EDF0EE;--sheet:#fff;--ink:#1C2529;--steel:#5B6B70;--rule:#C9D1CE;--run:#2F8F5B;--warn:#E0A800;--alarm:#C43D2F;--focus:#1F5FBF;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*,*::before,*::after{box-sizing:inherit}
-html,body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;word-break:keep-all;overflow-wrap:anywhere}
-.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
-header.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:2px solid var(--ink)}
-.logo{font-weight:700;font-size:17px;text-decoration:none;color:var(--ink)}
-.logo span{display:inline-block;width:10px;height:10px;background:var(--run);border-radius:50%;margin-right:8px}
-nav a{color:var(--steel);text-decoration:none;font-size:14px;margin-left:16px}
-.hero{padding:44px 0 18px}
-.eyebrow{font-size:13px;font-weight:700;color:var(--run);letter-spacing:.04em;margin:0 0 10px}
-.hero h1{font-size:clamp(26px,4.2vw,38px);margin:0 0 14px;letter-spacing:-.02em;line-height:1.3;max-width:24ch}
-.hero p{margin:0;color:var(--steel);line-height:1.7;max-width:64ch;font-size:16px}
-/* 설비 상태 막대 (간트) */
-.board{margin:28px 0 8px;background:var(--ink);border-radius:6px;padding:18px 20px;color:#C9D1CE;font-size:13px}
-.board .row{display:grid;grid-template-columns:92px 1fr 56px;gap:12px;align-items:center;margin:8px 0}
-.board .bar{height:14px;display:flex;border-radius:2px;overflow:hidden;background:#2B363B}
-.board .bar i{display:block;height:100%}
-.r{background:var(--run)}.w{background:var(--warn)}.a{background:var(--alarm)}.o{background:#51606A}
-.board .pct{text-align:right;color:#fff;font-weight:700}
-.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12px}
-.legend span::before{content:"";display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px;border-radius:2px;background:var(--c)}
-h2{font-size:22px;margin:44px 0 6px;letter-spacing:-.01em}
-.sub{color:var(--steel);margin:0 0 18px;line-height:1.65}
-.stages{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink);background:var(--sheet)}
-.stage{padding:22px;border-right:1px solid var(--rule)}.stage:last-child{border-right:none}
-.stage .no{font-size:13px;color:var(--steel)}.stage h3{font-size:18px;margin:4px 0 8px}
-.stage p{margin:0 0 10px;font-size:14.5px;line-height:1.65}
-.stage .how{font-size:13.5px;color:var(--run);font-weight:500;line-height:1.6}
-.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:0;background:var(--sheet);border:1px solid var(--rule)}
-.feat{padding:18px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
-.feat:nth-child(2n){border-right:none}
-.feat b{display:block;font-size:16px;margin-bottom:4px}.feat span{font-size:14px;color:var(--steel);line-height:1.6}
-.fair{margin:34px 0;padding:18px 22px;background:var(--sheet);border-left:6px solid var(--run);font-size:14.5px;line-height:1.8}
-.fair b{display:block;margin-bottom:4px}
-.cta{margin:36px 0 40px;padding:26px;background:var(--ink);color:#fff;border-radius:6px}
-.cta h2{margin:0 0 6px;color:#fff;font-size:21px}.cta p{margin:0 0 16px;color:#C9D1CE;font-size:14.5px;line-height:1.65}
-.cta a{display:inline-block;background:var(--warn);color:var(--ink);font-weight:700;text-decoration:none;padding:12px 18px;border-radius:4px;margin:0 8px 8px 0}
-.cta a.ghost{background:transparent;color:#fff;border:1.5px solid #fff}
-:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-footer{padding:24px 0 48px;font-size:13px;color:var(--steel);border-top:1px solid var(--rule);line-height:1.7}
-footer a{color:var(--steel)}
-@media(max-width:760px){.stages{grid-template-columns:1fr}.stage{border-right:none;border-bottom:1px solid var(--rule)}.feats{grid-template-columns:1fr}.feat{border-right:none}.board .row{grid-template-columns:70px 1fr 44px}nav a:not(:last-child){display:none}}
+  :root{
+    --bg:#0c0c0c; --panel:#151515; --panel2:#1c1c1c; --line:#2a2a2a; --line2:#3a3a3a;
+    --acid:#c8f31d; --acid-d:#9dbf0e; --acid-soft:rgba(200,243,29,.12);
+    --txt:#f2f2f0; --muted:#8f8f8a;
+    --ok:#22c55e; --warn:#f5b13d; --bad:#ef4444; --idle:#6f7d8f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Malgun Gothic","맑은 고딕",Segoe UI,sans-serif;background:var(--bg);color:var(--txt);line-height:1.65}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acid);color:#0c0c0c}
+  .mono{font-family:Consolas,"D2Coding",monospace}
+
+  @media(min-width:961px){
+    html{scroll-snap-type:y proximity}
+    section.snap{scroll-snap-align:start}
+  }
+  section.snap{min-height:100vh;display:flex;align-items:center;padding:110px 0 80px;position:relative}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 28px;width:100%}
+
+  .kicker{font-family:Consolas,monospace;color:var(--acid);font-size:13px;letter-spacing:4px;font-weight:700;display:block;margin-bottom:18px}
+  h2.big{font-size:clamp(32px,4.6vw,54px);font-weight:900;letter-spacing:-2px;line-height:1.08}
+  h2.big em{font-style:normal;color:var(--acid)}
+  .sub{color:var(--muted);font-size:15.5px;margin:18px 0 38px;max-width:680px}
+  .sub b{color:var(--txt)}
+
+  /* ===== 헤더 ===== */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference}
+  header .bar{display:flex;justify-content:space-between;align-items:center;padding:22px 28px}
+  .logo{font-weight:900;font-size:19px;letter-spacing:1px}
+  .logo i{font-style:normal;color:var(--acid)}
+  .menu-btn{background:none;border:none;color:#fff;cursor:pointer;font-size:13px;font-weight:800;letter-spacing:2px;font-family:inherit;display:flex;align-items:center;gap:10px}
+  .menu-btn .lines{display:inline-flex;flex-direction:column;gap:5px}
+  .menu-btn .lines i{display:block;width:26px;height:2px;background:#fff}
+
+  /* ===== 오버레이 메뉴 ===== */
+  .overlay{position:fixed;inset:0;background:var(--acid);z-index:200;display:flex;align-items:center;justify-content:center;
+    clip-path:circle(0% at calc(100% - 52px) 40px);transition:clip-path .5s cubic-bezier(.7,0,.3,1);pointer-events:none;overflow:auto;padding:80px 20px}
+  .overlay.open{clip-path:circle(150% at calc(100% - 52px) 40px);pointer-events:auto}
+  .overlay nav{display:flex;flex-direction:column;gap:2px;text-align:center}
+  .overlay nav a{color:#0c0c0c;font-size:clamp(20px,3.4vw,36px);font-weight:900;letter-spacing:-1px;padding:3px 20px;transition:.15s}
+  .overlay nav a small{font-family:Consolas,monospace;font-size:11px;vertical-align:super;margin-right:10px;opacity:.5;letter-spacing:0}
+  .overlay nav a:hover{transform:translateX(10px)}
+  .overlay .close{position:absolute;top:22px;right:28px;background:#0c0c0c;color:var(--acid);border:none;width:48px;height:48px;border-radius:50%;font-size:19px;cursor:pointer;font-weight:900}
+
+  /* ===== 01 COVER ===== */
+  #cover{overflow:hidden}
+  #cover:before{content:"INNO-HMI · NIMO · NICE MES · OEE · FOCAS · MODBUS · ";position:absolute;top:50%;left:0;white-space:nowrap;
+    font-size:140px;font-weight:900;color:transparent;-webkit-text-stroke:1px #212121;letter-spacing:6px;
+    transform:translateY(-50%);pointer-events:none;animation:slide 40s linear infinite}
+  @keyframes slide{from{transform:translate(0,-50%)}to{transform:translate(-50%,-50%)}}
+  #cover .wrap{position:relative;z-index:2}
+  #cover h1{font-size:clamp(40px,8vw,96px);font-weight:900;letter-spacing:-4px;line-height:1.0}
+  #cover h1 em{font-style:normal;color:var(--acid)}
+  #cover .lede{color:var(--muted);font-size:16px;max-width:600px;margin-top:26px}
+  #cover .lede b{color:var(--txt)}
+  .tagline{display:flex;gap:28px;flex-wrap:wrap;margin-top:30px;color:var(--muted);font-size:13.5px}
+  .tagline b{color:var(--acid);font-family:Consolas,monospace}
+  .cta{margin-top:38px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{padding:15px 32px;border-radius:100px;font-weight:900;cursor:pointer;border:1px solid var(--line2);background:transparent;color:var(--txt);font-size:13.5px;font-family:inherit;letter-spacing:1px;display:inline-block}
+  .btn:hover{border-color:var(--acid);color:var(--acid)}
+  .btn.acid{background:var(--acid);border-color:var(--acid);color:#0c0c0c}
+  .btn.acid:hover{background:var(--acid-d);color:#0c0c0c}
+  .marquee{position:absolute;bottom:0;left:0;right:0;background:var(--acid);color:#0c0c0c;overflow:hidden;padding:11px 0;font-weight:900;font-size:12.5px;letter-spacing:2px}
+  .marquee div{white-space:nowrap;animation:mq 26s linear infinite;display:inline-block}
+  @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ===== 공통 그리드 ===== */
+  .g2,.g3,.g4{display:grid;gap:2px;background:var(--line);border:1px solid var(--line)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .cell{background:var(--bg);padding:28px 26px}
+  .cell .ico{font-size:26px;margin-bottom:12px}
+  .cell h4{font-size:17px;font-weight:900;letter-spacing:-.4px}
+  .cell .lbl{color:var(--acid);font-size:12px;font-weight:800;margin-top:3px;font-family:Consolas,monospace}
+  .cell p{color:var(--muted);font-size:13.5px;margin-top:8px}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);border:1px solid var(--line)}
+  .stats div{background:var(--bg);padding:26px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .stats b{font-size:30px;font-weight:900;color:var(--acid);letter-spacing:-1px;font-family:Consolas,monospace}
+  .stats span{color:var(--muted);font-size:12.5px;text-align:right}
+
+  /* 사양 테이블 */
+  .spec{width:100%;border-collapse:collapse;border:1px solid var(--line)}
+  .spec td{padding:13px 18px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}
+  .spec tr:last-child td{border-bottom:none}
+  .spec td:first-child{width:190px;color:var(--acid);background:var(--panel);font-weight:800;font-size:12.5px;font-family:Consolas,monospace;letter-spacing:.5px}
+
+  /* 신호 리스트 */
+  .sig{border:1px solid var(--line)}
+  .sig .r{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:16px 18px;border-bottom:1px solid var(--line);align-items:center}
+  .sig .r:last-child{border-bottom:none}
+  .sig .n{font-family:Consolas,monospace;color:#0c0c0c;background:var(--acid);font-weight:900;text-align:center;padding:4px 0;font-size:13px}
+  .sig h5{font-size:15px;font-weight:800}
+  .sig p{color:var(--muted);font-size:13px}
+
+  /* 패키지 */
+  .pkg{border:1px solid var(--line)}
+  .pkg .row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 22px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .pkg .row:last-child{border-bottom:none;background:var(--panel)}
+  .pkg .row h5{font-size:15.5px;font-weight:900}
+  .pkg .row p{color:var(--muted);font-size:13px;margin-top:2px}
+  .pkg .amt{font-family:Consolas,monospace;font-weight:900;font-size:18px;color:var(--acid);white-space:nowrap}
+  .pkg .row:last-child .amt{font-size:24px}
+
+  /* ===== NIMO 모듈 ===== */
+  .mods{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--line);border:1px solid var(--line)}
+  .mod{background:var(--bg);padding:22px 18px;cursor:pointer;transition:.16s;position:relative}
+  .mod:hover{background:var(--panel2)}
+  .mod .no{font-family:Consolas,monospace;font-size:10.5px;color:var(--acid);letter-spacing:1.5px;font-weight:700}
+  .mod .ic{font-size:24px;margin:10px 0 8px}
+  .mod h4{font-size:15px;font-weight:900;letter-spacing:-.4px}
+  .mod .tg{color:var(--muted);font-size:11.5px;margin-top:3px}
+  .mod .more{color:var(--acid);font-size:11px;font-weight:800;margin-top:12px;opacity:0;transition:.16s}
+  .mod:hover .more{opacity:1}
+
+  /* 데모 대시보드 */
+  .demo{border:1px solid var(--line);background:var(--panel);margin-bottom:28px}
+  .demo-h{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--panel2);flex-wrap:wrap}
+  .demo-h .t{font-weight:900;font-size:13px;letter-spacing:.5px}
+  .live{display:inline-flex;align-items:center;gap:6px;color:var(--ok);font-size:10.5px;font-weight:900;font-family:Consolas,monospace;letter-spacing:1px}
+  .live i{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:blink 1.2s infinite}
+  @keyframes blink{50%{opacity:.25}}
+  .demo-h .clk{margin-left:auto;font-family:Consolas,monospace;color:var(--muted);font-size:12px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+  .kpi{background:var(--bg);padding:18px}
+  .kpi .k{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.5px}
+  .kpi .v{font-family:Consolas,monospace;font-size:28px;font-weight:900;color:var(--acid);letter-spacing:-1px;line-height:1.25}
+  .kpi .v small{font-size:14px;color:var(--muted)}
+  .demo-body{display:grid;grid-template-columns:1.25fr 1fr;gap:1px;background:var(--line);border-top:1px solid var(--line)}
+  .dbox{background:var(--bg);padding:18px}
+  .dbox .bt{font-size:11.5px;font-weight:900;color:var(--muted);letter-spacing:1px;margin-bottom:12px;display:flex;justify-content:space-between}
+  .dbox .bt span{color:var(--acid);font-family:Consolas,monospace}
+  .spark{width:100%;height:92px;display:block}
+  .eq-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+  .eq-row:last-child{border-bottom:none}
+  .eq-dot{width:8px;height:8px;border-radius:50%;flex:none}
+  .eq-name{flex:1;color:var(--txt)}
+  .eq-st{font-size:10.5px;font-weight:900;padding:2px 9px;font-family:Consolas,monospace}
+  .heat{display:grid;grid-template-columns:repeat(15,1fr);gap:3px;margin-top:4px}
+  .hc{aspect-ratio:1;background:rgba(111,125,143,.25);transition:background .5s}
+
+  /* ===== MES 메뉴 트리 ===== */
+  .mes-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--line);border:1px solid var(--line)}
+  .mes-col{background:var(--bg);padding:22px 18px}
+  .mes-col h4{font-family:Consolas,monospace;font-size:11px;color:var(--acid);letter-spacing:2px;font-weight:800;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:12px}
+  .mes-col ul{list-style:none}
+  .mes-col li{font-size:13px;color:var(--muted);padding:5px 0 5px 14px;position:relative}
+  .mes-col li:before{content:"▸";position:absolute;left:0;color:var(--line2)}
+  .mes-col li b{color:var(--txt);font-weight:700}
+
+  .flow{display:flex;align-items:stretch;gap:2px;background:var(--line);border:1px solid var(--line);overflow-x:auto}
+  .flow .st{background:var(--bg);padding:18px 16px;flex:1;min-width:150px;text-align:center}
+  .flow .st .n{font-family:Consolas,monospace;color:var(--acid);font-size:10.5px;font-weight:800;letter-spacing:1px}
+  .flow .st h5{font-size:14.5px;font-weight:900;margin-top:6px}
+  .flow .st p{color:var(--muted);font-size:12px;margin-top:3px}
+
+  /* ===== 아키텍처 ===== */
+  .arch{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--line);border:1px solid var(--line)}
+  .arch .a{background:var(--bg);padding:26px 18px;text-align:center;position:relative}
+  .arch .a .ic{font-size:28px}
+  .arch .a h5{font-size:14.5px;font-weight:900;margin-top:10px}
+  .arch .a p{color:var(--muted);font-size:12px;margin-top:4px}
+  .arch .a .mono{color:var(--acid);font-size:11px;margin-top:6px;display:block}
+
+  /* ===== 설비 라인업 ===== */
+  .filterbar{display:flex;flex-wrap:wrap;border:1px solid var(--line);width:fit-content;margin-bottom:24px}
+  .filterbar button{background:transparent;border:none;border-right:1px solid var(--line);color:var(--muted);padding:11px 20px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit}
+  .filterbar button:last-child{border-right:none}
+  .filterbar button:hover{color:var(--txt)}
+  .filterbar button.active{background:var(--acid);color:#0c0c0c}
+  .prods{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);border:1px solid var(--line)}
+  .prod{background:var(--bg);display:flex;flex-direction:column}
+  .drop{position:relative;height:180px;background:var(--panel2) center/cover no-repeat;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;cursor:pointer;color:var(--muted);text-align:center;padding:14px;border-bottom:1px solid var(--line)}
+  .drop .ph-icon{font-size:26px;opacity:.55}
+  .drop .ph-txt{font-size:10.5px;margin-top:6px;font-weight:600;line-height:1.5}
+  .drop .ph-txt b{color:var(--acid);font-family:Consolas,monospace}
+  .drop.dragover{background:var(--acid-soft);color:var(--acid)}
+  .drop.has-img .ph-icon,.drop.has-img .ph-txt{display:none}
+  .drop .clear{display:none;position:absolute;top:8px;right:8px;background:rgba(0,0,0,.7);border:none;color:#fff;width:26px;height:26px;border-radius:50%;cursor:pointer;z-index:4}
+  .drop.is-custom .clear{display:block}
+  .pbody{padding:16px 18px 20px;flex:1;display:flex;flex-direction:column}
+  .pbody .cat{font-size:10px;font-weight:900;color:var(--acid);letter-spacing:1.5px;font-family:Consolas,monospace}
+  .pbody h3{font-size:15px;font-weight:900;margin:6px 0 2px;letter-spacing:-.3px}
+  .pbody .model{font-family:Consolas,monospace;font-size:11.5px;color:var(--muted)}
+  .pbody .sp{color:var(--muted);font-size:12px;margin-top:8px;flex:1}
+  .pbody .price{font-family:Consolas,monospace;font-weight:900;color:var(--acid);font-size:15px;margin-top:12px}
+  .pbody .price small{color:var(--muted);font-weight:400;font-size:10.5px}
+
+  /* ===== 프로세스 ===== */
+  .steps{border-top:1px solid var(--line)}
+  .step{display:grid;grid-template-columns:72px 1fr 1fr;gap:22px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .step .idx{font-family:Consolas,monospace;color:var(--acid);font-weight:700;font-size:15px}
+  .step h4{font-size:20px;font-weight:900;letter-spacing:-.5px}
+  .step p{color:var(--muted);font-size:13.5px}
+  .step .tag{color:var(--acid);font-size:11px;font-family:Consolas,monospace;margin-top:4px}
+
+  /* ===== FAQ ===== */
+  .faq{border-top:1px solid var(--line)}
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq summary{padding:20px 2px;font-weight:800;cursor:pointer;list-style:none;display:flex;gap:14px;align-items:flex-start;font-size:15px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary:before{content:"Q";color:var(--acid);font-family:Consolas,monospace;font-weight:900;flex:none}
+  .faq summary:after{content:"+";margin-left:auto;color:var(--acid);font-size:19px;flex:none}
+  .faq details[open] summary:after{content:"−"}
+  .faq .a{padding:0 2px 22px 28px;color:var(--muted);font-size:14px}
+
+  /* ===== CONTACT ===== */
+  #contact{background:var(--acid);color:#0c0c0c}
+  #contact .kicker{color:#0c0c0c;opacity:.55}
+  #contact h2.big{color:#0c0c0c}
+  #contact h2.big em{color:#0c0c0c;text-decoration:underline}
+  #contact .sub{color:rgba(12,12,12,.7)}
+  .c-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+  .c-info .row{padding:14px 0;border-bottom:1px solid rgba(12,12,12,.2);display:flex;justify-content:space-between;gap:14px;font-weight:700;font-size:14.5px}
+  .c-info .row span:first-child{opacity:.55;font-size:12px;font-family:Consolas,monospace;letter-spacing:1px;flex:none}
+  .c-info .row span:last-child{text-align:right}
+  form.contact{display:flex;flex-direction:column;gap:11px}
+  form.contact input,form.contact textarea{background:rgba(12,12,12,.07);border:1px solid rgba(12,12,12,.25);color:#0c0c0c;padding:14px 16px;font-size:14px;font-family:inherit;width:100%}
+  form.contact input::placeholder,form.contact textarea::placeholder{color:rgba(12,12,12,.45)}
+  form.contact textarea{resize:vertical;min-height:110px}
+  form.contact button{background:#0c0c0c;color:var(--acid);border:none;padding:16px;font-weight:900;font-size:14px;letter-spacing:2px;cursor:pointer;font-family:inherit}
+
+  /* ===== LOCATION ===== */
+  .map-box{border:1px solid var(--line);margin-bottom:22px}
+  .map-img{height:300px;background-image:
+    repeating-linear-gradient(0deg,var(--line) 0,var(--line) 1px,transparent 1px,transparent 44px),
+    repeating-linear-gradient(90deg,var(--line) 0,var(--line) 1px,transparent 1px,transparent 44px);
+    position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);border-bottom:none}
+  .map-img .pin{background:var(--acid);color:#0c0c0c;padding:10px 20px;font-weight:900;z-index:2;letter-spacing:1px}
+  .map-img .pin:before{content:"📍 "}
+  footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:12px;font-family:Consolas,monospace}
+  footer .frow{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  /* ===== 모달 ===== */
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:400;padding:20px}
+  .modal-bg.open{display:flex}
+  .modal{background:var(--panel);border:1px solid var(--line2);max-width:760px;width:100%;max-height:86vh;overflow:auto;position:relative}
+  .modal .mclose{position:sticky;top:0;float:right;margin:12px 12px 0 0;background:var(--acid);color:#0c0c0c;border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;font-weight:900;z-index:5}
+  .m-in{padding:30px 34px 34px}
+  .m-head{display:flex;gap:18px;align-items:flex-start;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:22px}
+  .m-head .ic{font-size:36px;flex:none}
+  .m-head .no{font-family:Consolas,monospace;color:var(--acid);font-size:11px;letter-spacing:2px;font-weight:800}
+  .m-head h3{font-size:24px;font-weight:900;letter-spacing:-.8px;margin-top:4px}
+  .m-head p{color:var(--muted);font-size:13.5px;margin-top:6px}
+  .m-sec{margin-bottom:22px}
+  .m-sec h4{font-size:14px;font-weight:900;color:var(--acid);margin-bottom:10px;padding-left:12px;border-left:3px solid var(--acid)}
+  .m-sec ul{list-style:none;padding-left:14px}
+  .m-sec li{color:var(--muted);font-size:13.5px;padding:4px 0 4px 14px;position:relative}
+  .m-sec li:before{content:"—";position:absolute;left:0;color:var(--line2)}
+
+  /* ===== 시연(LIVE DEMO) 모드 ===== */
+  .simcall{border:1px solid var(--acid);background:var(--acid-soft);padding:24px 26px;display:flex;
+    gap:22px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin-bottom:28px}
+  .simcall h4{font-size:19px;font-weight:900;letter-spacing:-.5px}
+  .simcall p{color:var(--muted);font-size:13.5px;margin-top:5px;max-width:560px}
+  .simcall p b{color:var(--acid)}
+
+  .sim{position:fixed;inset:0;background:#080808;z-index:500;display:none;flex-direction:column}
+  .sim.open{display:flex}
+  .sim-top{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
+  .sim-top .dd{width:11px;height:11px;border-radius:50%}
+  .sim-top .dd.r{background:#ff5f57}.sim-top .dd.y{background:#febc2e}.sim-top .dd.g{background:#28c840}
+  .sim-top .tt{font-weight:900;font-size:13.5px;margin-left:6px}
+  .sim-top .badge{font-family:Consolas,monospace;font-size:10px;font-weight:900;letter-spacing:1.5px;
+    color:#0c0c0c;background:var(--acid);padding:3px 9px}
+  .sim-top .clk{margin-left:auto;font-family:Consolas,monospace;color:var(--muted);font-size:12px}
+  .sim-top .x{background:transparent;border:1px solid var(--line2);color:var(--txt);width:32px;height:32px;cursor:pointer;font-weight:900}
+  .sim-top .x:hover{background:var(--acid);color:#0c0c0c;border-color:var(--acid)}
+  .sim-body{flex:1;display:flex;overflow:hidden}
+  .sim-nav{width:214px;flex:none;border-right:1px solid var(--line);background:var(--panel);overflow-y:auto;padding:10px 0}
+  .sim-nav .grp{font-family:Consolas,monospace;font-size:9.5px;letter-spacing:2px;color:#5b5b5b;padding:12px 16px 6px;font-weight:800}
+  .sim-nav button{display:block;width:100%;background:none;border:none;border-left:3px solid transparent;
+    color:var(--muted);text-align:left;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+  .sim-nav button:hover{color:var(--txt);background:var(--panel2)}
+  .sim-nav button.on{color:var(--acid);border-left-color:var(--acid);background:var(--acid-soft)}
+  .sim-main{flex:1;overflow-y:auto;padding:20px 22px 40px;background:#0a0a0a}
+  .sim-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .sim-h h3{font-size:20px;font-weight:900;letter-spacing:-.6px}
+  .sim-h span{font-family:Consolas,monospace;font-size:11px;color:var(--acid);letter-spacing:1.5px}
+  .sim-h .rt{margin-left:auto;font-size:11.5px;color:var(--muted)}
+  .sgrid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:16px}
+  .s4{grid-template-columns:repeat(4,1fr)}.s3{grid-template-columns:repeat(3,1fr)}.s2{grid-template-columns:repeat(2,1fr)}
+  .sc{background:#0e0e0e;padding:15px 16px}
+  .sc .l{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.5px}
+  .sc .v{font-family:Consolas,monospace;font-size:24px;font-weight:900;color:var(--acid);letter-spacing:-1px;line-height:1.3}
+  .sc .v small{font-size:12px;color:var(--muted)}
+  .pane{border:1px solid var(--line);background:#0e0e0e;padding:15px 16px;margin-bottom:16px}
+  .pane .ph{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--muted);
+    font-weight:800;letter-spacing:.5px;margin-bottom:12px}
+  .pane .ph b{color:var(--acid);font-family:Consolas,monospace;font-weight:900}
+  table.st{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.st th{text-align:left;color:var(--muted);font-size:10.5px;font-weight:800;letter-spacing:1px;
+    padding:7px 8px;border-bottom:1px solid var(--line);font-family:Consolas,monospace}
+  table.st td{padding:9px 8px;border-bottom:1px solid #1b1b1b}
+  table.st tr:last-child td{border-bottom:none}
+  .pill{font-size:10px;font-weight:900;padding:2px 8px;font-family:Consolas,monospace}
+  .p-run{color:#22c55e;background:rgba(34,197,94,.14)}
+  .p-idle{color:#f5b13d;background:rgba(245,177,61,.14)}
+  .p-alarm{color:#ef4444;background:rgba(239,68,68,.14)}
+  .p-stop{color:#8a94a4;background:rgba(138,148,164,.14)}
+  .bars{display:flex;align-items:flex-end;gap:5px;height:76px}
+  .bars div{flex:1;background:var(--acid);opacity:.75;min-height:3px;transition:height .5s}
+  .bars.alt div{background:#3d7dd6}
+  .xlab{display:flex;gap:5px;margin-top:5px}
+  .xlab span{flex:1;text-align:center;font-size:9.5px;color:#5b5b5b;font-family:Consolas,monospace}
+  .eqcards{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .eqc{background:#0e0e0e;padding:13px 14px}
+  .eqc .hd{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+  .eqc .nm{font-size:12px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .eqc .mt{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);font-family:Consolas,monospace;margin-top:7px}
+  .eqc svg{width:100%;height:36px;display:block}
+  .minheat{display:grid;grid-template-columns:repeat(20,1fr);gap:2px;margin-top:8px}
+  .minheat i{aspect-ratio:1;display:block;background:rgba(111,125,143,.25)}
+  .donuts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .dn{background:#0e0e0e;padding:18px;text-align:center}
+  .dn svg{width:110px;height:110px}
+  .dn .dl{font-size:11.5px;font-weight:800;margin-top:8px}
+  .dn .ds{font-size:10.5px;color:var(--muted);font-family:Consolas,monospace}
+  .tbar{margin-bottom:11px}
+  .tbar .tl{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px}
+  .tbar .tl b{font-family:Consolas,monospace;color:var(--acid)}
+  .tbar .tt{height:9px;background:#1b1b1b}
+  .tbar .tt i{display:block;height:100%;background:var(--acid)}
+  .tbar .tt i.w{background:#f5b13d}.tbar .tt i.g{background:#8a94a4}
+  .gauges{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .gg{background:#0e0e0e;padding:18px;text-align:center}
+  .gg svg{width:104px;height:104px}
+  .gg .gl{font-size:12.5px;font-weight:800;margin-top:6px}
+  .gg .gs{font-size:10.5px;color:var(--muted);font-family:Consolas,monospace;margin-top:2px}
+  .warn{border:1px solid #ef4444;background:rgba(239,68,68,.08);padding:12px 14px;margin-bottom:9px;font-size:12.5px}
+  .warn b{color:#ef4444;font-family:Consolas,monospace}
+  .okbox{border:1px solid #22c55e;background:rgba(34,197,94,.08);padding:12px 14px;font-size:12.5px}
+  .okbox b{color:#22c55e;font-family:Consolas,monospace}
+  .kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .kcol{background:#0e0e0e;padding:12px;min-height:250px}
+  .kcol h5{font-family:Consolas,monospace;font-size:10px;letter-spacing:1.5px;color:var(--acid);
+    padding-bottom:8px;border-bottom:1px solid var(--line);margin-bottom:10px;display:flex;justify-content:space-between}
+  .kcol h5 em{font-style:normal;color:var(--muted)}
+  .kcard{background:#151515;border:1px solid #222;border-left:3px solid var(--acid);padding:9px 11px;margin-bottom:8px}
+  .kcard .kn{font-family:Consolas,monospace;font-size:9.5px;color:var(--muted)}
+  .kcard .kt{font-size:12px;font-weight:800;margin-top:2px}
+  .kcard .kd{font-size:10.5px;color:var(--muted);margin-top:3px}
+  .kcard.late{border-left-color:#ef4444}
+  .simnote{color:#5b5b5b;font-size:11.5px;margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+  @media(max-width:860px){
+    .sim-nav{width:100%;position:absolute;left:-100%;top:0;bottom:0;z-index:5;transition:left .2s}
+    .sim-nav.open{left:0}
+    .sim-body{position:relative}
+    .simMenu{display:inline-block!important}
+    .s4,.s3,.eqcards,.donuts,.gauges,.kanban{grid-template-columns:1fr 1fr}
+    .kanban{grid-template-columns:1fr}
+    .sim-main{padding:14px}
+    .pane{overflow-x:auto}
+    table.st{min-width:520px}
+  }
+  .simMenu{display:none;background:transparent;border:1px solid var(--line2);color:var(--txt);padding:6px 11px;cursor:pointer;font-weight:800;font-size:12px;font-family:inherit}
+
+  .totop{position:fixed;right:20px;bottom:20px;background:var(--panel2);border:1px solid var(--line2);color:var(--txt);width:46px;height:46px;border-radius:50%;cursor:pointer;z-index:150;opacity:0;pointer-events:none;transition:.2s;font-size:17px}
+  .totop.show{opacity:1;pointer-events:auto}
+  .totop:hover{background:var(--acid);color:#0c0c0c;border-color:var(--acid)}
+
+  .note{color:var(--muted);font-size:12.5px;margin-top:14px}
+  .note b{color:var(--acid);font-family:Consolas,monospace}
+
+  @media(max-width:1100px){
+    .mods{grid-template-columns:repeat(3,1fr)}
+    .mes-grid{grid-template-columns:repeat(2,1fr)}
+    .prods{grid-template-columns:repeat(2,1fr)}
+    .arch{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:960px){
+    section.snap{min-height:auto;padding:80px 0 56px}
+    #cover{min-height:100vh}
+    #cover:before{font-size:64px}
+    .g2,.g3,.g4,.stats,.kpis,.demo-body{grid-template-columns:1fr}
+    .g4,.stats,.kpis{grid-template-columns:1fr 1fr}
+    .mods{grid-template-columns:repeat(2,1fr)}
+    .mes-grid,.prods,.arch{grid-template-columns:1fr}
+    .c-grid{grid-template-columns:1fr}
+    .step{grid-template-columns:44px 1fr;gap:12px}
+    .step p,.step .tag{grid-column:2}
+    .spec td:first-child{width:120px}
+    .heat{grid-template-columns:repeat(10,1fr)}
+  }
+
+  /* ===== 브리핑 사이트용 조정: 왼쪽 위 메뉴 ===== */
+  header .bar{justify-content:flex-start;gap:18px}
+  .overlay{clip-path:circle(0% at 52px 40px)}
+  .overlay.open{clip-path:circle(150% at 52px 40px)}
+  .overlay .close{right:auto;left:28px}
+  .overlay nav a.sub{font-size:clamp(15px,2.2vw,22px);font-weight:800;opacity:.8}
+  .overlay nav .div{height:2px;background:#0c0c0c;margin:12px 0;opacity:.8}
+  .stage-n{font-family:Consolas,monospace;color:var(--acid);font-size:12px;letter-spacing:2px}
+  .how{color:var(--acid);font-size:13.5px;font-weight:700;margin-top:10px}
+  .fair{border:1px solid var(--acid);background:var(--acid-soft);padding:20px 24px;margin-top:26px;font-size:14px;line-height:1.8}
+  .fair b{color:var(--acid)}
 </style><link rel="canonical" href="https://briefing.nimo.ai.kr/nimo.html">
-<meta property="og:title" content="스마트공장 지원사업과 설비 모니터링·MES — NIMO | 제조업 지원사업 브리핑">
-<meta property="og:description" content="스마트공장 기초·고도화, 제조 AI 지원사업에 필요한 설비 데이터 수집과 MES. 가동률·OEE, 생산실적, 도입 전후 효과 리포트, 스마트공장 사용로그 전송까지 NIMO 하나로.">
+<meta property="og:title" content="스마트공장 지원사업과 설비 모니터링·MES — NIMO 시연 | 제조업 지원사업 브리핑">
+<meta property="og:description" content="설치 없이 브라우저에서 NIMO 설비 모니터링과 MES를 시연해 보세요. 스마트공장 기초·고도화, 제조 AI 지원사업에 필요한 가동률 실측, 설비 연동 MES, 사용로그 전송, 도입 효과 리포트.">
 <meta property="og:url" content="https://briefing.nimo.ai.kr/nimo.html">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://briefing.nimo.ai.kr/og.png">
@@ -61,58 +415,985 @@ footer a{color:var(--steel)}
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Ccircle cx=%228%22 cy=%228%22 r=%226%22 fill=%22%232F8F5B%22/%3E%3C/svg%3E">
 <link rel="alternate" type="application/rss+xml" title="제조업 지원사업 브리핑" href="https://briefing.nimo.ai.kr/rss.xml">
-</head><body><div class="wrap">
-<header class="top"><a class="logo" href="./"><span aria-hidden="true"></span>제조업 지원사업 브리핑</a>
-<nav><a href="./">공고 검색</a><a href="guide.html">모아보기</a><a href="services.html">신청 도움</a></nav></header>
+</head>
+<body>
 
-<section class="hero">
-<p class="eyebrow">설비 모니터링 · MES · NIMO</p>
-<h1>지원사업의 시작과 끝에는 늘 설비 데이터가 있습니다.</h1>
-<p>스마트공장 사업계획서의 성과지표는 지금 가동률에서 출발하고, 구축 뒤에는 MES 사용 기록과 도입 효과를 숫자로 보고해야 합니다. NIMO는 CNC·PLC 설비에서 데이터를 직접 모으고, 생산실적과 불량을 관리하는 MES를 한 프로그램에 담았습니다.</p>
-<div class="board" aria-label="설비 가동 현황 예시">
-<div class="row"><span>MCT #1</span><div class="bar"><i class="r" style="width:78%"></i><i class="w" style="width:10%"></i><i class="a" style="width:4%"></i><i class="o" style="width:8%"></i></div><span class="pct">78%</span></div>
-<div class="row"><span>CNC 선반 #2</span><div class="bar"><i class="r" style="width:64%"></i><i class="w" style="width:20%"></i><i class="a" style="width:9%"></i><i class="o" style="width:7%"></i></div><span class="pct">64%</span></div>
-<div class="row"><span>MCT #3</span><div class="bar"><i class="r" style="width:41%"></i><i class="w" style="width:31%"></i><i class="a" style="width:3%"></i><i class="o" style="width:25%"></i></div><span class="pct">41%</span></div>
-<div class="legend"><span style="--c:var(--run)">가동</span><span style="--c:var(--warn)">대기·준비</span><span style="--c:var(--alarm)">알람</span><span style="--c:#51606A">꺼짐</span><span>· 화면 예시</span></div>
+<header>
+  <div class="bar">
+    <button class="menu-btn" id="menuOpen" aria-label="메뉴 열기"><span class="lines"><i></i><i></i><i></i></span><span>MENU</span></button>
+    <a class="logo" href="./">제조업 지원사업 브리핑 <i>· NIMO</i></a>
+  </div>
+</header>
+
+<div class="overlay" id="overlay">
+  <button class="close" id="menuClose" aria-label="메뉴 닫기">✕</button>
+  <nav>
+    <a href="./"><small>01</small>공고 검색</a>
+    <a href="guide.html"><small>02</small>모아보기</a>
+    <a href="resources.html"><small>03</small>자료실</a>
+    <a href="weekly/"><small>04</small>주간 브리핑</a>
+    <a href="services.html"><small>05</small>신청 도움</a>
+    <div class="div"></div>
+    <a class="sub" href="#cover"><small>NIMO</small>지원사업과 NIMO</a>
+    <a class="sub" href="#nimo"><small>NIMO</small>10개 기능 모듈</a>
+    <a class="sub" href="#mes"><small>NIMO</small>NICE MES</a>
+    <a class="sub" href="#hmi"><small>NIMO</small>INNO-HMI · 도입 비용</a>
+    <a class="sub" href="#process"><small>NIMO</small>도입 절차 · FAQ</a>
+    <a href="#" onclick="overlay.classList.remove('open');openSim('dash');return false;"><small>▶</small>설치 없이 시연하기</a>
+  </nav>
 </div>
-</section>
 
-<h2>지원사업 단계마다 필요한 것</h2>
-<p class="sub">공고문이 요구하는 것과 NIMO가 채워주는 부분을 단계별로 정리했습니다.</p>
-<section class="stages">
-<div class="stage"><div class="no">1. 신청할 때</div><h3>지금 수준을 숫자로</h3>
-<p>사업계획서에는 "가동률 ○% → ○%" 같은 성과지표가 들어갑니다. 기준값이 추정이면 설득력이 약합니다.</p>
-<p class="how">설비별 가동률·OEE·알람 이력을 자동 집계해 현재 수준을 실측값으로 제시</p></div>
-<div class="stage"><div class="no">2. 구축할 때</div><h3>설비 연동 MES</h3>
-<p>스마트공장 기초·고도화 사업은 생산관리 시스템과 설비 데이터 수집을 함께 구축하는 경우가 많습니다.</p>
-<p class="how">FOCAS·Modbus 설비 연동 + 수주·생산실적·불량·재고·납품까지 내장 MES</p></div>
-<div class="stage"><div class="no">3. 끝난 뒤</div><h3>사용 기록과 성과 보고</h3>
-<p>구축 후에는 솔루션 사용 로그 전송과 도입 효과 보고가 따라옵니다.</p>
-<p class="how">스마트공장 사용로그 자동 전송, 도입 전후 효과 리포트 PDF</p></div>
-</section>
+<main>
+  <section class="snap" id="cover">
+    <div class="wrap">
+      <span class="kicker">NIMO · 설비 모니터링 · MES</span>
+      <h1>지원사업의 시작과 끝엔<br><em>설비 데이터</em></h1>
+      <p class="lede">스마트공장 사업계획서의 성과지표는 지금 가동률에서 출발하고, 구축 뒤에는 MES 사용 기록과 도입 효과를 숫자로 보고해야 합니다.
+        <b>NIMO</b>는 CNC·PLC 설비에서 데이터를 직접 모으고, 생산실적과 불량을 관리하는 MES까지 이어 줍니다.</p>
+      <div class="tagline">
+        <span><b>FOCAS</b> · Modbus 연동</span><span><b>5초</b> 실시간 수집</span><span><b>OEE</b> 자동 산출</span>
+        <span><b>사용로그</b> 정부 전송</span><span><b>도입 효과</b> 리포트</span>
+      </div>
+      <div class="cta">
+        <button class="btn acid" onclick="openSim('dash')">▶ 설치 없이 바로 시연하기</button>
+        <a class="btn" href="#gov">지원사업과 어떻게 이어지나</a>
+        <a class="btn" href="#nimo">NIMO 기능</a>
+        <a class="btn" href="#contact">도입 상담</a>
+      </div>
+    </div>
+    <div class="marquee"><div>SMART FACTORY — NIMO EDGE AGENT — NICE MES — OEE ANALYTICS — PREDICTIVE MAINTENANCE — GOV LOG TRANSMIT — EFFECT REPORT — SMART FACTORY — NIMO EDGE AGENT — NICE MES — OEE ANALYTICS — PREDICTIVE MAINTENANCE — GOV LOG TRANSMIT — EFFECT REPORT — </div></div>
+  </section>
 
-<h2>NIMO 주요 기능</h2>
-<p class="sub">현재 배포 중인 버전에 들어 있는 기능입니다. 자세한 화면은 시연 페이지에서 볼 수 있습니다.</p>
-<section class="feats">
-<div class="feat"><b>설비 실시간 모니터링</b><span>FANUC FOCAS·Modbus 설비를 5초 간격으로 수집해 가동·대기·알람·꺼짐 상태를 구분합니다.</span></div>
-<div class="feat"><b>가동률·OEE·MTBF·MTTR</b><span>설비별·기간별 핵심 지표와 알람 패턴, 시간대별 가동률을 자동으로 계산합니다.</span></div>
-<div class="feat"><b>내장 MES</b><span>수주, 작업지시, 생산실적, 불량, 재고, 납품·명세서를 설비 데이터와 한 프로그램에서 관리합니다.</span></div>
-<div class="feat"><b>작업자 모바일 실적 입력</b><span>현장 휴대폰이나 스테이션 화면에서 양품·불량을 바로 등록하고 사이클타임을 실측합니다.</span></div>
-<div class="feat"><b>안돈 보드·공장 평면도</b><span>공장 평면도 위에 설비 상태와 작업 흐름을 띄워 현장 모니터로 공유합니다.</span></div>
-<div class="feat"><b>도입 전후 효과 리포트</b><span>기준 기간과 현재 기간을 골라 가동률·OEE 변화를 비교한 증빙용 PDF를 만듭니다.</span></div>
-<div class="feat"><b>스마트공장 사용로그 전송</b><span>스마트제조혁신추진단 가이드에 맞춘 솔루션 사용 로그를 주기적으로 자동 전송합니다.</span></div>
-<div class="feat"><b>AI 분석</b><span>고장 위험 설비 예측, 손실 분석, 데이터 질의로 개선 포인트를 찾아 예방정비 작업까지 제안합니다.</span></div>
-</section>
+  <section class="snap" id="gov">
+    <div class="wrap">
+      <span class="kicker">GOVERNMENT PROGRAM × NIMO</span>
+      <h2 class="big">지원사업 <em>단계마다</em> 필요한 것</h2>
+      <p class="sub">공고문이 요구하는 것과 NIMO가 채워 주는 부분을 단계별로 정리했습니다.</p>
+      <div class="g3">
+        <div class="cell"><div class="stage-n">01 — 신청할 때</div><h4>지금 수준을 숫자로</h4>
+          <p>사업계획서에는 "가동률 ○% → ○%" 같은 성과지표가 들어갑니다. 기준값이 추정이면 설득력이 약합니다.</p>
+          <div class="how">설비별 가동률·OEE·알람 이력 실측값으로 기준값 제시</div></div>
+        <div class="cell"><div class="stage-n">02 — 구축할 때</div><h4>설비 연동 MES</h4>
+          <p>스마트공장 기초·고도화 사업은 생산관리 시스템과 설비 데이터 수집을 함께 구축하는 경우가 많습니다.</p>
+          <div class="how">FOCAS·Modbus 연동 + 수주·실적·불량·재고·납품 MES</div></div>
+        <div class="cell"><div class="stage-n">03 — 끝난 뒤</div><h4>사용 기록과 성과 보고</h4>
+          <p>구축 후에는 솔루션 사용 로그 전송과 도입 효과 보고가 따라옵니다.</p>
+          <div class="how">스마트공장 사용로그 자동 전송 · 도입 전후 효과 리포트 PDF</div></div>
+      </div>
+      <div class="fair"><b>공정하게 안내합니다</b><br>
+        NIMO는 이 사이트 운영사(주식회사 이노팩)의 제품입니다. 무료 진단과 지원사업 안내는 NIMO 도입 여부와 관계없이 똑같이 제공합니다.
+        지원사업에서 어떤 공급기업과 솔루션을 쓸지는 신청 기업이 자유롭게 정하며, 사업별 공급기업 요건은 공고문 기준으로 확인해 드립니다.</div>
+    </div>
+  </section>
 
-<div class="fair"><b>공정하게 안내합니다</b>
-NIMO는 이 사이트 운영사(주식회사 이노팩)의 제품입니다.<br>
-무료 진단과 지원사업 안내는 NIMO 도입 여부와 관계없이 똑같이 제공합니다.<br>
-지원사업에서 어떤 공급기업과 솔루션을 쓸지는 신청 기업이 자유롭게 정하며, 사업별 공급기업 요건은 공고문 기준으로 확인해 드립니다.</div>
+<section class="snap" id="hmi">
+    <div class="wrap">
+      <span class="kicker">03 — FLAGSHIP HARDWARE</span>
+      <h2 class="big">INNO-HMI</h2>
+      <p class="sub">기존 설비를 교체하지 않고 <b>부착·연동</b>하는 방식입니다.
+        하드웨어(INNO-HMI)와 소프트웨어(NIMO), 설치 연계 용역을 일체형으로 공급합니다.</p>
 
-<section class="cta"><h2>우리 공장 설비로 가능한지 먼저 확인해 보세요</h2>
-<p>보유 설비(제조사·컨트롤러 종류)와 대수만 알려주시면 연동 가능 여부와 함께 볼 만한 지원사업을 정리해 드립니다.</p>
-<a href="services.html?service=NIMO%20%EC%83%81%EB%8B%B4&title=NIMO%20%EC%84%A4%EB%B9%84%20%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81%C2%B7MES%20%EB%8F%84%EC%9E%85%20%EC%83%81%EB%8B%B4#apply">NIMO 도입 상담 신청</a><a class="ghost" href="https://inno.nimo.ai.kr/#demo" target="_blank" rel="noopener">화면 시연 보기</a><a class="ghost" href="https://inno.nimo.ai.kr/#nimo" target="_blank" rel="noopener">제품 자세히 보기</a></section>
+      <div class="g2" style="margin-bottom:30px">
+        <div class="cell">
+          <div class="ico">🖥️</div>
+          <h4>INNO-HMI 통합 시스템</h4>
+          <div class="lbl">HW + SW + 설치용역 일체형</div>
+          <p style="margin-bottom:14px">공단 요구 DATA 접점 신호를 터미널블록에 연결하여 RTU·IoT를 연계하고 상위 서버로 전송합니다.</p>
+          <table class="spec">
+            <tr><td>MAIN BOARD</td><td>m-ITX / J4125</td></tr>
+            <tr><td>OS · MEM</td><td>Windows · RAM 8G · SSD 250G</td></tr>
+            <tr><td>DISPLAY</td><td>14" 터치 모니터 1920×1080</td></tr>
+            <tr><td>COOLING</td><td>Fanless 무소음 · 저발열</td></tr>
+            <tr><td>SENSOR</td><td>내장 IoT 센서 (전류 · 진동)</td></tr>
+          </table>
+        </div>
+        <div class="cell">
+          <div class="ico">📡</div>
+          <h4>공단 연계 DATA 신호</h4>
+          <div class="lbl">FOCAS / MODBUS 실시간 수집</div>
+          <p style="margin-bottom:14px">산업용 프로토콜로 가공설비 컨트롤러와 연동하여 핵심 상태 신호를 실시간 수집합니다.</p>
+          <div class="sig">
+            <div class="r"><span class="n">1</span><div><h5>DATA1 — 정상 생산 / 불량 여부</h5><p>생산 결과의 양·불 판정 신호</p></div></div>
+            <div class="r"><span class="n">2</span><div><h5>DATA2 — 기계 가동 / 정지 상태</h5><p>설비 운전 상태 실시간 신호</p></div></div>
+            <div class="r"><span class="n">3</span><div><h5>DATA3 — 기계 고장 / 알람 상태</h5><p>알람·고장 발생 감지 신호</p></div></div>
+          </div>
+        </div>
+      </div>
 
-<footer>NIMO · 주식회사 이노팩 · <a href="https://inno.nimo.ai.kr" target="_blank" rel="noopener">inno.nimo.ai.kr</a> · 문의: acekh@outlook.kr<br>
-지원사업 선정 여부는 각 사업 운영기관의 평가로 결정되며, 솔루션 도입이 선정을 보장하지 않습니다. · <a href="privacy.html">개인정보처리방침</a></footer>
-</div></body></html>
+      <h3 style="font-size:19px;font-weight:900;margin-bottom:14px">패키지 구성</h3>
+      <div class="pkg" style="margin-bottom:30px">
+        <div class="row"><div><h5>메인 하드웨어</h5><p>INNO-HMI 산업용 HMI 본체 (m-ITX · 14" 터치 · Fanless)</p></div><div class="amt">₩1,500,000</div></div>
+        <div class="row"><div><h5>메인 소프트웨어</h5><p>NIMO Monitoring System 라이선스 (10개 기능 모듈)</p></div><div class="amt">₩3,500,000</div></div>
+        <div class="row"><div><h5>설치 · 연계 용역</h5><p>HMI 조립·현장배선 / 단위 TEST·교육 / 설비 S/W 연계 / IoT 통신 튜닝 (총 11 MD)</p></div><div class="amt">₩3,000,000</div></div>
+        <div class="row"><div><h5>INNO-HMI 통합 패키지 합계</h5><p>※ VAT 별도 · 설비 연동 환경에 따라 세부 구성 조정 가능</p></div><div class="amt">₩8,000,000</div></div>
+      </div>
+
+      <h3 style="font-size:19px;font-weight:900;margin-bottom:14px">시스템 사양</h3>
+      <table class="spec">
+        <tr><td>플랫폼</td><td>Electron 기반 Windows 데스크탑 애플리케이션</td></tr>
+        <tr><td>통신 프로토콜</td><td>FOCAS (Fanuc CNC Controller), Modbus TCP / RTU</td></tr>
+        <tr><td>AI 엔진</td><td>Google Gemini API (이상 감지 · NC 코드 진단 · EMS 처방)</td></tr>
+        <tr><td>데이터 수집 주기</td><td>설비당 5초 폴링 (재귀 스케줄링)</td></tr>
+        <tr><td>클라우드 동기화</td><td>1분 주기 — 최근 7일 가동 이력 MES 서버 전송</td></tr>
+        <tr><td>로컬 저장</td><td>JSON 파일 기반 (일별 가동 · 알람 데이터 누적)</td></tr>
+        <tr><td>원격 접속</td><td>Cloudflare Named / Quick Tunnel 지원, 자동 복원</td></tr>
+        <tr><td>엣지 API 서버</td><td>Express.js (포트 4000 / 443), RESTful 실시간 API</td></tr>
+      </table>
+    </div>
+  </section>
+<section class="snap" id="nimo">
+    <div class="wrap">
+      <span class="kicker">04 — NIMO EDGE AGENT</span>
+      <h2 class="big">NIMO <em>10개 모듈</em></h2>
+      <p class="sub">설비 모니터링부터 OEE 분석, NC 가공 예측, AI 안전 진단, 에너지·ESG, 예지 보전까지 —
+        스마트 팩토리 운영에 필요한 기능을 하나의 엣지 에이전트에 담았습니다.
+        <b>각 모듈 카드를 클릭하면 세부 기능이 펼쳐집니다.</b></p>
+
+      <!-- 설치 없이 시연 -->
+      <div class="simcall">
+        <div>
+          <h4>▶ 설치 없이 바로 시연해 보세요</h4>
+          <p>프로그램을 내려받지 않아도 <b>브라우저에서 NIMO와 NICE MES 화면을 그대로 조작</b>할 수 있습니다.
+            대시보드 · 실시간 모니터링 · OEE 조회 · NC 가공 예측 · 예지 보전 · 에너지/ESG · MES 생산관리까지
+            <b>7개 화면</b>을 메뉴로 이동하며 확인하세요.</p>
+        </div>
+        <button class="btn acid" onclick="openSim('dash')" style="flex:none">시연 화면 열기 →</button>
+      </div>
+
+      <!-- 라이브 데모 -->
+      <div class="demo">
+        <div class="demo-h">
+          <span class="t">NIMO · 실시간 모니터링 대시보드</span>
+          <span class="live"><i></i>LIVE</span>
+          <span class="clk" id="clk">--:--:--</span>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><div class="k">가동 설비</div><div class="v"><span id="kEq">11</span><small> / 13</small></div></div>
+          <div class="kpi"><div class="k">평균 가동률</div><div class="v"><span id="kRate">82</span><small>%</small></div></div>
+          <div class="kpi"><div class="k">종합 OEE</div><div class="v"><span id="kOee">74</span><small>%</small></div></div>
+          <div class="kpi"><div class="k">금일 알람</div><div class="v"><span id="kAl">3</span><small> 건</small></div></div>
+        </div>
+        <div class="demo-body">
+          <div class="dbox">
+            <div class="bt"><span style="color:var(--muted)">주축 회전수 (RPM) · 60초 롤링</span><span id="rpmVal">2,140 rpm</span></div>
+            <svg class="spark" id="spark" viewBox="0 0 600 92" preserveAspectRatio="none">
+              <polyline id="sparkLine" fill="none" stroke="#c8f31d" stroke-width="2" points=""></polyline>
+            </svg>
+            <div class="bt" style="margin-top:18px"><span style="color:var(--muted)">OEE 히트맵 · 최근 60분</span><span>45 blocks</span></div>
+            <div class="heat" id="heat"></div>
+          </div>
+          <div class="dbox">
+            <div class="bt"><span style="color:var(--muted)">설비 상태</span><span>13 EA</span></div>
+            <div id="eqList"></div>
+          </div>
+        </div>
+      </div>
+      <p class="note">↑ 실제 NIMO 화면 구성을 모사한 데모입니다. 실 데이터는 설비 연동 후 표시됩니다.</p>
+
+      <h3 style="font-size:19px;font-weight:900;margin:34px 0 14px">기능 모듈 한눈에 보기</h3>
+      <div class="mods" id="modGrid"></div>
+
+      <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        
+        <button class="btn" onclick="openSim('dash')">▶ 설치 없이 시연하기</button>
+        <a class="btn" href="#contact">도입 상담 신청</a>
+      </div>
+    </div>
+  </section>
+<section class="snap" id="mes">
+    <div class="wrap">
+      <span class="kicker">05 — NICE MES</span>
+      <h2 class="big">웹 <em>생산관리</em> 시스템</h2>
+      <p class="sub">NIMO가 현장의 설비를 본다면, <b>NICE MES</b>는 수주부터 납품까지의 흐름을 봅니다.
+        엣지에서 1분마다 올라온 가동 데이터가 MES 서버에 누적되어, 설비 가동률과 생산 실적이 한 화면에서 만납니다.
+        웹 브라우저만 있으면 어디서든 접속할 수 있습니다. <b class="mono">mes.nimo.ai.kr</b></p>
+
+      <h3 style="font-size:19px;font-weight:900;margin-bottom:14px">메뉴 구성</h3>
+      <div class="mes-grid" style="margin-bottom:30px">
+        <div class="mes-col">
+          <h4>MAIN</h4>
+          <ul>
+            <li><b>대시보드</b> — 전사 KPI 요약</li>
+            <li><b>설비 가동률 분석</b></li>
+            <li><b>실시간 모니터링</b></li>
+            <li><b>통계 및 보고서</b></li>
+          </ul>
+        </div>
+        <div class="mes-col">
+          <h4>REPORTS</h4>
+          <ul>
+            <li><b>설비</b> 통계 및 분석</li>
+            <li><b>매출</b> 통계 및 분석</li>
+            <li><b>불량</b> 통계 및 분석</li>
+            <li><b>납기</b> 통계 및 분석</li>
+            <li>설비 가동 이력 조회</li>
+          </ul>
+        </div>
+        <div class="mes-col">
+          <h4>PRODUCTION</h4>
+          <ul>
+            <li><b>수주 관리</b> (고정)</li>
+            <li>프로그램 공정</li>
+            <li>가공 공정</li>
+            <li>조립 / 제작 공정</li>
+            <li><b>납품 관리</b> (고정)</li>
+            <li>불량 등록 및 관리</li>
+          </ul>
+        </div>
+        <div class="mes-col">
+          <h4>PURCHASE</h4>
+          <ul>
+            <li><b>구매 / 발주 관리</b></li>
+            <li><b>재고 현황</b></li>
+            <li>입고 처리</li>
+          </ul>
+        </div>
+        <div class="mes-col">
+          <h4>MASTER</h4>
+          <ul>
+            <li>계정 설정 · 워크플로우</li>
+            <li>거래처 마스터</li>
+            <li>기준정보(품목) 관리</li>
+            <li>불량유형 관리</li>
+            <li>장치(HMI) 등록 관리</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="font-size:19px;font-weight:900;margin-bottom:6px">업체별 공정 설계</h3>
+      <p class="sub" style="margin:6px 0 18px">회사마다 공정이 다릅니다. 중간 공정 이름을 직접 정하거나, 아래 템플릿 중에서 고를 수 있습니다.
+        <b>수주 관리</b>와 <b>납품 관리</b>는 양끝에 고정되고 그 사이만 바뀝니다.</p>
+
+      <div style="margin-bottom:16px">
+        <div class="lbl mono" style="color:var(--acid);font-size:11.5px;letter-spacing:1.5px;margin-bottom:8px">TPL_STANDARD_3 — 표준형</div>
+        <div class="flow" style="margin-bottom:16px">
+          <div class="st"><div class="n">FIXED</div><h5>수주 관리</h5><p>주문 접수 · 납기 등록</p></div>
+          <div class="st"><div class="n">STEP</div><h5>가공 공정</h5><p>작업 실적 입력</p></div>
+          <div class="st"><div class="n">STEP</div><h5>조립 / 제작</h5><p>ASSY 진행 관리</p></div>
+          <div class="st"><div class="n">STEP</div><h5>포장 / 출하</h5><p>출하 준비</p></div>
+          <div class="st"><div class="n">FIXED</div><h5>납품 관리</h5><p>납품 확정 · 매출</p></div>
+        </div>
+        <div class="lbl mono" style="color:var(--acid);font-size:11.5px;letter-spacing:1.5px;margin-bottom:8px">TPL_ADVANCED_5 — 심화형 (설계·CAM 내재화 업체)</div>
+        <div class="flow" style="margin-bottom:16px">
+          <div class="st"><div class="n">01</div><h5>설계 공정</h5><p>구조 설계</p></div>
+          <div class="st"><div class="n">02</div><h5>프로그램 공정</h5><p>CAM · NC 데이터</p></div>
+          <div class="st"><div class="n">03</div><h5>가공 공정</h5><p>절삭 가공</p></div>
+          <div class="st"><div class="n">04</div><h5>조립 / 제작</h5><p>ASSY</p></div>
+          <div class="st"><div class="n">05</div><h5>포장 / 납품</h5><p>출하</p></div>
+        </div>
+        <div class="lbl mono" style="color:var(--acid);font-size:11.5px;letter-spacing:1.5px;margin-bottom:8px">TPL_MEASURE_QUALITY — 품질강화형</div>
+        <div class="flow" style="margin-bottom:30px">
+          <div class="st"><div class="n">01</div><h5>가공 공정</h5><p>절삭 가공</p></div>
+          <div class="st"><div class="n">02</div><h5>치수 측정 / 검사</h5><p>전수 · 샘플 검사</p></div>
+          <div class="st"><div class="n">03</div><h5>포장 / 납품</h5><p>성적서 동봉</p></div>
+        </div>
+      </div>
+
+      <h3 style="font-size:19px;font-weight:900;margin-bottom:14px">MES가 자동으로 계산하는 지표</h3>
+      <div class="g4" style="margin-bottom:30px">
+        <div class="cell"><div class="ico">✅</div><h4>종합 수율 (Yield)</h4><div class="lbl">총 불량 ÷ 생산 수량</div><p>공정 전체에서 양품이 차지하는 비율을 집계합니다.</p></div>
+        <div class="cell"><div class="ico">🚚</div><h4>종합 납기 준수율</h4><div class="lbl">On-Time Delivery</div><p>약속 납기 대비 실제 납품일을 비교해 준수율을 산출합니다.</p></div>
+        <div class="cell"><div class="ico">⚡</div><h4>평균 설비 가동률</h4><div class="lbl">NIMO 연동 자동 집계</div><p>엣지에서 올라온 가동 데이터로 사람 입력 없이 계산됩니다.</p></div>
+        <div class="cell"><div class="ico">💰</div><h4>누적 · 예상 잔여 매출</h4><div class="lbl">수주 기반 매출 추정</div><p>확정 매출과 진행 중 수주의 잔여 매출을 나눠 보여줍니다.</p></div>
+        <div class="cell"><div class="ico">⏱️</div><h4>평균 물류 소요</h4><div class="lbl">Lead Time</div><p>수주부터 납품 완료까지 걸린 평균 일수를 추적합니다.</p></div>
+        <div class="cell"><div class="ico">🔌</div><h4>최근 7일 전력 소모량</h4><div class="lbl">kWh</div><p>설비별 전력 사용량을 누적해 원가·ESG 자료로 활용합니다.</p></div>
+        <div class="cell"><div class="ico">⚠️</div><h4>불량 유형별 집계</h4><div class="lbl">Defect Pareto</div><p>등록한 불량유형 코드 기준으로 발생 빈도를 순위화합니다.</p></div>
+        <div class="cell"><div class="ico">📦</div><h4>재고 · 발주 현황</h4><div class="lbl">Inventory</div><p>품목별 재고와 구매 발주 진행 상태를 함께 관리합니다.</p></div>
+      </div>
+
+      <h3 style="font-size:19px;font-weight:900;margin-bottom:14px">연동 구조</h3>
+      <table class="spec">
+        <tr><td>서비스 주소</td><td>mes.nimo.ai.kr — 웹 브라우저 접속 (설치 불필요)</td></tr>
+        <tr><td>계정 체계</td><td>NIMOHUB ID 기반 로그인 · 업체 단위 회원가입(관리자 승인) · 권한별 메뉴 노출</td></tr>
+        <tr><td>장치 연동</td><td>INNO-HMI 하드웨어 ID(HWID) 등록 → 장치별 데이터 전송 ON/OFF 제어</td></tr>
+        <tr><td>설비 동기화</td><td>NIMO에서 설비 추가·수정 시 MES 설비 마스터로 자동 동기화</td></tr>
+        <tr><td>가동률 동기화</td><td>1분 주기 — 최근 7일 가동·비가동·알람 이력을 MES로 전송</td></tr>
+        <tr><td>IoT 수집 API</td><td>RESTful — 장치 등록 · 실시간 수신 · 설비 동기화 · 가동률 동기화</td></tr>
+        <tr><td>기술 스택</td><td>Next.js · Prisma ORM · NextAuth 인증</td></tr>
+      </table>
+    </div>
+  </section>
+<section class="snap" id="arch">
+    <div class="wrap">
+      <span class="kicker">06 — ARCHITECTURE</span>
+      <h2 class="big">데이터 흐름 <em>아키텍처</em></h2>
+      <p class="sub">설비 컨트롤러부터 관리자 화면까지 — 끊김 없는 데이터 파이프라인.</p>
+      <div class="arch" style="margin-bottom:30px">
+        <div class="a"><div class="ic">⚙️</div><h5>가공 설비</h5><p>CNC · 방전 · 연삭</p><span class="mono">FOCAS / Modbus</span></div>
+        <div class="a"><div class="ic">🖥️</div><h5>INNO-HMI 엣지</h5><p>NIMO 수집·분석·AI</p><span class="mono">5초 폴링</span></div>
+        <div class="a"><div class="ic">☁️</div><h5>Cloudflare Tunnel</h5><p>암호화 원격 채널</p><span class="mono">자동 복원</span></div>
+        <div class="a"><div class="ic">🗄️</div><h5>NICE MES 서버</h5><p>이력 누적 · 생산관리</p><span class="mono">mes.nimo.ai.kr</span></div>
+        <div class="a"><div class="ic">📱</div><h5>관리자</h5><p>PC · 모바일</p><span class="mono">대시보드 · 리포트</span></div>
+      </div>
+
+      <h3 style="font-size:19px;font-weight:900;margin-bottom:14px">도입하면 달라지는 것</h3>
+      <div class="g4">
+        <div class="cell"><div class="ico">👁️</div><h4>가동 현황 가시화</h4><p>흩어진 설비 상태를 한 화면에서 추적. 가동·정지·알람을 실시간으로 파악합니다.</p></div>
+        <div class="cell"><div class="ico">📉</div><h4>손실 원인 조기 발견</h4><p>비가동·알람·셋팅 손실을 시간 단위로 분석해 숨은 낭비를 찾아냅니다.</p></div>
+        <div class="cell"><div class="ico">🔧</div><h4>고장 전 예지 보전</h4><p>알람 패턴과 Weibull 신뢰성 분석으로 고장을 사전에 대비합니다.</p></div>
+        <div class="cell"><div class="ico">🌱</div><h4>에너지 · ESG 대응</h4><p>전력 소비와 탄소 배출량을 정량화해 ESG 보고와 비용 절감에 활용합니다.</p></div>
+      </div>
+    </div>
+  </section>
+<section class="snap" id="process">
+    <div class="wrap">
+      <span class="kicker">08 — HOW TO ADOPT</span>
+      <h2 class="big">도입 <em>프로세스</em></h2>
+      <p class="sub">상담부터 운영·사후관리까지 단계별로 안내해 드립니다.
+        기존 설비를 교체하지 않고 INNO-HMI를 부착·연동하는 방식이라 <b>빠르게 시작할 수 있습니다.</b></p>
+      <div class="steps">
+        <div class="step"><span class="idx">01</span><div><h4>상담 · 견적</h4><div class="tag">전화 · 이메일 · 방문 상담</div></div><p>보유 설비와 컨트롤러 종류를 확인하고 도입 범위·견적을 협의합니다.</p></div>
+        <div class="step"><span class="idx">02</span><div><h4>현장 실사</h4><div class="tag">FOCAS / Modbus / 접점 확인</div></div><p>설비 통신 포트, 접점 신호, 네트워크 환경을 점검해 연동 방식을 설계합니다.</p></div>
+        <div class="step"><span class="idx">03</span><div><h4>HMI 조립 · 현장 배선</h4><div class="tag">하드웨어 설치</div></div><p>INNO-HMI 본체를 조립하고 설비 터미널블록에 DATA 신호를 배선합니다.</p></div>
+        <div class="step"><span class="idx">04</span><div><h4>설비 S/W 연계 · 통신 튜닝</h4><div class="tag">소프트웨어 연계</div></div><p>NIMO를 설비 컨트롤러와 연동하고 IoT 통신을 안정화합니다.</p></div>
+        <div class="step"><span class="idx">05</span><div><h4>MES 계정 개설 · 공정 설계</h4><div class="tag">워크플로우 설정</div></div><p>업체 계정을 만들고 회사에 맞는 공정 단계와 기준정보(품목·거래처·불량유형)를 등록합니다.</p></div>
+        <div class="step"><span class="idx">06</span><div><h4>단위 테스트 · 시운전 · 교육</h4><div class="tag">검증 · 교육 (총 11 MD)</div></div><p>수집 데이터 정확도를 검증하고 운영자 대상 사용 교육을 진행합니다.</p></div>
+        <div class="step"><span class="idx">07</span><div><h4>운영 · 사후관리</h4><div class="tag">지속 지원</div></div><p>실시간 모니터링을 시작하고 정기 업데이트와 기술 지원을 제공합니다.</p></div>
+      </div>
+    </div>
+  </section>
+<section class="snap" id="faq">
+    <div class="wrap">
+      <span class="kicker">09 — FAQ</span>
+      <h2 class="big">자주 묻는 <em>질문</em></h2>
+      <p class="sub">도입 전 자주 문의주시는 내용을 정리했습니다.</p>
+      <div class="faq" id="faqList"></div>
+    </div>
+  </section>
+
+  <section class="snap" id="contact">
+    <div class="wrap">
+      <span class="kicker">CONTACT</span>
+      <h2 class="big">우리 공장 설비로<br><em>가능한지</em> 먼저 확인</h2>
+      <p class="sub">보유 설비(제조사·컨트롤러 종류)와 대수만 알려주시면 연동 가능 여부와 함께 볼 만한 지원사업을 정리해 드립니다.</p>
+      <div class="cta">
+        <a class="btn acid" href="services.html?service=NIMO%20%EC%83%81%EB%8B%B4&title=NIMO%20%EC%84%A4%EB%B9%84%20%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81%C2%B7MES%20%EB%8F%84%EC%9E%85%20%EC%83%81%EB%8B%B4#apply">NIMO 도입 상담 신청</a>
+        <button class="btn" onclick="openSim('dash')">▶ 설치 없이 시연하기</button>
+        <a class="btn" href="services.html#apply">지원사업 무료 진단</a>
+      </div>
+    </div>
+  </section>
+</main>
+<div class="wrap"><footer><div class="frow">
+  <div>NIMO · 주식회사 이노팩 · 문의 acekh@outlook.kr</div>
+  <div>지원사업 선정 여부는 운영기관의 평가로 결정되며 솔루션 도입이 선정을 보장하지 않습니다 · <a href="privacy.html">개인정보처리방침</a></div>
+</div></footer></div>
+
+<div class="sim" id="sim">
+  <div class="sim-top">
+    <span class="dd r"></span><span class="dd y"></span><span class="dd g"></span>
+    <span class="tt">NIMO Monitoring System <span style="color:var(--muted);font-weight:400">· NICE MES</span></span>
+    <span class="badge">DEMO</span>
+    <button class="simMenu" onclick="document.getElementById('simNav').classList.toggle('open')">☰ 메뉴</button>
+    <span class="clk" id="simClk">--:--:--</span>
+    <button class="x" onclick="closeSim()">✕</button>
+  </div>
+  <div class="sim-body">
+    <nav class="sim-nav" id="simNav">
+      <div class="grp">NIMO EDGE</div>
+      <button data-s="dash">메인 대시보드</button>
+      <button data-s="mon">실시간 모니터링</button>
+      <button data-s="oee">설비 기간별 조회 (OEE)</button>
+      <button data-s="nc">NC 가공 예측</button>
+      <button data-s="pm">예지 보전 (PM)</button>
+      <button data-s="esg">에너지 &amp; ESG</button>
+      <div class="grp">NICE MES</div>
+      <button data-s="mes">생산관리 대시보드</button>
+    </nav>
+    <div class="sim-main" id="simMain"></div>
+  </div>
+</div>
+
+<button class="totop" id="totop">↑</button>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <button class="mclose" id="modalClose">✕</button>
+    <div class="m-in" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+/* ===== 오버레이 메뉴 ===== */
+const overlay=document.getElementById('overlay');
+document.getElementById('menuOpen').onclick=()=>overlay.classList.add('open');
+document.getElementById('menuClose').onclick=()=>overlay.classList.remove('open');
+overlay.querySelectorAll('a').forEach(a=>a.onclick=()=>overlay.classList.remove('open'));
+
+/* ===== 카운터 ===== */
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  e.target.querySelectorAll('[data-count]').forEach(runCount);io.unobserve(e.target);}});},{threshold:.2});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+function runCount(el){
+  if(el.dataset.done)return;el.dataset.done='1';
+  const target=+el.dataset.count,suf=el.dataset.suffix||'';let cur=0;
+  const step=Math.max(1,Math.ceil(target/32));
+  const t=setInterval(()=>{cur+=step;if(cur>=target){cur=target;clearInterval(t);}el.textContent=cur+suf;},30);
+}
+
+/* ===== 맨 위로 ===== */
+const totop=document.getElementById('totop');
+window.addEventListener('scroll',()=>totop.classList.toggle('show',window.scrollY>600));
+totop.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+
+/* ===== NIMO 모듈 ===== */
+const MODULES=[
+ {n:'01',icon:'📊',name:'메인 대시보드',tag:'한눈에 보는 공장 현황',
+  desc:'설비 상태 요약, 7일 통계 차트, 실시간 알람, Top 5 분석을 한 화면에 집약했습니다.',
+  sections:[
+   {h:'설비 상태 요약',items:['설비 총 개수 표시','온라인 / 오프라인 설비 수 구분','운전 상태별 분류 — Run · Idle · Manual · Alarm','업체명·대표자·연락처·주소·NIMO ID 자동 표시']},
+   {h:'실시간 알람 리스트',items:['오늘 발생 알람 시간순 정렬','5건씩 페이지 분할 표시','발생 시간·설비명·알람 번호 및 메시지 표시','페이지 네비게이션 (이전 / 다음)','‘전체 보기’ 클릭 시 조회 탭으로 자동 이동']},
+   {h:'7일 통계 차트',items:['가동시간 평균 — 라인 차트','비가동시간 평균 — 바 차트','알람시간 — 바 차트','알람횟수 — 라인 차트']},
+   {h:'Top 5 통계',items:['최근 7일 알람 발생 수 기준 Top 알람 설비','가장 자주 발생하는 알람 종류','수동 운전 시간 상위 설비','유휴 시간 상위 설비']}
+  ]},
+ {n:'02',icon:'📡',name:'실시간 모니터링',tag:'설비별 실시간 추적',
+  desc:'RPM·Feed 실시간 차트, OEE 히트맵, 상태 배지, 상세 모달로 설비 상태를 실시간으로 추적합니다.',
+  sections:[
+   {h:'설비 카드 그리드',items:['8대씩 페이지 표시 (4×2 배치)','10초 자동 순환 재생 기능','수동 이전 / 다음 버튼 제공']},
+   {h:'카드 표시 항목',items:['설비명 + 상태 배지 (녹색 / 빨강 / 노랑 / 회색)','오늘 가동·비가동 시간·예상 전력 (kWh)','주축 회전수(RPM)·이송 속도(Feed) 실시간 라인 차트 (60초 롤링)','OEE 히트맵 — 최근 60분 (60블록)','24시간 로드 분석 차트 · 알람 로그']},
+   {h:'설비 상세 모달',items:['카드 클릭 시 팝업 표시','탭 구성 — 개요 / 상세 분석 / 알람 히스토리','24시간 가동 분석 차트 · 월별 분석 차트','설비 간 이동 버튼 (이전 / 다음)']}
+  ]},
+ {n:'03',icon:'📈',name:'설비 가동률 분석',tag:'가동률·전력 실시간 분석',
+  desc:'설비별 가동률 프로그레스, 전력·요금, 축 좌표, 세션 OEE 히트맵을 상세하게 분석합니다.',
+  sections:[
+   {h:'카드 네비게이션',items:['2대씩 페이지 표시','10초 자동 순환 / 일시정지·재생 버튼','수동 이동 버튼 제공','페이지 인디케이터 (현재 / 전체)']},
+   {h:'설비 상세 카드',items:['가동률 프로그레스 바 (0~100%, 회색→주황→노랑→녹색)','설비명 / 타입 배지 / 가동률(%)','가동·비가동 시간 / 전력(kWh) / 예상 전기요금(원)','운전 모드 / 실행 중 프로그램명 표시','X·Y·Z 축 좌표 실시간 표시 (FOCAS 설비)','주축·이송 실시간 차트 (이중 Y축)','세션 OEE 히트맵 (120블록, 60분) · 24시간 로드 분석']}
+  ]},
+ {n:'04',icon:'🎯',name:'설비 기간별 조회 (OEE)',tag:'표준 OEE 지표 산출',
+  desc:'기간을 지정해 OEE·가용률·성능률·품질률을 도넛 차트로 산출하고 손실 시간을 분석합니다.',
+  sections:[
+   {h:'조회 조건',items:['시작 날짜 / 종료 날짜 선택 (달력 입력)','설비 선택 — 전체 또는 개별 설비','조회 버튼 클릭 시 데이터 재계산']},
+   {h:'OEE 지표 (도넛 차트 4개)',items:['Availability (가용성) = 실가동 / 계획가동 시간','Performance (성능) = 기준 80% 기반 산출','Quality (품질) = 기준 98% 기반 산출','OEE 종합 효율 = Availability × Performance × Quality']},
+   {h:'시간 분석 (누적 프로그레스 바)',items:['전체 시간 (All Day)','부하 시간 (Planned Production Time)','실제 가동 시간 (Net Run Time)','비가동 시간 (Non-run Time)','알람 시간 비율 · 셋팅 시간 비율']},
+   {h:'전력 소비 · 히트맵',items:['누적 가동시간 × 설비 전력 소비량 (kWh)','히트맵 — X축 날짜 / Y축 24시간 셀 (녹·노·회)','월간 OEE 평균 표시']}
+  ]},
+ {n:'05',icon:'🧊',name:'NC 가공 예측 (3D Viewer)',tag:'G-Code 분석 · 3D 시뮬레이션',
+  desc:'G-Code를 분석해 가공 시간·공구·범위를 예측하고 2D/3D 가공 경로를 시각화합니다.',
+  sections:[
+   {h:'NC 파일 업로드',items:['드래그 앤 드롭 / 파일 선택 버튼','지원 형식 — .nc / .txt / .tap / .gcode','설비별 독립 관리 (설비당 1개 파일 저장)']},
+   {h:'G-Code 분석',items:['총 예상 가공 시간 계산 (HH:MM:SS)','사용 공구 목록 추출 (ENDMILL · DRILL · FACE · TAP)','XY 범위 / Z 깊이 자동 계산','가공 특성 자동 판정 — 직선 / 원호 / 자유곡면']},
+   {h:'안전 주의사항 자동 검출',items:['시작 Z값 음수 → 간섭 및 공구 충돌 주의','Z < -30mm → 진동 및 칩 배출 주의','Z < -80mm → 공구 파손 위험','가공 범위 > 300mm → 스트로크 구역 이탈 주의']},
+   {h:'2D / 3D 시각화',items:['2D 가공 경로 시뮬레이션 — XY 평면 도면(5단계 색상)','현재 공구 위치 실시간 이동 · 진행률 · 잔여 시간','3D 뷰어 (Three.js) — 가공 경로 시각화','마우스 드래그 회전 / 스크롤 줌 · XYZ 축 표시']}
+  ]},
+ {n:'06',icon:'🛡️',name:'NC 코드 안전 분석 (AI)',tag:'정규식 + AI 2차 진단',
+  desc:'정규식 1차 검사와 Gemini AI 2차 정밀 진단으로 NC 코드의 위험 요소를 사전에 찾아냅니다.',
+  sections:[
+   {h:'NC 파일 업로드',items:['드래그 앤 드롭 / 파일 선택 버튼','지원 형식 — .nc / .txt / .tap / .gcode']},
+   {h:'1차 정규식 검사',items:['스핀들 오프(M05) 상태에서 절삭 이송 감지','G00 급속 이동 + Z축 음수 하강 조합 감지','라인 번호 포함 상세 경고 메시지 출력','공구 길이 보정(G43) 누락 검사','M-코드 안전성 검사 (M30 / M02 처리)']},
+   {h:'AI 2차 정밀 분석 (Google Gemini)',items:['25년 경력 FANUC 엔지니어 관점 정밀 진단','Markdown 형식 상세 리포트 생성']},
+   {h:'결과 리포트',items:['종합 안전도 배지 — 매우 위험 / 경고 / 안전','검출된 위험 요소 목록','수정 가이드 및 대체 코드 제안']}
+  ]},
+ {n:'07',icon:'🌱',name:'에너지 & ESG',tag:'전력·탄소 정량 관리',
+  desc:'전력 소비와 탄소 배출량을 집계하고 AI EMS 처방으로 절감 전략을 제안합니다.',
+  sections:[
+   {h:'최근 30일 에너지 통계',items:['누적 전력 사용량 (kWh)','예상 전기 요금 (원, 130원/kWh 기준)','ESG 탄소 배출량 (kg CO₂e, 0.466 kg/kWh 기준)']},
+   {h:'7일 설비별 전력 차트',items:['날짜별 설비 누적 스택 바 차트','설비별 색상 구분 (최대 6색 팔레트)']},
+   {h:'AI EMS 처방 (Google Gemini)',items:['주간 / 심야 피크 부하 분산 스케줄링 제안','탄소 배출 절감 ESG 전략 제안','예상 절감액 수치 포함 Markdown 리포트 생성']}
+  ]},
+ {n:'08',icon:'🔧',name:'예지 보전 (PM)',tag:'고장 예측 · 수명 분석',
+  desc:'알람 패턴 AI 진단, UBM 게이지, Weibull 신뢰성 분석으로 고장을 사전에 대비합니다.',
+  sections:[
+   {h:'설비별 AI 진단',items:['알람 패턴 분석 — 주축 과부하 / 온도 상승 / 윤활 계통','주축 알람 Top 3 순위 (최근 90일 기준)','조건별 자동 진단 메시지 출력']},
+   {h:'UBM 게이지 (User-Based Maintenance)',items:['마지막 정비일 기준 누적 진행률 표시','0~80% 정상(녹) / 80~95% 주의(노) / 95~100% 위험(빨)','점검 완료 초기화 버튼 (UBM 누적 시간 리셋)']},
+   {h:'유지보수 세부 탭 (5개)',items:['정기 점검 — 2,000시간 기준 (기구부 종합 점검)','공구 교체 — 200시간 기준 (평균 공구 한계치)','절삭유 관리 — 72시간 기준 (수용성 절삭유 산화 한계)','신뢰성 분석 — Weibull 분포 (형상모수 β · 향후 50H 고장 확률)','수명 예측 (RUL) — 원형 게이지로 잔여 안전 운영 시간 표시']}
+  ]},
+ {n:'09',icon:'⚙️',name:'설비 관리',tag:'설비 등록 · 연결 관리',
+  desc:'설비 추가·수정·삭제, 연결 테스트, 데이터 전송 ON/OFF를 직접 관리합니다.',
+  sections:[
+   {h:'설비 추가 / 수정',items:['설비 코드 · 설비명 · 타입 (MODBUS / FANUC 등)','IP 주소 · Port · Unit ID','목표 가동시간 · 전력 소비량 · 이미지 URL','연결 테스트 기능 (성공 / 실패 즉시 피드백)','저장 시 MES 서버 자동 동기화']},
+   {h:'설비 목록 관리',items:['설비 카드별 연결 테스트 버튼','데이터 전송 ON / OFF 토글 스위치 (즉시 반영)','설비 수정 버튼 (모달 재오픈)','설비 삭제 버튼 (로컬 설정에서만 삭제, MES 유지)']}
+  ]},
+ {n:'10',icon:'🔐',name:'시스템 설정 / 계정',tag:'계정 · API · 라이선스',
+  desc:'MES 계정 관리, Gemini API 설정, 하드웨어 ID·라이선스 상태를 관리합니다.',
+  sections:[
+   {h:'MES 계정 관리',items:['로그인 — 아이디 + 비밀번호 입력 → 장치 등록','회원 가입 신청 — 업체명 / 아이디 / 비밀번호 (관리자 승인)','로그아웃 — 장치 연동 해제 (에이전트 수집 중단)']},
+   {h:'API 설정',items:['Google Gemini API Key 입력 및 저장','AI 기능 표시 / 숨김 토글 (사용자 설정)']},
+   {h:'장치 정보',items:['하드웨어 ID (HWID) 표시 — SHA-256 기반 16자','앱 버전 표시','라이선스 상태 배지 (활성화 / 미인증)']}
+  ]}
+];
+const modGrid=document.getElementById('modGrid');
+MODULES.forEach((m,i)=>{
+  const el=document.createElement('div');el.className='mod';
+  el.innerHTML=`<span class="no">MODULE ${m.n}</span><div class="ic">${m.icon}</div>
+    <h4>${m.name}</h4><div class="tg">${m.tag}</div><div class="more">세부 기능 보기 →</div>`;
+  el.onclick=()=>openModule(i);
+  modGrid.appendChild(el);
+});
+const modal=document.getElementById('modal'),modalBody=document.getElementById('modalBody');
+function openModule(i){
+  const m=MODULES[i];
+  modalBody.innerHTML=`<div class="m-head"><div class="ic">${m.icon}</div><div>
+      <span class="no">MODULE ${m.n}</span><h3>${m.name}</h3><p>${m.desc}</p></div></div>
+    ${m.sections.map(s=>`<div class="m-sec"><h4>${s.h}</h4>
+      <ul>${s.items.map(it=>`<li>${it}</li>`).join('')}</ul></div>`).join('')}`;
+  modal.classList.add('open');document.body.style.overflow='hidden';
+}
+function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+document.getElementById('modalClose').onclick=closeModal;
+modal.onclick=e=>{if(e.target===modal)closeModal();};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ===== 라이브 데모 ===== */
+(function(){
+  const clk=document.getElementById('clk');
+  setInterval(()=>{const d=new Date();clk.textContent=d.toTimeString().slice(0,8);},1000);
+
+  // RPM 스파크라인
+  const line=document.getElementById('sparkLine'),rpmVal=document.getElementById('rpmVal');
+  let pts=Array.from({length:60},()=>1900+Math.random()*500);
+  function drawSpark(){
+    const max=2600,min=1600;
+    const s=pts.map((v,i)=>`${(i/(pts.length-1)*600).toFixed(1)},${(92-((v-min)/(max-min))*84).toFixed(1)}`).join(' ');
+    line.setAttribute('points',s);
+    rpmVal.textContent=Math.round(pts[pts.length-1]).toLocaleString('en-US')+' rpm';
+  }
+  drawSpark();
+  setInterval(()=>{pts.shift();
+    let last=pts[pts.length-1]+(Math.random()-.5)*260;
+    pts.push(Math.max(1650,Math.min(2550,last)));drawSpark();},900);
+
+  // KPI 미세 변동
+  const kEq=document.getElementById('kEq'),kRate=document.getElementById('kRate'),
+        kOee=document.getElementById('kOee'),kAl=document.getElementById('kAl');
+  setInterval(()=>{
+    kEq.textContent=10+Math.floor(Math.random()*4);
+    kRate.textContent=78+Math.floor(Math.random()*9);
+    kOee.textContent=70+Math.floor(Math.random()*9);
+  },3200);
+
+  // 설비 상태
+  const EQ=['WIRE-EDM-AQ750S','BOS630S 연삭기','EZ-43CS 슈퍼드릴','EZ-53CS 슈퍼드릴','EZ-64CS 슈퍼드릴',
+            'EZ-85CS 슈퍼드릴','EZ-106CS 슈퍼드릴','MY535S 정밀드릴','MY650S 정밀드릴','MY960S 정밀드릴',
+            'SEDM-430NCS','SEDM-640NCS','INNO-HMI 테스트기'];
+  const STA=[{t:'가동',c:'#22c55e',bg:'rgba(34,197,94,.14)'},{t:'유휴',c:'#f5b13d',bg:'rgba(245,177,61,.14)'},
+             {t:'알람',c:'#ef4444',bg:'rgba(239,68,68,.14)'},{t:'정지',c:'#6f7d8f',bg:'rgba(111,125,143,.16)'}];
+  const eqList=document.getElementById('eqList');
+  let st=EQ.map(()=>Math.random()<.72?0:(Math.random()<.6?1:(Math.random()<.5?2:3)));
+  function renderEq(){
+    eqList.innerHTML=EQ.map((n,i)=>{const s=STA[st[i]];
+      return `<div class="eq-row"><span class="eq-dot" style="background:${s.c}"></span>
+        <span class="eq-name">${n}</span>
+        <span class="eq-st" style="color:${s.c};background:${s.bg}">${s.t}</span></div>`;}).join('');
+  }
+  renderEq();
+  setInterval(()=>{const i=Math.floor(Math.random()*EQ.length);
+    st[i]=Math.random()<.68?0:(Math.random()<.6?1:(Math.random()<.5?2:3));renderEq();},2300);
+
+  // 히트맵
+  const heat=document.getElementById('heat');
+  const HC=['rgba(111,125,143,.25)','rgba(245,177,61,.55)','rgba(34,197,94,.45)','rgba(34,197,94,.85)'];
+  const cells=[];
+  for(let i=0;i<45;i++){const d=document.createElement('div');d.className='hc';
+    d.style.background=HC[Math.random()<.65?(Math.random()<.5?2:3):(Math.random()<.6?1:0)];
+    heat.appendChild(d);cells.push(d);}
+  setInterval(()=>{for(let k=0;k<4;k++){const c=cells[Math.floor(Math.random()*cells.length)];
+    c.style.background=HC[Math.random()<.65?(Math.random()<.5?2:3):(Math.random()<.6?1:0)];}},1100);
+})();
+
+/* ===== FAQ ===== */
+const FAQ=[
+ {q:'기존 설비를 교체해야 하나요?',a:'아니요. INNO-HMI를 기존 설비에 부착하고 컨트롤러와 연동하는 방식이라 설비 교체 없이 도입할 수 있습니다. FANUC FOCAS, Modbus TCP/RTU 등 산업용 프로토콜을 지원합니다.'},
+ {q:'어떤 설비에 연결할 수 있나요?',a:'FANUC FOCAS 컨트롤러와 Modbus(TCP/RTU)를 지원하는 설비에 연결할 수 있습니다. CNC 가공기, 와이어컷팅, 연삭기, 미세홀·정밀 슈퍼드릴, 세혈홀 가공기 등이 대표적입니다. 현장 실사를 통해 연동 가능 여부를 확인해 드립니다.'},
+ {q:'NIMO와 NICE MES는 어떻게 다른가요?',a:'NIMO는 공장 안 INNO-HMI에서 동작하는 엣지 에이전트로, 설비에서 직접 데이터를 수집하고 모니터링·AI 진단을 수행합니다. NICE MES는 웹 브라우저로 접속하는 생산관리 시스템으로, 수주부터 가공·조립·납품까지의 흐름과 매출·불량·납기 통계를 관리합니다. NIMO가 모은 가동 데이터가 MES로 올라가 설비 가동률이 자동으로 채워집니다.'},
+ {q:'MES만 따로 쓸 수도 있나요?',a:'가능합니다. 설비 연동 없이 웹 브라우저로 접속해 수주·공정·납품·재고 관리를 사용할 수 있습니다. 다만 설비 가동률과 전력 데이터는 INNO-HMI를 연결해야 자동으로 채워집니다.'},
+ {q:'우리 회사 공정에 맞게 바꿀 수 있나요?',a:'네. 수주 관리와 납품 관리는 양끝에 고정되고, 그 사이 공정 단계는 업체가 직접 이름을 정할 수 있습니다. 표준형(가공→조립→출하), 심화형(설계→프로그램→가공→조립→포장), 품질강화형(가공→측정·검사→포장) 템플릿 중에서 고를 수도 있습니다.'},
+ {q:'인터넷이 없는 공장에서도 사용할 수 있나요?',a:'데이터 수집·분석은 INNO-HMI 엣지에서 로컬로 동작하며, 가동·알람 데이터는 JSON 파일로 로컬에 저장됩니다. 원격 조회나 MES 서버 동기화가 필요할 때는 Cloudflare 터널을 통한 네트워크 연결이 필요합니다.'},
+ {q:'수집한 데이터는 어디에 저장되나요?',a:'1차로 INNO-HMI 내부에 일별 JSON 파일로 누적 저장되고, 1분 주기로 최근 7일 가동 이력이 MES 서버(mes.nimo.ai.kr)에 동기화됩니다.'},
+ {q:'AI 기능은 어떻게 동작하나요?',a:'NC 코드 안전 진단, 에너지 EMS 처방 등 AI 기능은 Google Gemini API를 사용합니다. 설정 화면에서 API Key를 입력해 활성화하며, AI 기능 표시/숨김도 토글로 조절할 수 있습니다.'},
+ {q:'설치 기간은 얼마나 걸리나요?',a:'INNO-HMI 패키지의 설치·연계 용역은 HMI 조립·현장 배선, 설비 S/W 연계, IoT 통신 튜닝, 단위 테스트·교육을 포함해 총 11 MD를 기준으로 합니다. 설비 수량과 현장 환경에 따라 달라질 수 있습니다.'},
+ {q:'도입 비용은 어떻게 되나요?',a:'INNO-HMI 통합 패키지는 하드웨어 150만 원, 소프트웨어 350만 원, 설치·연계 용역 300만 원으로 총 800만 원(VAT 별도)입니다. SMART 정밀 가공 설비는 설비 라인업에서 모델별 가격을 확인할 수 있습니다.'}
+];
+const faqList=document.getElementById('faqList');
+FAQ.forEach(f=>{
+  const d=document.createElement('details');
+  d.innerHTML=`<summary>${f.q}</summary><div class="a">${f.a}</div>`;
+  faqList.appendChild(d);
+});
+
+/* ==================================================================
+   시연 (LIVE DEMO) — 설치 없이 브라우저에서 NIMO / NICE MES 조작
+   ================================================================== */
+const SIM_EQ=[
+  {n:'WIRE-EDM-AQ750S',t:'MODBUS'},{n:'BOS630S 연삭기',t:'FANUC'},
+  {n:'EZ-43CS 슈퍼드릴',t:'MODBUS'},{n:'EZ-53CS 슈퍼드릴',t:'MODBUS'},
+  {n:'EZ-64CS 슈퍼드릴',t:'FANUC'},{n:'EZ-85CS 슈퍼드릴',t:'MODBUS'},
+  {n:'EZ-106CS 슈퍼드릴',t:'FANUC'},{n:'MY535S 정밀드릴',t:'MODBUS'},
+  {n:'MY650S 정밀드릴',t:'FANUC'},{n:'MY960S 정밀드릴',t:'MODBUS'},
+  {n:'SEDM-430NCS',t:'MODBUS'},{n:'SEDM-640NCS',t:'MODBUS'},
+  {n:'INNO-HMI 테스트기',t:'FANUC'}];
+const SIM_ST=[['가동','p-run','#22c55e'],['유휴','p-idle','#f5b13d'],['알람','p-alarm','#ef4444'],['정지','p-stop','#8a94a4']];
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const ri=(a,b)=>Math.floor(rnd(a,b+1));
+const pad2=n=>String(n).padStart(2,'0');
+const num=n=>n.toLocaleString('ko-KR');
+let simState=SIM_EQ.map(()=>Math.random()<.72?0:(Math.random()<.6?1:(Math.random()<.5?2:3)));
+let simTimers=[];
+function clearSimTimers(){simTimers.forEach(t=>clearInterval(t));simTimers=[];}
+function every(ms,fn){simTimers.push(setInterval(fn,ms));}
+
+/* --- 공통 위젯 --- */
+function sparkSVG(id,color){return `<svg viewBox="0 0 200 40" preserveAspectRatio="none">
+  <polyline id="${id}" fill="none" stroke="${color||'#c8f31d'}" stroke-width="1.6" points=""/></svg>`;}
+function fillSpark(id,base,range){
+  const el=document.getElementById(id);if(!el)return;
+  let pts=Array.from({length:40},()=>base+rnd(-range,range));
+  const draw=()=>{const mx=base+range*1.6,mn=base-range*1.6;
+    el.setAttribute('points',pts.map((v,i)=>`${(i/39*200).toFixed(1)},${(40-((v-mn)/(mx-mn))*36).toFixed(1)}`).join(' '));};
+  draw();
+  every(1000,()=>{pts.shift();pts.push(Math.max(base-range*1.5,Math.min(base+range*1.5,pts[pts.length-1]+rnd(-range*.7,range*.7))));draw();});
+}
+function donut(pct,label,sublabel,color){
+  const r=44,c=2*Math.PI*r,off=c*(1-pct/100);
+  return `<div class="dn">
+    <svg viewBox="0 0 110 110">
+      <circle cx="55" cy="55" r="${r}" fill="none" stroke="#1e1e1e" stroke-width="11"/>
+      <circle cx="55" cy="55" r="${r}" fill="none" stroke="${color}" stroke-width="11"
+        stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"
+        transform="rotate(-90 55 55)" stroke-linecap="butt"/>
+      <text x="55" y="61" text-anchor="middle" fill="#f2f2f0" font-size="21"
+        font-family="Consolas,monospace" font-weight="700">${pct}%</text>
+    </svg>
+    <div class="dl">${label}</div><div class="ds">${sublabel}</div></div>`;
+}
+function gauge(pct,label,sub){
+  const color=pct<80?'#22c55e':(pct<95?'#f5b13d':'#ef4444');
+  const r=42,c=2*Math.PI*r,off=c*(1-pct/100);
+  return `<div class="gg"><svg viewBox="0 0 104 104">
+    <circle cx="52" cy="52" r="${r}" fill="none" stroke="#1e1e1e" stroke-width="10"/>
+    <circle cx="52" cy="52" r="${r}" fill="none" stroke="${color}" stroke-width="10"
+      stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 52 52)"/>
+    <text x="52" y="58" text-anchor="middle" fill="#f2f2f0" font-size="19"
+      font-family="Consolas,monospace" font-weight="700">${pct}%</text></svg>
+    <div class="gl">${label}</div><div class="gs">${sub}</div></div>`;
+}
+function bars(vals,alt){const mx=Math.max(...vals);
+  return `<div class="bars${alt?' alt':''}">${vals.map(v=>`<div style="height:${Math.max(4,v/mx*76)}px"></div>`).join('')}</div>`;}
+function days7(){const out=[];const d=new Date();
+  for(let i=6;i>=0;i--){const x=new Date(d);x.setDate(d.getDate()-i);out.push(`${x.getMonth()+1}/${x.getDate()}`);}return out;}
+
+/* --- 화면 1 : 메인 대시보드 --- */
+function scDash(){
+  const on=simState.filter(s=>s!==3).length;
+  const alarms=[];
+  for(let i=0;i<5;i++){
+    const e=SIM_EQ[ri(0,12)];
+    alarms.push([`${pad2(ri(7,17))}:${pad2(ri(0,59))}:${pad2(ri(0,59))}`,e.n,
+      `AL-${ri(1000,9999)}`,['주축 과부하','툴 체인지 타임아웃','절삭유 레벨 저하','X축 서보 편차','도어 인터락','칩 컨베이어 과전류'][ri(0,5)]]);
+  }
+  alarms.sort((a,b)=>b[0].localeCompare(a[0]));
+  const lab=days7();
+  return `<div class="sim-h"><h3>메인 대시보드</h3><span>MODULE 01</span>
+    <span class="rt">업체명 <b style="color:#f2f2f0">주식회사 이노팩</b> · NIMO ID <b style="color:#f2f2f0">INNOFAC-0001</b></span></div>
+  <div class="sgrid s4">
+    <div class="sc"><div class="l">설비 총 개수</div><div class="v">13<small> EA</small></div></div>
+    <div class="sc"><div class="l">온라인 / 오프라인</div><div class="v">${on}<small> / ${13-on}</small></div></div>
+    <div class="sc"><div class="l">평균 가동률</div><div class="v" id="dRate">${ri(76,88)}<small>%</small></div></div>
+    <div class="sc"><div class="l">금일 알람</div><div class="v">${alarms.length}<small> 건</small></div></div>
+  </div>
+  <div class="sgrid s4">
+    <div class="sc"><div class="l">RUN</div><div class="v" style="color:#22c55e">${simState.filter(s=>s===0).length}</div></div>
+    <div class="sc"><div class="l">IDLE</div><div class="v" style="color:#f5b13d">${simState.filter(s=>s===1).length}</div></div>
+    <div class="sc"><div class="l">ALARM</div><div class="v" style="color:#ef4444">${simState.filter(s=>s===2).length}</div></div>
+    <div class="sc"><div class="l">STOP</div><div class="v" style="color:#8a94a4">${simState.filter(s=>s===3).length}</div></div>
+  </div>
+  <div class="pane">
+    <div class="ph"><span>실시간 알람 리스트 · 오늘</span><b>${alarms.length} / 5건씩 페이지</b></div>
+    <table class="st"><tr><th>발생시각</th><th>설비명</th><th>알람번호</th><th>메시지</th></tr>
+      ${alarms.map(a=>`<tr><td style="font-family:Consolas,monospace;color:#8f8f8a">${a[0]}</td>
+        <td>${a[1]}</td><td style="font-family:Consolas,monospace;color:#ef4444">${a[2]}</td><td>${a[3]}</td></tr>`).join('')}
+    </table>
+  </div>
+  <div class="sgrid s2" style="background:transparent;border:none;gap:16px">
+    <div class="pane" style="margin:0"><div class="ph"><span>7일 가동시간 평균</span><b>HOURS</b></div>
+      ${bars([6.2,7.1,5.8,7.9,8.4,6.6,7.3].map(v=>v*10))}<div class="xlab">${lab.map(d=>`<span>${d}</span>`).join('')}</div></div>
+    <div class="pane" style="margin:0"><div class="ph"><span>7일 비가동시간 평균</span><b>HOURS</b></div>
+      ${bars([2.8,1.9,3.2,1.1,0.6,2.4,1.7].map(v=>v*10),true)}<div class="xlab">${lab.map(d=>`<span>${d}</span>`).join('')}</div></div>
+    <div class="pane" style="margin:0"><div class="ph"><span>7일 알람시간</span><b>MIN</b></div>
+      ${bars([42,18,55,12,7,33,21],true)}<div class="xlab">${lab.map(d=>`<span>${d}</span>`).join('')}</div></div>
+    <div class="pane" style="margin:0"><div class="ph"><span>7일 알람횟수</span><b>COUNT</b></div>
+      ${bars([6,3,8,2,1,5,3])}<div class="xlab">${lab.map(d=>`<span>${d}</span>`).join('')}</div></div>
+  </div>
+  <div class="sgrid s2" style="background:transparent;border:none;gap:16px">
+    <div class="pane" style="margin:0"><div class="ph"><span>Top 5 · 알람 발생 설비 (최근 7일)</span><b>RANK</b></div>
+      <table class="st">${['EZ-85CS 슈퍼드릴|9','BOS630S 연삭기|7','WIRE-EDM-AQ750S|5','MY650S 정밀드릴|4','SEDM-640NCS|2']
+        .map((r,i)=>{const [a,b]=r.split('|');return `<tr><td style="color:#c8f31d;font-family:Consolas,monospace">${i+1}</td><td>${a}</td><td style="text-align:right;font-family:Consolas,monospace">${b}건</td></tr>`;}).join('')}</table></div>
+    <div class="pane" style="margin:0"><div class="ph"><span>Top 5 · 유휴 시간 상위 설비</span><b>RANK</b></div>
+      <table class="st">${['SEDM-430NCS|4.2h','EZ-43CS 슈퍼드릴|3.6h','MY960S 정밀드릴|2.9h','EZ-53CS 슈퍼드릴|2.1h','INNO-HMI 테스트기|1.4h']
+        .map((r,i)=>{const [a,b]=r.split('|');return `<tr><td style="color:#c8f31d;font-family:Consolas,monospace">${i+1}</td><td>${a}</td><td style="text-align:right;font-family:Consolas,monospace">${b}</td></tr>`;}).join('')}</table></div>
+  </div>`;
+}
+
+/* --- 화면 2 : 실시간 모니터링 --- */
+function scMon(){
+  const cards=SIM_EQ.slice(0,8).map((e,i)=>{
+    const s=SIM_ST[simState[i]];
+    return `<div class="eqc">
+      <div class="hd"><span class="nm">${e.n}</span><span class="pill ${s[1]}">${s[0]}</span></div>
+      ${sparkSVG('mspk'+i,s[2])}
+      <div class="minheat" id="mh${i}"></div>
+      <div class="mt"><span>가동 ${rnd(4,8).toFixed(1)}h</span><span>비가동 ${rnd(.2,3).toFixed(1)}h</span><span>${rnd(8,26).toFixed(1)}kWh</span></div>
+    </div>`;}).join('');
+  return `<div class="sim-h"><h3>실시간 모니터링</h3><span>MODULE 02</span>
+    <span class="rt">8대씩 페이지 표시 (4×2) · 10초 자동 순환</span></div>
+  <div class="eqcards">${cards}</div>
+  <div class="pane" style="margin-top:16px">
+    <div class="ph"><span>전체 설비 상태</span><b>13 EA</b></div>
+    <table class="st"><tr><th>설비명</th><th>타입</th><th>상태</th><th>주축 RPM</th><th>이송 F</th><th>실행 프로그램</th></tr>
+    ${SIM_EQ.map((e,i)=>{const s=SIM_ST[simState[i]];
+      return `<tr><td>${e.n}</td><td style="font-family:Consolas,monospace;color:#8f8f8a">${e.t}</td>
+        <td><span class="pill ${s[1]}">${s[0]}</span></td>
+        <td style="font-family:Consolas,monospace">${simState[i]===0?num(ri(1600,2600)):'—'}</td>
+        <td style="font-family:Consolas,monospace">${simState[i]===0?num(ri(120,900)):'—'}</td>
+        <td style="font-family:Consolas,monospace;color:#8f8f8a">${simState[i]===0?'O'+ri(1000,9999)+'.NC':'—'}</td></tr>`;}).join('')}
+    </table></div>`;
+}
+function afterMon(){
+  const HC=['rgba(111,125,143,.25)','rgba(245,177,61,.55)','rgba(34,197,94,.45)','rgba(34,197,94,.85)'];
+  SIM_EQ.slice(0,8).forEach((e,i)=>{
+    fillSpark('mspk'+i,2100,340);
+    const h=document.getElementById('mh'+i);if(!h)return;
+    h.innerHTML=Array.from({length:20},()=>`<i style="background:${HC[Math.random()<.68?(Math.random()<.5?2:3):(Math.random()<.6?1:0)]}"></i>`).join('');
+  });
+}
+
+/* --- 화면 3 : OEE --- */
+function scOee(){
+  const a=ri(78,92),p=ri(76,88),q=ri(95,99);
+  const oee=Math.round(a*p*q/10000);
+  const today=new Date(),from=new Date(today);from.setDate(today.getDate()-29);
+  const f=d=>`${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+  return `<div class="sim-h"><h3>설비 기간별 조회 (OEE)</h3><span>MODULE 04</span>
+    <span class="rt">조회기간 <b style="color:#c8f31d;font-family:Consolas,monospace">${f(from)} ~ ${f(today)}</b> · 설비 전체</span></div>
+  <div class="donuts">
+    ${donut(a,'Availability 가용률','실가동 ÷ 계획가동','#22c55e')}
+    ${donut(p,'Performance 성능률','기준 사이클 대비','#3d7dd6')}
+    ${donut(q,'Quality 품질률','양품 ÷ 총 생산','#a78bfa')}
+    ${donut(oee,'OEE 종합 설비효율','A × P × Q','#c8f31d')}
+  </div>
+  <div class="pane" style="margin-top:16px">
+    <div class="ph"><span>시간 분석 (누적)</span><b>HOURS</b></div>
+    <div class="tbar"><div class="tl"><span>전체 시간 (All Day)</span><b>720.0 h</b></div><div class="tt"><i style="width:100%;background:#2f2f2f"></i></div></div>
+    <div class="tbar"><div class="tl"><span>부하 시간 (Planned Production)</span><b>528.0 h</b></div><div class="tt"><i style="width:73%"></i></div></div>
+    <div class="tbar"><div class="tl"><span>실제 가동 시간 (Net Run)</span><b>${(528*a/100).toFixed(1)} h</b></div><div class="tt"><i style="width:${73*a/100}%"></i></div></div>
+    <div class="tbar"><div class="tl"><span>비가동 시간 (Non-run)</span><b>${(528*(100-a)/100).toFixed(1)} h</b></div><div class="tt"><i class="g" style="width:${73*(100-a)/100}%"></i></div></div>
+    <div class="tbar"><div class="tl"><span>알람 시간 비율</span><b>4.6 %</b></div><div class="tt"><i class="w" style="width:4.6%"></i></div></div>
+    <div class="tbar"><div class="tl"><span>셋팅 시간 비율</span><b>7.8 %</b></div><div class="tt"><i class="w" style="width:7.8%"></i></div></div>
+  </div>
+  <div class="sgrid s3">
+    <div class="sc"><div class="l">누적 전력 소비량</div><div class="v">${num(ri(3800,5200))}<small> kWh</small></div></div>
+    <div class="sc"><div class="l">예상 전기 요금</div><div class="v">${num(ri(490,680)*1000)}<small> 원</small></div></div>
+    <div class="sc"><div class="l">월간 OEE 평균</div><div class="v">${oee}<small>%</small></div></div>
+  </div>
+  <div class="pane"><div class="ph"><span>OEE 히트맵 · X축 날짜 / Y축 24시간</span><b>30 DAYS</b></div>
+    <div id="oeeHeat" style="display:grid;grid-template-columns:repeat(30,1fr);gap:2px"></div></div>`;
+}
+function afterOee(){
+  const h=document.getElementById('oeeHeat');if(!h)return;
+  const HC=['rgba(111,125,143,.22)','rgba(245,177,61,.5)','rgba(34,197,94,.4)','rgba(34,197,94,.85)'];
+  let s='';
+  for(let d=0;d<30;d++){s+='<div style="display:grid;gap:2px">';
+    for(let t=0;t<24;t++){const v=(t<7||t>20)?(Math.random()<.75?0:1):(Math.random()<.7?3:(Math.random()<.6?2:1));
+      s+=`<i style="display:block;aspect-ratio:1;background:${HC[v]}"></i>`;}
+    s+='</div>';}
+  h.innerHTML=s;
+}
+
+/* --- 화면 4 : NC 가공 예측 --- */
+function scNc(){
+  const pts=[];let x=40,y=120;
+  for(let i=0;i<70;i++){x+=rnd(-26,32);y+=rnd(-20,20);
+    x=Math.max(20,Math.min(460,x));y=Math.max(20,Math.min(220,y));pts.push([x,y]);}
+  const path=pts.map(p=>`${p[0].toFixed(0)},${p[1].toFixed(0)}`).join(' ');
+  return `<div class="sim-h"><h3>NC 가공 예측 (3D Viewer)</h3><span>MODULE 05</span>
+    <span class="rt">파일 <b style="color:#c8f31d;font-family:Consolas,monospace">CORE_A_ROUGH.nc</b> · 12,480 라인</span></div>
+  <div class="sgrid s4">
+    <div class="sc"><div class="l">총 예상 가공 시간</div><div class="v" style="font-size:20px">01:47:22</div></div>
+    <div class="sc"><div class="l">XY 가공 범위</div><div class="v" style="font-size:20px">248 × 176<small> mm</small></div></div>
+    <div class="sc"><div class="l">Z 최대 깊이</div><div class="v" style="font-size:20px;color:#f5b13d">-42.5<small> mm</small></div></div>
+    <div class="sc"><div class="l">가공 특성</div><div class="v" style="font-size:20px">자유곡면</div></div>
+  </div>
+  <div class="sgrid s2" style="background:transparent;border:none;gap:16px">
+    <div class="pane" style="margin:0">
+      <div class="ph"><span>2D 가공 경로 시뮬레이션 · XY 평면</span><b id="ncProg">진행률 0%</b></div>
+      <svg viewBox="0 0 480 240" style="width:100%;height:230px;background:#080808;border:1px solid #1b1b1b">
+        <polyline points="${path}" fill="none" stroke="#2f5a1f" stroke-width="1.2"/>
+        <polyline id="ncDone" points="" fill="none" stroke="#c8f31d" stroke-width="1.8"/>
+        <circle id="ncTool" cx="${pts[0][0]}" cy="${pts[0][1]}" r="4.5" fill="#ef4444"/>
+      </svg>
+      <div style="font-size:11px;color:#5b5b5b;margin-top:7px;font-family:Consolas,monospace">잔여 시간 <span id="ncLeft">01:47:22</span> · 3D 뷰어(Three.js)는 앱에서 회전·줌 지원</div>
+    </div>
+    <div>
+      <div class="pane"><div class="ph"><span>사용 공구 목록</span><b>4 TOOLS</b></div>
+        <table class="st"><tr><th>T</th><th>종류</th><th>Ø</th><th>사용 구간</th></tr>
+          <tr><td style="font-family:Consolas,monospace;color:#c8f31d">T01</td><td>FACE MILL</td><td>Ø50</td><td>00:00 ~ 00:12</td></tr>
+          <tr><td style="font-family:Consolas,monospace;color:#c8f31d">T04</td><td>ENDMILL</td><td>Ø12</td><td>00:12 ~ 01:05</td></tr>
+          <tr><td style="font-family:Consolas,monospace;color:#c8f31d">T07</td><td>BALL ENDMILL</td><td>Ø6</td><td>01:05 ~ 01:38</td></tr>
+          <tr><td style="font-family:Consolas,monospace;color:#c8f31d">T11</td><td>DRILL</td><td>Ø8.5</td><td>01:38 ~ 01:47</td></tr></table></div>
+      <div class="pane"><div class="ph"><span>안전 주의사항 자동 검출</span><b style="color:#ef4444">2 WARNING</b></div>
+        <div class="warn"><b>Z &lt; -30mm</b> — 진동 및 칩 배출 주의 (N2140 구간, Z-42.5)</div>
+        <div class="warn"><b>가공 범위 248mm</b> — 스트로크 여유 확인 권장</div>
+        <div class="okbox"><b>G43 공구 길이 보정</b> — 전 공구 정상 선언 확인</div></div>
+    </div>
+  </div>`;
+}
+function afterNc(){
+  const done=document.getElementById('ncDone'),tool=document.getElementById('ncTool'),
+        prog=document.getElementById('ncProg'),left=document.getElementById('ncLeft');
+  const all=document.querySelector('#simMain polyline').getAttribute('points').split(' ');
+  let i=1;
+  every(120,()=>{
+    i=(i+1)%all.length; if(i<2)i=2;
+    done.setAttribute('points',all.slice(0,i).join(' '));
+    const [x,y]=all[i-1].split(',');tool.setAttribute('cx',x);tool.setAttribute('cy',y);
+    const p=Math.round(i/all.length*100);prog.textContent='진행률 '+p+'%';
+    const rem=Math.round(6442*(1-p/100));
+    left.textContent=`${pad2(Math.floor(rem/3600))}:${pad2(Math.floor(rem%3600/60))}:${pad2(rem%60)}`;
+  });
+}
+
+/* --- 화면 5 : 예지 보전 --- */
+function scPm(){
+  return `<div class="sim-h"><h3>예지 보전 (PM)</h3><span>MODULE 08</span>
+    <span class="rt">대상 설비 <b style="color:#f2f2f0">BOS630S 연삭기</b> · 최근 90일 기준</span></div>
+  <div class="gauges">
+    ${gauge(ri(58,72),'정기 점검','2,000시간 기준 · 기구부 종합')}
+    ${gauge(ri(82,93),'공구 교체','200시간 기준 · 평균 한계치')}
+    ${gauge(ri(95,99),'절삭유 관리','72시간 기준 · 산화 한계')}
+  </div>
+  <div class="sgrid s3" style="margin-top:16px">
+    <div class="sc"><div class="l">Weibull 형상모수 β</div><div class="v">1.8<small> (마모형)</small></div></div>
+    <div class="sc"><div class="l">향후 50H 고장 확률</div><div class="v" style="color:#f5b13d">12.4<small>%</small></div></div>
+    <div class="sc"><div class="l">잔여 안전 운영 (RUL)</div><div class="v">${ri(180,340)}<small> H</small></div></div>
+  </div>
+  <div class="pane"><div class="ph"><span>설비별 AI 진단 · 알람 패턴 분석</span><b>GEMINI</b></div>
+    <div class="warn"><b>주축 과부하</b> — 최근 30일 4회 발생. 절삭 조건(이송 속도) 재검토 및 베어링 예열 시간 확보를 권장합니다.</div>
+    <div class="warn"><b>윤활 계통</b> — 윤활 알람 간격이 평균 대비 38% 단축되었습니다. 윤활유 잔량 및 배관 막힘 점검이 필요합니다.</div>
+    <div class="okbox"><b>온도 상승</b> — 기준 범위 내 안정. 별도 조치 불필요.</div></div>
+  <div class="pane"><div class="ph"><span>주축 알람 Top 3</span><b>90 DAYS</b></div>
+    <table class="st"><tr><th>순위</th><th>알람</th><th>발생</th><th>최근 발생일</th></tr>
+      <tr><td style="color:#c8f31d;font-family:Consolas,monospace">1</td><td>AL-2031 주축 과부하</td><td>4회</td><td>3일 전</td></tr>
+      <tr><td style="color:#c8f31d;font-family:Consolas,monospace">2</td><td>AL-1120 윤활 압력 저하</td><td>3회</td><td>6일 전</td></tr>
+      <tr><td style="color:#c8f31d;font-family:Consolas,monospace">3</td><td>AL-4402 툴 체인지 타임아웃</td><td>2회</td><td>15일 전</td></tr></table></div>`;
+}
+
+/* --- 화면 6 : 에너지 & ESG --- */
+function scEsg(){
+  const kwh=ri(4200,5600),won=Math.round(kwh*130),co2=Math.round(kwh*0.466);
+  const lab=days7();
+  return `<div class="sim-h"><h3>에너지 &amp; ESG</h3><span>MODULE 07</span>
+    <span class="rt">최근 30일 · 130원/kWh · 0.466 kg CO₂e/kWh 기준</span></div>
+  <div class="sgrid s3">
+    <div class="sc"><div class="l">누적 전력 사용량</div><div class="v">${num(kwh)}<small> kWh</small></div></div>
+    <div class="sc"><div class="l">예상 전기 요금</div><div class="v">${num(won)}<small> 원</small></div></div>
+    <div class="sc"><div class="l">ESG 탄소 배출량</div><div class="v">${num(co2)}<small> kg CO₂e</small></div></div>
+  </div>
+  <div class="pane"><div class="ph"><span>7일 설비별 전력 · 누적 스택</span><b>kWh</b></div>
+    <div style="display:flex;align-items:flex-end;gap:10px;height:150px">
+      ${lab.map(()=>{const segs=[ri(18,34),ri(12,26),ri(10,22),ri(8,18),ri(5,14)];
+        const cols=['#c8f31d','#3d7dd6','#a78bfa','#f5b13d','#22c55e'];
+        return `<div style="flex:1;display:flex;flex-direction:column-reverse;gap:1px">
+          ${segs.map((v,i)=>`<div style="height:${v*1.4}px;background:${cols[i]};opacity:.85"></div>`).join('')}</div>`;}).join('')}
+    </div>
+    <div class="xlab">${lab.map(d=>`<span>${d}</span>`).join('')}</div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:10.5px;color:#8f8f8a;font-family:Consolas,monospace">
+      ${['AQ750S','BOS630S','EZ-85CS','MY650S','SEDM-640'].map((n,i)=>
+        `<span><i style="display:inline-block;width:9px;height:9px;background:${['#c8f31d','#3d7dd6','#a78bfa','#f5b13d','#22c55e'][i]};margin-right:5px"></i>${n}</span>`).join('')}
+    </div></div>
+  <div class="pane"><div class="ph"><span>AI EMS 처방</span><b>GEMINI</b></div>
+    <div class="okbox" style="margin-bottom:9px"><b>피크 분산</b> — 14:00~16:00 구간에 전력 사용이 집중되어 있습니다.
+      SEDM-640NCS의 전극 가공 배치를 심야(23:00~05:00)로 이동하면 <b>월 약 38만 원</b> 절감이 예상됩니다.</div>
+    <div class="okbox"><b>ESG 전략</b> — 유휴 상태 4시간 이상 설비의 자동 대기전력 차단 적용 시
+      연간 <b>약 1.9톤 CO₂e</b> 감축 효과가 예상됩니다.</div></div>`;
+}
+
+/* --- 화면 7 : NICE MES --- */
+function scMes(){
+  const clients=['㈜대성정공','한국정밀','에이스툴링','제시온플러스','윈테크','보탬'];
+  const items=['금형 코어 A','캐비티 블록','전극 가이드','샤프트 부시','브라켓 ASSY','스트리퍼 플레이트'];
+  const rows=Array.from({length:6},(_,i)=>{
+    const d=new Date();d.setDate(d.getDate()+ri(-3,14));
+    const late=d<new Date();
+    return {no:`SO-2609${pad2(i+1)}`,c:clients[i],it:items[i],q:ri(2,40),
+      due:`${d.getMonth()+1}/${d.getDate()}`,late,
+      st:['수주','프로그램','가공','조립/제작','납품'][ri(0,4)]};
+  });
+  const cols=['수주 관리','프로그램','가공','조립/제작','납품 관리'];
+  return `<div class="sim-h"><h3>NICE MES · 생산관리 대시보드</h3><span>mes.nimo.ai.kr</span>
+    <span class="rt">워크플로우 <b style="color:#c8f31d;font-family:Consolas,monospace">TPL_ADVANCED_5</b> 적용</span></div>
+  <div class="sgrid s4">
+    <div class="sc"><div class="l">종합 수율 (Yield)</div><div class="v">98.2<small>%</small></div></div>
+    <div class="sc"><div class="l">종합 납기 준수율</div><div class="v">94.6<small>%</small></div></div>
+    <div class="sc"><div class="l">평균 설비 가동률</div><div class="v">${ri(78,88)}<small>%</small> <small style="color:#c8f31d">NIMO 연동</small></div></div>
+    <div class="sc"><div class="l">평균 물류 소요</div><div class="v">6.4<small> 일</small></div></div>
+  </div>
+  <div class="sgrid s3">
+    <div class="sc"><div class="l">누적 발생 매출</div><div class="v" style="font-size:20px">${num(ri(180,260)*100000)}<small> 원</small></div></div>
+    <div class="sc"><div class="l">예상 잔여 매출</div><div class="v" style="font-size:20px">${num(ri(60,120)*100000)}<small> 원</small></div></div>
+    <div class="sc"><div class="l">최근 7일 전력 소모량</div><div class="v" style="font-size:20px">${num(ri(900,1400))}<small> kWh</small></div></div>
+  </div>
+  <div class="pane"><div class="ph"><span>수주 현황</span><b>6 ORDERS</b></div>
+    <table class="st"><tr><th>수주번호</th><th>거래처</th><th>품목</th><th>수량</th><th>납기</th><th>현재 공정</th></tr>
+      ${rows.map(r=>`<tr><td style="font-family:Consolas,monospace;color:#c8f31d">${r.no}</td>
+        <td>${r.c}</td><td>${r.it}</td><td style="font-family:Consolas,monospace">${r.q}</td>
+        <td style="font-family:Consolas,monospace;color:${r.late?'#ef4444':'#8f8f8a'}">${r.due}${r.late?' ⚠':''}</td>
+        <td><span class="pill p-run">${r.st}</span></td></tr>`).join('')}
+    </table></div>
+  <div class="pane"><div class="ph"><span>공정 진행 (칸반)</span><b>WORKFLOW</b></div>
+    <div class="kanban">
+      ${cols.map(c=>{const mine=rows.filter(r=>r.st===c.replace(' 관리',''));
+        return `<div class="kcol"><h5>${c}<em>${mine.length}</em></h5>
+          ${mine.map(r=>`<div class="kcard${r.late?' late':''}">
+            <div class="kn">${r.no}</div><div class="kt">${r.it}</div>
+            <div class="kd">${r.c} · ${r.q}EA · 납기 ${r.due}</div></div>`).join('')}
+        </div>`;}).join('')}
+    </div></div>
+  <div class="pane"><div class="ph"><span>불량 통계 · 유형별 (파레토)</span><b>THIS MONTH</b></div>
+    <table class="st"><tr><th>불량유형</th><th>코드</th><th>건수</th><th>비중</th></tr>
+      <tr><td>치수 공차 이탈</td><td style="font-family:Consolas,monospace">D-101</td><td>7</td><td style="color:#c8f31d;font-family:Consolas,monospace">38.9%</td></tr>
+      <tr><td>표면 스크래치</td><td style="font-family:Consolas,monospace">D-204</td><td>5</td><td style="color:#c8f31d;font-family:Consolas,monospace">27.8%</td></tr>
+      <tr><td>소재 결함</td><td style="font-family:Consolas,monospace">D-310</td><td>3</td><td style="color:#c8f31d;font-family:Consolas,monospace">16.7%</td></tr>
+      <tr><td>조립 간섭</td><td style="font-family:Consolas,monospace">D-405</td><td>3</td><td style="color:#c8f31d;font-family:Consolas,monospace">16.7%</td></tr></table></div>`;
+}
+
+/* --- 시연 구동 --- */
+const SCREENS={
+  dash:{f:scDash,after:null},
+  mon:{f:scMon,after:afterMon},
+  oee:{f:scOee,after:afterOee},
+  nc:{f:scNc,after:afterNc},
+  pm:{f:scPm,after:null},
+  esg:{f:scEsg,after:null},
+  mes:{f:scMes,after:null}
+};
+const simEl=document.getElementById('sim'),simMain=document.getElementById('simMain'),
+      simNav=document.getElementById('simNav');
+function renderSim(key){
+  clearSimTimers();
+  const sc=SCREENS[key]||SCREENS.dash;
+  simMain.innerHTML=sc.f();
+  simMain.insertAdjacentHTML('beforeend',
+    '<div class="simnote">※ 본 시연 화면은 실제 NIMO / NICE MES의 구성과 지표를 그대로 재현한 데모입니다. 표시되는 수치는 샘플 데이터이며, 설비를 연동하면 실제 값으로 채워집니다.</div>');
+  simMain.scrollTop=0;
+  if(sc.after)sc.after();
+  simNav.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.s===key));
+  simNav.classList.remove('open');
+  // 상태 점멸은 항상
+  every(2600,()=>{const i=ri(0,12);simState[i]=Math.random()<.7?0:(Math.random()<.6?1:(Math.random()<.5?2:3));});
+}
+simNav.querySelectorAll('button').forEach(b=>b.onclick=()=>renderSim(b.dataset.s));
+let simClkT=null;
+function openSim(key){
+  simEl.classList.add('open');document.body.style.overflow='hidden';
+  renderSim(key||'dash');
+  const c=document.getElementById('simClk');
+  const tick=()=>c.textContent=new Date().toTimeString().slice(0,8);
+  tick();simClkT=setInterval(tick,1000);
+}
+function closeSim(){
+  simEl.classList.remove('open');document.body.style.overflow='';
+  clearSimTimers();clearInterval(simClkT);simMain.innerHTML='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&simEl.classList.contains('open'))closeSim();});
+
+</script>
+</body></html>
