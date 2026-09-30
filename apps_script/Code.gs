@@ -242,3 +242,61 @@ function testRecommend() {
   Logger.log((r.asked ? "문의: " + r.asked.title + "\n" : "") + r.picked.map(p => p.s + " " + p.it.title).join("\n"));
   UrlFetchApp.fetch(SITE);   // 외부 접속 권한 승인용
 }
+
+/* ---------- 매주 월요일 블로그 초안 메일 (네이버 블로그 복사·붙여넣기용) ----------
+ * 설치: 편집기에서 installWeeklyTrigger 를 한 번 실행 (매주 월요일 오전 9~10시 발송)
+ * 바로 받아보기: weeklyBlogDraft 실행
+ */
+function weeklyBlogDraft() {
+  const items = loadPrograms_();
+  const tz = "Asia/Seoul", now = new Date();
+  const y = Number(Utilities.formatDate(now, tz, "yyyy")), m = Number(Utilities.formatDate(now, tz, "M")),
+        day = Number(Utilities.formatDate(now, tz, "d"));
+  // 20일 이후면 다음 달, 아니면 이번 달 마감 공고
+  const ty = day >= 20 && m === 12 ? y + 1 : y, tm = day >= 20 ? (m % 12) + 1 : m;
+  const key = ty + "-" + String(tm).padStart(2, "0");
+  const rows = items.filter(it => {
+    const d = dday_(it);
+    if (d === null || d < 5 || !(it.end || "").startsWith(key)) return false;
+    const body = it.title + " " + it.body;
+    return !NOT_FOR_DEMAND.some(w => it.title.indexOf(w) >= 0) && !LOAN_WORDS.some(w => body.indexOf(w) >= 0);
+  }).sort((a, b) => dday_(a) - dday_(b));
+  if (!rows.length) return;
+
+  const byCat = {};
+  rows.forEach(it => (byCat[it.cats[0]] = byCat[it.cats[0]] || []).push(it));
+  const regionCnt = {};
+  rows.forEach(it => { if (it.region !== "전국") regionCnt[it.region] = (regionCnt[it.region] || 0) + 1; });
+  const topRegions = Object.keys(regionCnt).sort((a, b) => regionCnt[b] - regionCnt[a]).slice(0, 3);
+  const title = tm + "월 마감 제조업 지원사업 정리 (" + rows.length + "건)";
+  const site = SITE.replace("https://", "");
+  const L = ["[제목]", title, "", "[본문]",
+    m + "월 " + day + "일 기준, 기업마당에 올라온 공고 중 제조업체가 신청할 만한 사업 가운데 " + tm + "월에 마감되는 " + rows.length + "건을 분야별로 정리했습니다.",
+    "마감이 5일도 남지 않은 공고와 정책자금(융자) 공고는 뺐습니다." + (topRegions.length ? " 지역 공고는 " + topRegions.join(", ") + " 순으로 많습니다." : ""),
+    "", "[사이트 화면 캡처 넣기]", ""];
+  Object.keys(byCat).forEach(cat => {
+    L.push("■ " + cat);
+    byCat[cat].forEach(it => {
+      L.push("- " + it.title, "  마감 " + it.end + " (D-" + dday_(it) + ")");
+      if (it.one) L.push("  " + it.one.slice(0, 80));
+    });
+    L.push("");
+  });
+  L.push("공고마다 지원 대상(업종, 규모, 지역)과 중복 수혜 제한이 다릅니다. 신청 전 반드시 원문 공고를 확인하세요.", "",
+    "공고별 신청방법과 문의처는 아래 페이지에 정리해 두었습니다. 우리 회사가 신청할 수 있는지 헷갈리면 \"신청 가능 여부 무료 진단\"을 눌러 회사 정보를 남겨주세요.", "",
+    "- " + tm + "월 마감 전체 목록: " + site + "/m/" + key + ".html",
+    "- 지역별·분야별 모아보기: " + site + "/guide.html",
+    "- 무료 진단 신청: " + site + "/services.html", "",
+    "[태그] #제조업지원사업 #정부지원사업 #스마트공장 #산업안전 #기업마당 #" + tm + "월마감"
+      + topRegions.map(r => " #" + r + "지원사업").join(""), "",
+    "=".repeat(40),
+    "게시 팁: 링크는 본문에 1~3개만 두세요. 같은 글을 여러 번 올리지 말고, 첫 문단에 한두 줄 본인 경험을 덧붙이면 검색 품질이 좋아집니다.");
+  MailApp.sendEmail({ to: NOTIFY_EMAIL, subject: "[nimo 블로그 초안] " + title, body: L.join("\n") });
+}
+
+function installWeeklyTrigger() {
+  ScriptApp.getProjectTriggers().filter(t => t.getHandlerFunction() === "weeklyBlogDraft")
+    .forEach(t => ScriptApp.deleteTrigger(t));
+  ScriptApp.newTrigger("weeklyBlogDraft").timeBased().onWeekDay(ScriptApp.WeekDay.MONDAY).atHour(9)
+    .inTimezone("Asia/Seoul").create();
+}
