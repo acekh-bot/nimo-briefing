@@ -428,7 +428,8 @@
   #contact .sub{color:#C9D1CE!important}
   #contact .btn{color:#fff;border-color:#fff}
   #contact .btn.acid{background:var(--warn);border-color:var(--warn);color:var(--ink)}
-  .sim{background:var(--bg)}
+  .sim{background:var(--bg);z-index:1100!important}   /* 시연 창은 고정 사이드바(900)보다 위, 전체 화면 */
+  .modal-bg{z-index:1050!important}
   .sim-top{background:var(--ink);color:#fff}
   .sim-top .tt{color:#fff}
   .sim-top .x,.sim-top .simMenu{color:#fff;border-color:#5B6B70;background:transparent}
