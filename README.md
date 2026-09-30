@@ -1,9 +1,9 @@
-# nimo.ai.kr 제조업 지원사업 브리핑 (운영비 0원)
+# briefing.nimo.ai.kr 제조업 지원사업 브리핑 (운영비 0원)
 
 구성: 공고 검색(index) · 공고별 상세 페이지(p/) · 신청 도움(services) · 자료실(resources) · 주간 브리핑(weekly) · 개인정보처리방침(privacy)
 
 매주 월요일 07시, GitHub가 기업마당 공고를 자동 수집해 제조업 관련만 분류하고
-nimo.ai.kr 사이트와 카카오톡용 텍스트를 갱신합니다. 기훈님 PC는 꺼져 있어도 됩니다.
+briefing.nimo.ai.kr 사이트와 카카오톡용 텍스트를 갱신합니다. 기훈님 PC는 꺼져 있어도 됩니다.
 
 ## 구성
 - `build_site.py` 사이트 생성 (검색 페이지 + 주간 브리핑 + 아카이브)
@@ -31,20 +31,15 @@ bizinfo.go.kr 로그인 → 활용정보 → 정책정보 개방 → 지원사�
 4. Settings → Pages → Source: Deploy from a branch → `main` / `/docs`
 5. Actions 탭 → "주간 공고 갱신" → Run workflow (첫 실행)
 
-### 3. nimo.ai.kr 연결 (도메인 구매처 DNS 관리 화면)
-| 타입 | 호스트 | 값 |
-|---|---|---|
-| A | @ | 185.199.108.153 |
-| A | @ | 185.199.109.153 |
-| A | @ | 185.199.110.153 |
-| A | @ | 185.199.111.153 |
-| CNAME | www | (깃허브아이디).github.io |
+### 3. briefing.nimo.ai.kr 연결 (Cloudflare DNS)
+nimo.ai.kr 본 주소는 NIMO 관리자 포털이 쓰고 있으므로 하위 주소 `briefing`을 씁니다.
 
-GitHub Settings → Pages → Custom domain에 `nimo.ai.kr` 입력 → 인증서 발급 후 Enforce HTTPS 체크.
-DNS 반영은 수 분~수 시간 걸립니다.
+| 타입 | 이름 | 대상 | 프록시 상태 |
+|---|---|---|---|
+| CNAME | briefing | acekh-bot.github.io | DNS 전용 (회색 구름) |
 
-> 나중에 nimo.ai.kr 메인을 NIMO 제품 소개로 쓰고 싶으면 `config.json`의 `site_url`을
-> `https://briefing.nimo.ai.kr`로 바꾸고 DNS에 `briefing` CNAME만 추가하면 됩니다.
+GitHub Settings → Pages → Custom domain에 `briefing.nimo.ai.kr` 입력 → Save → 인증서 발급 후 Enforce HTTPS 체크.
+프록시(주황 구름)를 켜면 GitHub 인증서 발급이 실패하니 반드시 회색 구름으로 둡니다. 반영은 수 분~1시간.
 
 ### 4. 신청 폼 연결 (Google Apps Script, 무료, 10분)
 1. Google 드라이브에서 새 스프레드시트 만들기 (이름 예: nimo 신청 접수)
@@ -56,9 +51,9 @@ DNS 반영은 수 분~수 시간 걸립니다.
 (`form_endpoint`가 비어 있으면 신청 버튼이 메일 앱을 여는 방식으로 동작합니다)
 
 ### 5. 네이버 검색 등록 (무료)
-1. searchadvisor.naver.com → 웹마스터 도구 → 사이트 등록 `https://nimo.ai.kr`
+1. searchadvisor.naver.com → 웹마스터 도구 → 사이트 등록 `https://briefing.nimo.ai.kr`
 2. 소유확인에서 "HTML 태그" 선택 → content="..." 안의 값만 복사해 `config.json`의 `naver_verification`에 입력 → GitHub 반영 → 소유확인
-3. 요청 → 사이트맵 제출: `https://nimo.ai.kr/sitemap.xml`
+3. 요청 → 사이트맵 제출: `https://briefing.nimo.ai.kr/sitemap.xml`
 4. 구글도 같은 방법으로 search.google.com/search-console 에 등록하면 좋습니다
 
 ## 매주 할 일 (5분)

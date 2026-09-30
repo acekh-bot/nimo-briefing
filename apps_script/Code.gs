@@ -1,5 +1,5 @@
 /**
- * nimo.ai.kr 신청 폼 접수기 (Google Apps Script, 무료)
+ * briefing.nimo.ai.kr 신청 폼 접수기 (Google Apps Script, 무료)
  * 1) 신청 내역을 이 스프레드시트의 "신청" 시트에 한 줄씩 저장
  * 2) 신청이 들어오면 NOTIFY_EMAIL로 알림 메일 발송
  */

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-nimo.ai.kr 정적 사이트 생성기 (비용 0원)
+briefing.nimo.ai.kr 정적 사이트 생성기 (비용 0원)
   docs/index.html            지원사업 검색 (진행 중인 제조업 공고 전체)
   docs/weekly/날짜.html      주간 브리핑 (새 공고)
   docs/weekly/index.html     지난 브리핑 목록
@@ -198,7 +198,7 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);line-height:1.7;bor
 <a href="services.html#apply">무료 알림 신청</a>
 </section>
 
-<footer>본 사이트는 기업마당(bizinfo.go.kr) 공개 정보를 자동으로 분류한 참고자료입니다. 지원 조건과 일정은 반드시 원문 공고에서 확인하세요.<br>%%FOOTER%%<br>운영: 주식회사 이노팩 · nimo.ai.kr</footer>
+<footer>본 사이트는 기업마당(bizinfo.go.kr) 공개 정보를 자동으로 분류한 참고자료입니다. 지원 조건과 일정은 반드시 원문 공고에서 확인하세요.<br>%%FOOTER%%<br>운영: 주식회사 이노팩 · briefing.nimo.ai.kr</footer>
 </div>
 <script>
 const DATA=%%DATA%%;
