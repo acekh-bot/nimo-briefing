@@ -464,7 +464,7 @@
 
   <div class="wrap"><nav class="jump" aria-label="NIMO 페이지 바로가기">
     <a class="go" href="#" onclick="openSim('dash');return false;">▶ 설치 없이 시연하기</a>
-    <a href="#gov">지원사업과 NIMO</a><a href="#hmi">INNO-HMI · 도입 비용</a><a href="#nimo">10개 기능 모듈</a>
+    <a href="#gov">지원사업과 NIMO</a><a href="#hmi">INNO-HMI</a><a href="#nimo">10개 기능 모듈</a>
     <a href="#mes">NICE MES</a><a href="#arch">아키텍처</a><a href="#process">도입 절차</a><a href="#faq">FAQ</a><a href="#contact">도입 상담</a>
   </nav></div>
 
@@ -522,14 +522,6 @@
             <div class="r"><span class="n">3</span><div><h5>DATA3 — 기계 고장 / 알람 상태</h5><p>알람·고장 발생 감지 신호</p></div></div>
           </div>
         </div>
-      </div>
-
-      <h3 style="font-size:19px;font-weight:900;margin-bottom:14px">패키지 구성</h3>
-      <div class="pkg" style="margin-bottom:30px">
-        <div class="row"><div><h5>메인 하드웨어</h5><p>INNO-HMI 산업용 HMI 본체 (m-ITX · 14" 터치 · Fanless)</p></div><div class="amt">₩1,500,000</div></div>
-        <div class="row"><div><h5>메인 소프트웨어</h5><p>NIMO Monitoring System 라이선스 (10개 기능 모듈)</p></div><div class="amt">₩3,500,000</div></div>
-        <div class="row"><div><h5>설치 · 연계 용역</h5><p>HMI 조립·현장배선 / 단위 TEST·교육 / 설비 S/W 연계 / IoT 통신 튜닝 (총 11 MD)</p></div><div class="amt">₩3,000,000</div></div>
-        <div class="row"><div><h5>INNO-HMI 통합 패키지 합계</h5><p>※ VAT 별도 · 설비 연동 환경에 따라 세부 구성 조정 가능</p></div><div class="amt">₩8,000,000</div></div>
       </div>
 
       <h3 style="font-size:19px;font-weight:900;margin-bottom:14px">시스템 사양</h3>
@@ -999,7 +991,7 @@ const FAQ=[
  {q:'수집한 데이터는 어디에 저장되나요?',a:'1차로 INNO-HMI 내부에 일별 JSON 파일로 누적 저장되고, 1분 주기로 최근 7일 가동 이력이 MES 서버(mes.nimo.ai.kr)에 동기화됩니다.'},
  {q:'AI 기능은 어떻게 동작하나요?',a:'NC 코드 안전 진단, 에너지 EMS 처방 등 AI 기능은 Google Gemini API를 사용합니다. 설정 화면에서 API Key를 입력해 활성화하며, AI 기능 표시/숨김도 토글로 조절할 수 있습니다.'},
  {q:'설치 기간은 얼마나 걸리나요?',a:'INNO-HMI 패키지의 설치·연계 용역은 HMI 조립·현장 배선, 설비 S/W 연계, IoT 통신 튜닝, 단위 테스트·교육을 포함해 총 11 MD를 기준으로 합니다. 설비 수량과 현장 환경에 따라 달라질 수 있습니다.'},
- {q:'도입 비용은 어떻게 되나요?',a:'INNO-HMI 통합 패키지는 하드웨어 150만 원, 소프트웨어 350만 원, 설치·연계 용역 300만 원으로 총 800만 원(VAT 별도)입니다. SMART 정밀 가공 설비는 설비 라인업에서 모델별 가격을 확인할 수 있습니다.'}
+ {q:'도입 비용은 어떻게 되나요?',a:'설비 대수, 컨트롤러 종류, 배선·네트워크 환경에 따라 달라집니다. 도입 상담을 신청해 주시면 현장 조건을 확인한 뒤 견적을 안내해 드립니다. 스마트공장 지원사업으로 도입하는 경우 사업별 지원 비율과 자부담도 함께 확인해 드립니다.'}
 ];
 const faqList=document.getElementById('faqList');
 FAQ.forEach(f=>{

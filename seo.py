@@ -213,60 +213,77 @@ def enrich(docs, items, cfg, verify_meta=""):
         f"<language>ko</language><lastBuildDate>{fmt(now)}</lastBuildDate>{entries}</channel></rss>", encoding="utf-8")
 
 
-# ---------- 왼쪽 위 햄버거 메뉴 (모든 페이지 공통) ----------
-MENU_ITEMS = [("", "공고 검색"), ("guide.html", "모아보기"), ("resources.html", "자료실"), ("weekly/", "주간 브리핑"),
-              ("services.html", "신청 도움"), ("nimo.html", "NIMO 설비 모니터링 · 시연")]
-MENU_CSS = """<style id="siteMenuCss">
-header.top{justify-content:flex-start!important;gap:14px}header.top nav{display:none!important}
-.mbtn{display:inline-flex;align-items:center;gap:8px;background:none;border:1.5px solid var(--ink,#1C2529);border-radius:4px;padding:7px 11px;font:inherit;font-size:13px;font-weight:700;color:var(--ink,#1C2529);cursor:pointer}
-.mbtn i{display:block;width:16px;height:2px;background:currentColor;box-shadow:0 5px 0 currentColor,0 -5px 0 currentColor}
-.mbar{display:flex;align-items:center;gap:14px;max-width:1080px;margin:0 auto;padding:14px 20px}
-.mdrawer{position:fixed;inset:0;z-index:1000;visibility:hidden}
-.mdrawer.open{visibility:visible}
-.mdrawer .shade{position:absolute;inset:0;background:rgba(28,37,41,.45);opacity:0;transition:opacity .2s}
-.mdrawer.open .shade{opacity:1}
-.mdrawer .panel{position:absolute;top:0;left:0;bottom:0;width:min(320px,86vw);background:#1C2529;color:#fff;padding:18px 0;transform:translateX(-100%);transition:transform .25s ease;overflow:auto;box-shadow:4px 0 24px rgba(0,0,0,.25)}
-.mdrawer.open .panel{transform:none}
-.mdrawer .mhead{display:flex;justify-content:space-between;align-items:center;padding:0 20px 14px;border-bottom:1px solid #3A474C;font-weight:700}
-.mdrawer .mclose{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}
-.mdrawer a{display:flex;gap:12px;align-items:baseline;padding:15px 20px;color:#fff;text-decoration:none;font-size:17px;font-weight:500;border-bottom:1px solid #2B363B}
-.mdrawer a small{font-size:11px;color:#8FA0A6;width:18px;font-variant-numeric:tabular-nums}
-.mdrawer a:hover,.mdrawer a[aria-current]{background:#2B363B}.mdrawer a[aria-current]{box-shadow:inset 4px 0 0 #2F8F5B}
-.mdrawer a.hl{color:#E0A800}
-.mdrawer .mfoot{padding:16px 20px;font-size:12.5px;color:#8FA0A6;line-height:1.6}
-.mdrawer .mfoot a{display:inline-block;padding:10px 14px;margin-top:10px;border:none;background:#E0A800;color:#1C2529;font-weight:700;font-size:14px;border-radius:4px}
-@media (prefers-reduced-motion:reduce){.mdrawer .panel,.mdrawer .shade{transition:none}}
+# ---------- 고정 사이드바 메뉴 (모든 페이지 같은 자리) ----------
+# 컴퓨터: 왼쪽 고정 사이드바 / 휴대폰: 화면 위에 붙는 메뉴 줄. 햄버거처럼 숨기지 않는다 (사용자 피드백)
+MENU_ITEMS = [("", "공고 검색", "진행 중인 지원사업"), ("guide.html", "모아보기", "지역·분야·월별"),
+              ("weekly/", "주간 브리핑", "이번 주 새 공고"), ("resources.html", "자료실", "서식·가이드"),
+              ("services.html", "신청 도움", "무료 진단·계획서"), ("nimo.html", "NIMO 시연", "설비 모니터링·MES")]
+SIDE_W = 236
+MENU_CSS = f"""<style id="siteMenuCss">
+header.top nav{{display:none!important}}
+.snav{{background:#1C2529;color:#fff;font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;z-index:900}}
+.snav a{{color:#fff;text-decoration:none}}
+.snav .brand{{display:flex;align-items:center;gap:9px;font-weight:700;font-size:15.5px;line-height:1.35}}
+.snav .brand i{{flex:none;width:10px;height:10px;border-radius:50%;background:#2F8F5B;box-shadow:0 0 0 3px #2F8F5B44}}
+.snav .items a{{display:block;border-radius:4px}}
+.snav .items a b{{display:block;font-weight:500}}
+.snav .items a small{{color:#8FA0A6;font-size:12px}}
+.snav .items a[aria-current]{{background:#2B363B;box-shadow:inset 3px 0 0 #2F8F5B}}
+.snav .items a:hover{{background:#2B363B}}
+.snav .items a.nimo b{{color:#E0A800}}
+.snav .apply{{display:block;background:#E0A800;color:#1C2529!important;font-weight:700;text-align:center;border-radius:4px}}
+.snav :focus-visible{{outline:3px solid #6FA8FF;outline-offset:2px}}
+@media (min-width:960px){{
+  body{{padding-left:{SIDE_W}px!important}}
+  .snav{{position:fixed;left:0;top:0;bottom:0;width:{SIDE_W}px;display:flex;flex-direction:column;padding:22px 14px;overflow-y:auto}}
+  .snav .brand{{padding:0 8px 18px;border-bottom:1px solid #3A474C;margin-bottom:12px}}
+  .snav .items a{{padding:11px 12px;margin-bottom:2px}}
+  .snav .items a b{{font-size:15.5px}}
+  .snav .foot{{margin-top:auto;padding:16px 4px 0;font-size:12.5px;color:#8FA0A6;line-height:1.55}}
+  .snav .apply{{padding:12px;margin-top:10px;font-size:14.5px}}
+  header.top .logo{{display:none}}
+}}
+@media (max-width:959px){{
+  .snav{{position:sticky;top:0;padding:6px 8px;box-shadow:0 2px 8px rgba(0,0,0,.18)}}
+  .snav .brand,.snav .foot{{display:none}}
+  .snav .items{{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}}
+  .snav .items a{{padding:7px 4px;text-align:center;background:#2B363B}}
+  .snav .items a[aria-current]{{background:#2F8F5B;box-shadow:none}}
+  .snav .items a b{{font-size:13.5px;white-space:nowrap}}.snav .items a small{{display:none}}
+}}
 </style>"""
 
 
 def _menu_html(prefix, rel):
     cur = {"index.html": "", "weekly/index.html": "weekly/"}.get(rel, rel)
+    if rel.startswith("weekly/"):
+        cur = "weekly/"
+    elif rel.startswith(("r/", "c/", "m/")):
+        cur = "guide.html"
+    elif rel.startswith("p/"):
+        cur = ""
     rows = []
-    for n, (href, label) in enumerate(MENU_ITEMS, 1):
+    for href, label, note in MENU_ITEMS:
         url = (prefix + href) if (prefix or href) else "./"
         curattr = ' aria-current="page"' if href == cur else ""
-        cls = ' class="hl"' if href == "nimo.html" else ""
-        rows.append(f'<a href="{url}"{curattr}{cls}><small>{n:02d}</small>{label}</a>')
-    return ('<div class="mdrawer" id="siteMenu" aria-hidden="true"><div class="shade" data-close></div>'
-            '<nav class="panel" aria-label="사이트 메뉴"><div class="mhead">메뉴<button class="mclose" data-close aria-label="메뉴 닫기">×</button></div>'
-            + "".join(rows)
-            + f'<div class="mfoot">우리 회사가 신청할 수 있는 공고가 궁금하다면<br><a href="{prefix}services.html#apply">무료 진단 신청</a></div></nav></div>'
-            '<script>(function(){var d=document.getElementById("siteMenu"),b=document.getElementById("siteMenuBtn");if(!d||!b)return;'
-            'function s(o){d.classList.toggle("open",o);d.setAttribute("aria-hidden",!o);b.setAttribute("aria-expanded",o);if(o)d.querySelector("a").focus();else b.focus()}'
-            'b.onclick=function(){s(true)};d.querySelectorAll("[data-close]").forEach(function(x){x.onclick=function(){s(false)}});'
-            'document.addEventListener("keydown",function(e){if(e.key==="Escape"&&d.classList.contains("open"))s(false)})})();</script>')
+        cls = ' class="nimo"' if href == "nimo.html" else ""
+        rows.append(f'<a href="{url}"{curattr}{cls}><b>{label}</b><small>{note}</small></a>')
+    return (f'<nav class="snav" id="siteNav" aria-label="사이트 메뉴">'
+            f'<a class="brand" href="{prefix or "./"}"><i aria-hidden="true"></i><span>제조업 지원사업<br></span>브리핑</a>'
+            f'<div class="items">{"".join(rows)}</div>'
+            f'<div class="foot"><p>우리 회사가 신청할 수 있는 공고가 궁금하다면</p>'
+            f'<a class="apply" href="{prefix}services.html#apply">무료 진단 신청</a></div></nav>')
+
+
+OLD_MENU = [r'<style id="siteMenuCss">.*?</style>\s*', r'<div class="mbar">.*?</div>', r'<button class="mbtn"[^>]*>.*?</button>',
+            r'<div class="mdrawer".*?</script>\s*', r'<nav class="snav".*?</nav>']
 
 
 def inject_menu(t, rel):
-    """왼쪽 위 햄버거 버튼 + 서랍 메뉴를 넣는다 (이미 있거나 자체 메뉴가 있는 페이지는 건너뜀)"""
-    if 'id="siteMenuBtn"' in t or 'id="menuOpen"' in t:
-        return t
+    """모든 페이지 <body> 바로 뒤에 고정 사이드바를 넣는다 (예전 햄버거 메뉴·이전 사이드바는 지우고 다시 넣음)"""
+    for pat in OLD_MENU:
+        t = re.sub(pat, "", t, flags=re.S)
     prefix = "../" * rel.count("/")
-    btn = '<button class="mbtn" id="siteMenuBtn" aria-controls="siteMenu" aria-expanded="false"><i></i>메뉴</button>'
-    if '<header class="top">' in t:
-        t = t.replace('<header class="top">', '<header class="top">' + btn, 1)
-    else:  # 헤더가 없는 페이지(주간 브리핑 등)는 맨 위에 작은 막대를 둔다
-        bar = f'<div class="mbar">{btn}<a href="{prefix or "./"}" style="font-weight:700;color:#1C2529;text-decoration:none">제조업 지원사업 브리핑</a></div>'
-        t = re.sub(r"(<body[^>]*>)", r"\1" + bar.replace("\\", "\\\\"), t, count=1)
     t = t.replace("</head>", MENU_CSS + "\n</head>", 1)
-    return t.replace("</body>", _menu_html(prefix, rel) + "\n</body>", 1)
+    nav = _menu_html(prefix, rel).replace("\\", "\\\\")
+    return re.sub(r"(<body[^>]*>)", r"\1" + nav, t, count=1)

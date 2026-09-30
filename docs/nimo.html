@@ -449,30 +449,42 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Ccircle cx=%228%22 cy=%228%22 r=%226%22 fill=%22%232F8F5B%22/%3E%3C/svg%3E">
 <link rel="alternate" type="application/rss+xml" title="제조업 지원사업 브리핑" href="https://briefing.nimo.ai.kr/rss.xml">
 <style id="siteMenuCss">
-header.top{justify-content:flex-start!important;gap:14px}header.top nav{display:none!important}
-.mbtn{display:inline-flex;align-items:center;gap:8px;background:none;border:1.5px solid var(--ink,#1C2529);border-radius:4px;padding:7px 11px;font:inherit;font-size:13px;font-weight:700;color:var(--ink,#1C2529);cursor:pointer}
-.mbtn i{display:block;width:16px;height:2px;background:currentColor;box-shadow:0 5px 0 currentColor,0 -5px 0 currentColor}
-.mbar{display:flex;align-items:center;gap:14px;max-width:1080px;margin:0 auto;padding:14px 20px}
-.mdrawer{position:fixed;inset:0;z-index:1000;visibility:hidden}
-.mdrawer.open{visibility:visible}
-.mdrawer .shade{position:absolute;inset:0;background:rgba(28,37,41,.45);opacity:0;transition:opacity .2s}
-.mdrawer.open .shade{opacity:1}
-.mdrawer .panel{position:absolute;top:0;left:0;bottom:0;width:min(320px,86vw);background:#1C2529;color:#fff;padding:18px 0;transform:translateX(-100%);transition:transform .25s ease;overflow:auto;box-shadow:4px 0 24px rgba(0,0,0,.25)}
-.mdrawer.open .panel{transform:none}
-.mdrawer .mhead{display:flex;justify-content:space-between;align-items:center;padding:0 20px 14px;border-bottom:1px solid #3A474C;font-weight:700}
-.mdrawer .mclose{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}
-.mdrawer a{display:flex;gap:12px;align-items:baseline;padding:15px 20px;color:#fff;text-decoration:none;font-size:17px;font-weight:500;border-bottom:1px solid #2B363B}
-.mdrawer a small{font-size:11px;color:#8FA0A6;width:18px;font-variant-numeric:tabular-nums}
-.mdrawer a:hover,.mdrawer a[aria-current]{background:#2B363B}.mdrawer a[aria-current]{box-shadow:inset 4px 0 0 #2F8F5B}
-.mdrawer a.hl{color:#E0A800}
-.mdrawer .mfoot{padding:16px 20px;font-size:12.5px;color:#8FA0A6;line-height:1.6}
-.mdrawer .mfoot a{display:inline-block;padding:10px 14px;margin-top:10px;border:none;background:#E0A800;color:#1C2529;font-weight:700;font-size:14px;border-radius:4px}
-@media (prefers-reduced-motion:reduce){.mdrawer .panel,.mdrawer .shade{transition:none}}
+header.top nav{display:none!important}
+.snav{background:#1C2529;color:#fff;font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;z-index:900}
+.snav a{color:#fff;text-decoration:none}
+.snav .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:15.5px;line-height:1.35}
+.snav .brand i{flex:none;width:10px;height:10px;border-radius:50%;background:#2F8F5B;box-shadow:0 0 0 3px #2F8F5B44}
+.snav .items a{display:block;border-radius:4px}
+.snav .items a b{display:block;font-weight:500}
+.snav .items a small{color:#8FA0A6;font-size:12px}
+.snav .items a[aria-current]{background:#2B363B;box-shadow:inset 3px 0 0 #2F8F5B}
+.snav .items a:hover{background:#2B363B}
+.snav .items a.nimo b{color:#E0A800}
+.snav .apply{display:block;background:#E0A800;color:#1C2529!important;font-weight:700;text-align:center;border-radius:4px}
+.snav :focus-visible{outline:3px solid #6FA8FF;outline-offset:2px}
+@media (min-width:960px){
+  body{padding-left:236px!important}
+  .snav{position:fixed;left:0;top:0;bottom:0;width:236px;display:flex;flex-direction:column;padding:22px 14px;overflow-y:auto}
+  .snav .brand{padding:0 8px 18px;border-bottom:1px solid #3A474C;margin-bottom:12px}
+  .snav .items a{padding:11px 12px;margin-bottom:2px}
+  .snav .items a b{font-size:15.5px}
+  .snav .foot{margin-top:auto;padding:16px 4px 0;font-size:12.5px;color:#8FA0A6;line-height:1.55}
+  .snav .apply{padding:12px;margin-top:10px;font-size:14.5px}
+  header.top .logo{display:none}
+}
+@media (max-width:959px){
+  .snav{position:sticky;top:0;padding:6px 8px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+  .snav .brand,.snav .foot{display:none}
+  .snav .items{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+  .snav .items a{padding:7px 4px;text-align:center;background:#2B363B}
+  .snav .items a[aria-current]{background:#2F8F5B;box-shadow:none}
+  .snav .items a b{font-size:13.5px;white-space:nowrap}.snav .items a small{display:none}
+}
 </style>
 </head>
-<body>
+<body><nav class="snav" id="siteNav" aria-label="사이트 메뉴"><a class="brand" href="./"><i aria-hidden="true"></i><span>제조업 지원사업<br></span>브리핑</a><div class="items"><a href="./"><b>공고 검색</b><small>진행 중인 지원사업</small></a><a href="guide.html"><b>모아보기</b><small>지역·분야·월별</small></a><a href="weekly/"><b>주간 브리핑</b><small>이번 주 새 공고</small></a><a href="resources.html"><b>자료실</b><small>서식·가이드</small></a><a href="services.html"><b>신청 도움</b><small>무료 진단·계획서</small></a><a href="nimo.html" aria-current="page" class="nimo"><b>NIMO 시연</b><small>설비 모니터링·MES</small></a></div><div class="foot"><p>우리 회사가 신청할 수 있는 공고가 궁금하다면</p><a class="apply" href="services.html#apply">무료 진단 신청</a></div></nav>
 
-<div class="wrap"><header class="top"><button class="mbtn" id="siteMenuBtn" aria-controls="siteMenu" aria-expanded="false"><i></i>메뉴</button><a class="logo" href="./"><span aria-hidden="true"></span>제조업 지원사업 브리핑</a></header></div>
+<div class="wrap"><header class="top"><a class="logo" href="./"><span aria-hidden="true"></span>제조업 지원사업 브리핑</a></header></div>
 
 <main>
   <section class="snap" id="cover">
@@ -497,7 +509,7 @@ header.top{justify-content:flex-start!important;gap:14px}header.top nav{display:
 
   <div class="wrap"><nav class="jump" aria-label="NIMO 페이지 바로가기">
     <a class="go" href="#" onclick="openSim('dash');return false;">▶ 설치 없이 시연하기</a>
-    <a href="#gov">지원사업과 NIMO</a><a href="#hmi">INNO-HMI · 도입 비용</a><a href="#nimo">10개 기능 모듈</a>
+    <a href="#gov">지원사업과 NIMO</a><a href="#hmi">INNO-HMI</a><a href="#nimo">10개 기능 모듈</a>
     <a href="#mes">NICE MES</a><a href="#arch">아키텍처</a><a href="#process">도입 절차</a><a href="#faq">FAQ</a><a href="#contact">도입 상담</a>
   </nav></div>
 
@@ -555,14 +567,6 @@ header.top{justify-content:flex-start!important;gap:14px}header.top nav{display:
             <div class="r"><span class="n">3</span><div><h5>DATA3 — 기계 고장 / 알람 상태</h5><p>알람·고장 발생 감지 신호</p></div></div>
           </div>
         </div>
-      </div>
-
-      <h3 style="font-size:19px;font-weight:900;margin-bottom:14px">패키지 구성</h3>
-      <div class="pkg" style="margin-bottom:30px">
-        <div class="row"><div><h5>메인 하드웨어</h5><p>INNO-HMI 산업용 HMI 본체 (m-ITX · 14" 터치 · Fanless)</p></div><div class="amt">₩1,500,000</div></div>
-        <div class="row"><div><h5>메인 소프트웨어</h5><p>NIMO Monitoring System 라이선스 (10개 기능 모듈)</p></div><div class="amt">₩3,500,000</div></div>
-        <div class="row"><div><h5>설치 · 연계 용역</h5><p>HMI 조립·현장배선 / 단위 TEST·교육 / 설비 S/W 연계 / IoT 통신 튜닝 (총 11 MD)</p></div><div class="amt">₩3,000,000</div></div>
-        <div class="row"><div><h5>INNO-HMI 통합 패키지 합계</h5><p>※ VAT 별도 · 설비 연동 환경에 따라 세부 구성 조정 가능</p></div><div class="amt">₩8,000,000</div></div>
       </div>
 
       <h3 style="font-size:19px;font-weight:900;margin-bottom:14px">시스템 사양</h3>
@@ -1032,7 +1036,7 @@ const FAQ=[
  {q:'수집한 데이터는 어디에 저장되나요?',a:'1차로 INNO-HMI 내부에 일별 JSON 파일로 누적 저장되고, 1분 주기로 최근 7일 가동 이력이 MES 서버(mes.nimo.ai.kr)에 동기화됩니다.'},
  {q:'AI 기능은 어떻게 동작하나요?',a:'NC 코드 안전 진단, 에너지 EMS 처방 등 AI 기능은 Google Gemini API를 사용합니다. 설정 화면에서 API Key를 입력해 활성화하며, AI 기능 표시/숨김도 토글로 조절할 수 있습니다.'},
  {q:'설치 기간은 얼마나 걸리나요?',a:'INNO-HMI 패키지의 설치·연계 용역은 HMI 조립·현장 배선, 설비 S/W 연계, IoT 통신 튜닝, 단위 테스트·교육을 포함해 총 11 MD를 기준으로 합니다. 설비 수량과 현장 환경에 따라 달라질 수 있습니다.'},
- {q:'도입 비용은 어떻게 되나요?',a:'INNO-HMI 통합 패키지는 하드웨어 150만 원, 소프트웨어 350만 원, 설치·연계 용역 300만 원으로 총 800만 원(VAT 별도)입니다. SMART 정밀 가공 설비는 설비 라인업에서 모델별 가격을 확인할 수 있습니다.'}
+ {q:'도입 비용은 어떻게 되나요?',a:'설비 대수, 컨트롤러 종류, 배선·네트워크 환경에 따라 달라집니다. 도입 상담을 신청해 주시면 현장 조건을 확인한 뒤 견적을 안내해 드립니다. 스마트공장 지원사업으로 도입하는 경우 사업별 지원 비율과 자부담도 함께 확인해 드립니다.'}
 ];
 const faqList=document.getElementById('faqList');
 FAQ.forEach(f=>{
@@ -1427,5 +1431,4 @@ function closeSim(){
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&simEl.classList.contains('open'))closeSim();});
 
 </script>
-<div class="mdrawer" id="siteMenu" aria-hidden="true"><div class="shade" data-close></div><nav class="panel" aria-label="사이트 메뉴"><div class="mhead">메뉴<button class="mclose" data-close aria-label="메뉴 닫기">×</button></div><a href="./"><small>01</small>공고 검색</a><a href="guide.html"><small>02</small>모아보기</a><a href="resources.html"><small>03</small>자료실</a><a href="weekly/"><small>04</small>주간 브리핑</a><a href="services.html"><small>05</small>신청 도움</a><a href="nimo.html" aria-current="page" class="hl"><small>06</small>NIMO 설비 모니터링 · 시연</a><div class="mfoot">우리 회사가 신청할 수 있는 공고가 궁금하다면<br><a href="services.html#apply">무료 진단 신청</a></div></nav></div><script>(function(){var d=document.getElementById("siteMenu"),b=document.getElementById("siteMenuBtn");if(!d||!b)return;function s(o){d.classList.toggle("open",o);d.setAttribute("aria-hidden",!o);b.setAttribute("aria-expanded",o);if(o)d.querySelector("a").focus();else b.focus()}b.onclick=function(){s(true)};d.querySelectorAll("[data-close]").forEach(function(x){x.onclick=function(){s(false)}});document.addEventListener("keydown",function(e){if(e.key==="Escape"&&d.classList.contains("open"))s(false)})})();</script>
 </body></html>
