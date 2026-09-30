@@ -12,6 +12,7 @@ from pathlib import Path
 import gongo_bot as gb
 import seo
 import landing
+import weekly as weekly_mod
 
 DOCS = gb.BASE / "docs"
 
@@ -63,14 +64,6 @@ def page_index(items, date):
         .replace("%%NEW%%", str(n_new)).replace("%%DATE%%", f"{int(date[5:7])}월 {int(date[8:])}일")\
         .replace("%%BRAND%%", esc(gb.CFG["brand"])).replace("%%FOOTER%%", esc(gb.CFG["footer"]))
 
-def page_archive(dates):
-    rows = "".join(f'<li><a href="{d}.html">{d} 주간 브리핑</a></li>' for d in sorted(dates, reverse=True))
-    return f"""<!doctype html><html lang="ko"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>지난 브리핑 | {esc(gb.CFG['brand'])}</title>
-<style>body{{font-family:'IBM Plex Sans KR','Malgun Gothic',sans-serif;background:#EDF0EE;color:#1C2529;max-width:640px;margin:auto;padding:24px}}
-a{{color:#1C2529}} li{{margin:10px 0;font-size:16px}}</style></head><body>
-<p><a href="../">지원사업 검색으로 돌아가기</a></p><h1>지난 주간 브리핑</h1><ul>{rows}</ul></body></html>"""
-
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--sample"); ap.add_argument("--weekly", action="store_true")
     a = ap.parse_args()
@@ -89,15 +82,17 @@ def main():
     for p in new:
         p["ai"] = gb.summarize(p)
     if new:  # 새 공고가 없으면 빈 브리핑을 만들지 않는다 (수동 재실행 대비)
-        (DOCS / "weekly" / f"{date}.html").write_text(gb.render_html(new, date), encoding="utf-8")
+        arch_path = DOCS / "data" / "archive.json"
+        arch = json.loads(arch_path.read_text(encoding="utf-8")) if arch_path.exists() else {}
+        arch.update({i["id"]: i for i in items})
+        weekly_mod.save_week(DOCS, date, [p["id"] for p in new], arch)
         gb.OUT.mkdir(exist_ok=True)
         (gb.OUT / f"kakao_{date}.txt").write_text(
             gb.render_text(new, date) + f"\n\n전체 공고 검색: {gb.CFG['site_url']}", encoding="utf-8")
-    dates = [f.stem for f in (DOCS / "weekly").glob("20*.html")]
-    (DOCS / "weekly" / "index.html").write_text(page_archive(dates), encoding="utf-8")
     import shutil
     if (gb.BASE / "static").exists():
         shutil.copytree(gb.BASE / "static", DOCS, dirs_exist_ok=True)
+    weekly_mod.build(DOCS, items, gb.CFG)
     extra = landing.build(DOCS, items, gb.CFG)
     verify_meta, n_arch = seo.build(DOCS, items, gb.CFG, extra_paths=extra)
     for res in [DOCS / "resources.html", DOCS / "services.html", DOCS / "privacy.html", DOCS / "nimo.html"]:
