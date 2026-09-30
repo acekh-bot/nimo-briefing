@@ -3,18 +3,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>스마트공장 지원사업과 설비 모니터링·MES — NIMO 시연 | 제조업 지원사업 브리핑</title><meta name="naver-site-verification" content="c4ad9b8af98c88279581ae1cb842d1ce3b0784ae">
 <meta name="description" content="설치 없이 브라우저에서 NIMO 설비 모니터링과 MES를 시연해 보세요. 스마트공장 기초·고도화, 제조 AI 지원사업에 필요한 가동률 실측, 설비 연동 MES, 사용로그 전송, 도입 효과 리포트.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0c0c0c; --panel:#151515; --panel2:#1c1c1c; --line:#2a2a2a; --line2:#3a3a3a;
-    --acid:#c8f31d; --acid-d:#9dbf0e; --acid-soft:rgba(200,243,29,.12);
-    --txt:#f2f2f0; --muted:#8f8f8a;
-    --ok:#22c55e; --warn:#f5b13d; --bad:#ef4444; --idle:#6f7d8f;
+    --bg:#1C2529; --panel:#FFFFFF; --panel2:#F4F6F5; --line:#C9D1CE; --line2:#A9B4B0;
+    --acid:#2F8F5B; --acid-d:#23704A; --acid-soft:rgba(47,143,91,.12);
+    --txt:#1C2529; --muted:#5B6B70;
+    --ok:#2F8F5B; --warn:#E0A800; --bad:#C43D2F; --idle:#8A9894;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:"Malgun Gothic","맑은 고딕",Segoe UI,sans-serif;background:var(--bg);color:var(--txt);line-height:1.65}
   a{color:inherit;text-decoration:none}
-  ::selection{background:var(--acid);color:#0c0c0c}
+  ::selection{background:var(--acid);color:#fff}
   .mono{font-family:Consolas,"D2Coding",monospace}
 
   @media(min-width:961px){
@@ -44,15 +46,15 @@
     clip-path:circle(0% at calc(100% - 52px) 40px);transition:clip-path .5s cubic-bezier(.7,0,.3,1);pointer-events:none;overflow:auto;padding:80px 20px}
   .overlay.open{clip-path:circle(150% at calc(100% - 52px) 40px);pointer-events:auto}
   .overlay nav{display:flex;flex-direction:column;gap:2px;text-align:center}
-  .overlay nav a{color:#0c0c0c;font-size:clamp(20px,3.4vw,36px);font-weight:900;letter-spacing:-1px;padding:3px 20px;transition:.15s}
+  .overlay nav a{color:#fff;font-size:clamp(20px,3.4vw,36px);font-weight:900;letter-spacing:-1px;padding:3px 20px;transition:.15s}
   .overlay nav a small{font-family:Consolas,monospace;font-size:11px;vertical-align:super;margin-right:10px;opacity:.5;letter-spacing:0}
   .overlay nav a:hover{transform:translateX(10px)}
-  .overlay .close{position:absolute;top:22px;right:28px;background:#0c0c0c;color:var(--acid);border:none;width:48px;height:48px;border-radius:50%;font-size:19px;cursor:pointer;font-weight:900}
+  .overlay .close{position:absolute;top:22px;right:28px;background:#1C2529;color:var(--acid);border:none;width:48px;height:48px;border-radius:50%;font-size:19px;cursor:pointer;font-weight:900}
 
   /* ===== 01 COVER ===== */
   #cover{overflow:hidden}
   #cover:before{content:"INNO-HMI · NIMO · NICE MES · OEE · FOCAS · MODBUS · ";position:absolute;top:50%;left:0;white-space:nowrap;
-    font-size:140px;font-weight:900;color:transparent;-webkit-text-stroke:1px #212121;letter-spacing:6px;
+    font-size:140px;font-weight:900;color:transparent;-webkit-text-stroke:1px #D5DCD9;letter-spacing:6px;
     transform:translateY(-50%);pointer-events:none;animation:slide 40s linear infinite}
   @keyframes slide{from{transform:translate(0,-50%)}to{transform:translate(-50%,-50%)}}
   #cover .wrap{position:relative;z-index:2}
@@ -65,9 +67,9 @@
   .cta{margin-top:38px;display:flex;gap:12px;flex-wrap:wrap}
   .btn{padding:15px 32px;border-radius:100px;font-weight:900;cursor:pointer;border:1px solid var(--line2);background:transparent;color:var(--txt);font-size:13.5px;font-family:inherit;letter-spacing:1px;display:inline-block}
   .btn:hover{border-color:var(--acid);color:var(--acid)}
-  .btn.acid{background:var(--acid);border-color:var(--acid);color:#0c0c0c}
-  .btn.acid:hover{background:var(--acid-d);color:#0c0c0c}
-  .marquee{position:absolute;bottom:0;left:0;right:0;background:var(--acid);color:#0c0c0c;overflow:hidden;padding:11px 0;font-weight:900;font-size:12.5px;letter-spacing:2px}
+  .btn.acid{background:var(--acid);border-color:var(--acid);color:#fff}
+  .btn.acid:hover{background:var(--acid-d);color:#fff}
+  .marquee{position:absolute;bottom:0;left:0;right:0;background:var(--acid);color:#fff;overflow:hidden;padding:11px 0;font-weight:900;font-size:12.5px;letter-spacing:2px}
   .marquee div{white-space:nowrap;animation:mq 26s linear infinite;display:inline-block}
   @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
@@ -97,7 +99,7 @@
   .sig{border:1px solid var(--line)}
   .sig .r{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:16px 18px;border-bottom:1px solid var(--line);align-items:center}
   .sig .r:last-child{border-bottom:none}
-  .sig .n{font-family:Consolas,monospace;color:#0c0c0c;background:var(--acid);font-weight:900;text-align:center;padding:4px 0;font-size:13px}
+  .sig .n{font-family:Consolas,monospace;color:#fff;background:var(--acid);font-weight:900;text-align:center;padding:4px 0;font-size:13px}
   .sig h5{font-size:15px;font-weight:800}
   .sig p{color:var(--muted);font-size:13px}
 
@@ -175,7 +177,7 @@
   .filterbar button{background:transparent;border:none;border-right:1px solid var(--line);color:var(--muted);padding:11px 20px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit}
   .filterbar button:last-child{border-right:none}
   .filterbar button:hover{color:var(--txt)}
-  .filterbar button.active{background:var(--acid);color:#0c0c0c}
+  .filterbar button.active{background:var(--acid);color:#fff}
   .prods{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);border:1px solid var(--line)}
   .prod{background:var(--bg);display:flex;flex-direction:column}
   .drop{position:relative;height:180px;background:var(--panel2) center/cover no-repeat;display:flex;flex-direction:column;
@@ -214,20 +216,20 @@
   .faq .a{padding:0 2px 22px 28px;color:var(--muted);font-size:14px}
 
   /* ===== CONTACT ===== */
-  #contact{background:var(--acid);color:#0c0c0c}
-  #contact .kicker{color:#0c0c0c;opacity:.55}
-  #contact h2.big{color:#0c0c0c}
-  #contact h2.big em{color:#0c0c0c;text-decoration:underline}
+  #contact{background:var(--acid);color:#fff}
+  #contact .kicker{color:#fff;opacity:.55}
+  #contact h2.big{color:#fff}
+  #contact h2.big em{color:#fff;text-decoration:underline}
   #contact .sub{color:rgba(12,12,12,.7)}
   .c-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
   .c-info .row{padding:14px 0;border-bottom:1px solid rgba(12,12,12,.2);display:flex;justify-content:space-between;gap:14px;font-weight:700;font-size:14.5px}
   .c-info .row span:first-child{opacity:.55;font-size:12px;font-family:Consolas,monospace;letter-spacing:1px;flex:none}
   .c-info .row span:last-child{text-align:right}
   form.contact{display:flex;flex-direction:column;gap:11px}
-  form.contact input,form.contact textarea{background:rgba(12,12,12,.07);border:1px solid rgba(12,12,12,.25);color:#0c0c0c;padding:14px 16px;font-size:14px;font-family:inherit;width:100%}
+  form.contact input,form.contact textarea{background:rgba(12,12,12,.07);border:1px solid rgba(12,12,12,.25);color:#fff;padding:14px 16px;font-size:14px;font-family:inherit;width:100%}
   form.contact input::placeholder,form.contact textarea::placeholder{color:rgba(12,12,12,.45)}
   form.contact textarea{resize:vertical;min-height:110px}
-  form.contact button{background:#0c0c0c;color:var(--acid);border:none;padding:16px;font-weight:900;font-size:14px;letter-spacing:2px;cursor:pointer;font-family:inherit}
+  form.contact button{background:#1C2529;color:var(--acid);border:none;padding:16px;font-weight:900;font-size:14px;letter-spacing:2px;cursor:pointer;font-family:inherit}
 
   /* ===== LOCATION ===== */
   .map-box{border:1px solid var(--line);margin-bottom:22px}
@@ -235,16 +237,16 @@
     repeating-linear-gradient(0deg,var(--line) 0,var(--line) 1px,transparent 1px,transparent 44px),
     repeating-linear-gradient(90deg,var(--line) 0,var(--line) 1px,transparent 1px,transparent 44px);
     position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);border-bottom:none}
-  .map-img .pin{background:var(--acid);color:#0c0c0c;padding:10px 20px;font-weight:900;z-index:2;letter-spacing:1px}
+  .map-img .pin{background:var(--acid);color:#fff;padding:10px 20px;font-weight:900;z-index:2;letter-spacing:1px}
   .map-img .pin:before{content:"📍 "}
   footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:12px;font-family:Consolas,monospace}
   footer .frow{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 
   /* ===== 모달 ===== */
-  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:400;padding:20px}
+  .modal-bg{position:fixed;inset:0;background:rgba(28,37,41,.55);display:none;align-items:center;justify-content:center;z-index:400;padding:20px}
   .modal-bg.open{display:flex}
   .modal{background:var(--panel);border:1px solid var(--line2);max-width:760px;width:100%;max-height:86vh;overflow:auto;position:relative}
-  .modal .mclose{position:sticky;top:0;float:right;margin:12px 12px 0 0;background:var(--acid);color:#0c0c0c;border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;font-weight:900;z-index:5}
+  .modal .mclose{position:sticky;top:0;float:right;margin:12px 12px 0 0;background:var(--acid);color:#fff;border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;font-weight:900;z-index:5}
   .m-in{padding:30px 34px 34px}
   .m-head{display:flex;gap:18px;align-items:flex-start;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:22px}
   .m-head .ic{font-size:36px;flex:none}
@@ -264,56 +266,56 @@
   .simcall p{color:var(--muted);font-size:13.5px;margin-top:5px;max-width:560px}
   .simcall p b{color:var(--acid)}
 
-  .sim{position:fixed;inset:0;background:#080808;z-index:500;display:none;flex-direction:column}
+  .sim{position:fixed;inset:0;background:#F4F6F5;z-index:500;display:none;flex-direction:column}
   .sim.open{display:flex}
   .sim-top{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
   .sim-top .dd{width:11px;height:11px;border-radius:50%}
   .sim-top .dd.r{background:#ff5f57}.sim-top .dd.y{background:#febc2e}.sim-top .dd.g{background:#28c840}
   .sim-top .tt{font-weight:900;font-size:13.5px;margin-left:6px}
   .sim-top .badge{font-family:Consolas,monospace;font-size:10px;font-weight:900;letter-spacing:1.5px;
-    color:#0c0c0c;background:var(--acid);padding:3px 9px}
+    color:#fff;background:var(--acid);padding:3px 9px}
   .sim-top .clk{margin-left:auto;font-family:Consolas,monospace;color:var(--muted);font-size:12px}
   .sim-top .x{background:transparent;border:1px solid var(--line2);color:var(--txt);width:32px;height:32px;cursor:pointer;font-weight:900}
-  .sim-top .x:hover{background:var(--acid);color:#0c0c0c;border-color:var(--acid)}
+  .sim-top .x:hover{background:var(--acid);color:#fff;border-color:var(--acid)}
   .sim-body{flex:1;display:flex;overflow:hidden}
   .sim-nav{width:214px;flex:none;border-right:1px solid var(--line);background:var(--panel);overflow-y:auto;padding:10px 0}
-  .sim-nav .grp{font-family:Consolas,monospace;font-size:9.5px;letter-spacing:2px;color:#5b5b5b;padding:12px 16px 6px;font-weight:800}
+  .sim-nav .grp{font-family:Consolas,monospace;font-size:9.5px;letter-spacing:2px;color:#8A9894;padding:12px 16px 6px;font-weight:800}
   .sim-nav button{display:block;width:100%;background:none;border:none;border-left:3px solid transparent;
     color:var(--muted);text-align:left;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
   .sim-nav button:hover{color:var(--txt);background:var(--panel2)}
   .sim-nav button.on{color:var(--acid);border-left-color:var(--acid);background:var(--acid-soft)}
-  .sim-main{flex:1;overflow-y:auto;padding:20px 22px 40px;background:#0a0a0a}
+  .sim-main{flex:1;overflow-y:auto;padding:20px 22px 40px;background:#F4F6F5}
   .sim-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap}
   .sim-h h3{font-size:20px;font-weight:900;letter-spacing:-.6px}
   .sim-h span{font-family:Consolas,monospace;font-size:11px;color:var(--acid);letter-spacing:1.5px}
   .sim-h .rt{margin-left:auto;font-size:11.5px;color:var(--muted)}
   .sgrid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:16px}
   .s4{grid-template-columns:repeat(4,1fr)}.s3{grid-template-columns:repeat(3,1fr)}.s2{grid-template-columns:repeat(2,1fr)}
-  .sc{background:#0e0e0e;padding:15px 16px}
+  .sc{background:#FFFFFF;padding:15px 16px}
   .sc .l{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.5px}
   .sc .v{font-family:Consolas,monospace;font-size:24px;font-weight:900;color:var(--acid);letter-spacing:-1px;line-height:1.3}
   .sc .v small{font-size:12px;color:var(--muted)}
-  .pane{border:1px solid var(--line);background:#0e0e0e;padding:15px 16px;margin-bottom:16px}
+  .pane{border:1px solid var(--line);background:#FFFFFF;padding:15px 16px;margin-bottom:16px}
   .pane .ph{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--muted);
     font-weight:800;letter-spacing:.5px;margin-bottom:12px}
   .pane .ph b{color:var(--acid);font-family:Consolas,monospace;font-weight:900}
   table.st{width:100%;border-collapse:collapse;font-size:12.5px}
   table.st th{text-align:left;color:var(--muted);font-size:10.5px;font-weight:800;letter-spacing:1px;
     padding:7px 8px;border-bottom:1px solid var(--line);font-family:Consolas,monospace}
-  table.st td{padding:9px 8px;border-bottom:1px solid #1b1b1b}
+  table.st td{padding:9px 8px;border-bottom:1px solid #DDE3E0}
   table.st tr:last-child td{border-bottom:none}
   .pill{font-size:10px;font-weight:900;padding:2px 8px;font-family:Consolas,monospace}
-  .p-run{color:#22c55e;background:rgba(34,197,94,.14)}
-  .p-idle{color:#f5b13d;background:rgba(245,177,61,.14)}
-  .p-alarm{color:#ef4444;background:rgba(239,68,68,.14)}
-  .p-stop{color:#8a94a4;background:rgba(138,148,164,.14)}
+  .p-run{color:#2F8F5B;background:rgba(47,143,91,.14)}
+  .p-idle{color:#E0A800;background:rgba(224,168,0,.14)}
+  .p-alarm{color:#C43D2F;background:rgba(196,61,47,.14)}
+  .p-stop{color:#8A9894;background:rgba(138,148,164,.14)}
   .bars{display:flex;align-items:flex-end;gap:5px;height:76px}
   .bars div{flex:1;background:var(--acid);opacity:.75;min-height:3px;transition:height .5s}
-  .bars.alt div{background:#3d7dd6}
+  .bars.alt div{background:#1F5FBF}
   .xlab{display:flex;gap:5px;margin-top:5px}
-  .xlab span{flex:1;text-align:center;font-size:9.5px;color:#5b5b5b;font-family:Consolas,monospace}
+  .xlab span{flex:1;text-align:center;font-size:9.5px;color:#8A9894;font-family:Consolas,monospace}
   .eqcards{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-  .eqc{background:#0e0e0e;padding:13px 14px}
+  .eqc{background:#FFFFFF;padding:13px 14px}
   .eqc .hd{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
   .eqc .nm{font-size:12px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .eqc .mt{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);font-family:Consolas,monospace;margin-top:7px}
@@ -321,36 +323,36 @@
   .minheat{display:grid;grid-template-columns:repeat(20,1fr);gap:2px;margin-top:8px}
   .minheat i{aspect-ratio:1;display:block;background:rgba(111,125,143,.25)}
   .donuts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-  .dn{background:#0e0e0e;padding:18px;text-align:center}
+  .dn{background:#FFFFFF;padding:18px;text-align:center}
   .dn svg{width:110px;height:110px}
   .dn .dl{font-size:11.5px;font-weight:800;margin-top:8px}
   .dn .ds{font-size:10.5px;color:var(--muted);font-family:Consolas,monospace}
   .tbar{margin-bottom:11px}
   .tbar .tl{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px}
   .tbar .tl b{font-family:Consolas,monospace;color:var(--acid)}
-  .tbar .tt{height:9px;background:#1b1b1b}
+  .tbar .tt{height:9px;background:#DDE3E0}
   .tbar .tt i{display:block;height:100%;background:var(--acid)}
-  .tbar .tt i.w{background:#f5b13d}.tbar .tt i.g{background:#8a94a4}
+  .tbar .tt i.w{background:#E0A800}.tbar .tt i.g{background:#8A9894}
   .gauges{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-  .gg{background:#0e0e0e;padding:18px;text-align:center}
+  .gg{background:#FFFFFF;padding:18px;text-align:center}
   .gg svg{width:104px;height:104px}
   .gg .gl{font-size:12.5px;font-weight:800;margin-top:6px}
   .gg .gs{font-size:10.5px;color:var(--muted);font-family:Consolas,monospace;margin-top:2px}
-  .warn{border:1px solid #ef4444;background:rgba(239,68,68,.08);padding:12px 14px;margin-bottom:9px;font-size:12.5px}
-  .warn b{color:#ef4444;font-family:Consolas,monospace}
-  .okbox{border:1px solid #22c55e;background:rgba(34,197,94,.08);padding:12px 14px;font-size:12.5px}
-  .okbox b{color:#22c55e;font-family:Consolas,monospace}
+  .warn{border:1px solid #C43D2F;background:rgba(196,61,47,.08);padding:12px 14px;margin-bottom:9px;font-size:12.5px}
+  .warn b{color:#C43D2F;font-family:Consolas,monospace}
+  .okbox{border:1px solid #2F8F5B;background:rgba(47,143,91,.08);padding:12px 14px;font-size:12.5px}
+  .okbox b{color:#2F8F5B;font-family:Consolas,monospace}
   .kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-  .kcol{background:#0e0e0e;padding:12px;min-height:250px}
+  .kcol{background:#FFFFFF;padding:12px;min-height:250px}
   .kcol h5{font-family:Consolas,monospace;font-size:10px;letter-spacing:1.5px;color:var(--acid);
     padding-bottom:8px;border-bottom:1px solid var(--line);margin-bottom:10px;display:flex;justify-content:space-between}
   .kcol h5 em{font-style:normal;color:var(--muted)}
-  .kcard{background:#151515;border:1px solid #222;border-left:3px solid var(--acid);padding:9px 11px;margin-bottom:8px}
+  .kcard{background:#FFFFFF;border:1px solid #C9D1CE;border-left:3px solid var(--acid);padding:9px 11px;margin-bottom:8px}
   .kcard .kn{font-family:Consolas,monospace;font-size:9.5px;color:var(--muted)}
   .kcard .kt{font-size:12px;font-weight:800;margin-top:2px}
   .kcard .kd{font-size:10.5px;color:var(--muted);margin-top:3px}
-  .kcard.late{border-left-color:#ef4444}
-  .simnote{color:#5b5b5b;font-size:11.5px;margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+  .kcard.late{border-left-color:#C43D2F}
+  .simnote{color:#8A9894;font-size:11.5px;margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
   @media(max-width:860px){
     .sim-nav{width:100%;position:absolute;left:-100%;top:0;bottom:0;z-index:5;transition:left .2s}
     .sim-nav.open{left:0}
@@ -366,7 +368,7 @@
 
   .totop{position:fixed;right:20px;bottom:20px;background:var(--panel2);border:1px solid var(--line2);color:var(--txt);width:46px;height:46px;border-radius:50%;cursor:pointer;z-index:150;opacity:0;pointer-events:none;transition:.2s;font-size:17px}
   .totop.show{opacity:1;pointer-events:auto}
-  .totop:hover{background:var(--acid);color:#0c0c0c;border-color:var(--acid)}
+  .totop:hover{background:var(--acid);color:#fff;border-color:var(--acid)}
 
   .note{color:var(--muted);font-size:12.5px;margin-top:14px}
   .note b{color:var(--acid);font-family:Consolas,monospace}
@@ -392,17 +394,48 @@
     .heat{grid-template-columns:repeat(10,1fr)}
   }
 
-  /* ===== 브리핑 사이트용 조정: 왼쪽 위 메뉴 ===== */
-  header .bar{justify-content:flex-start;gap:18px}
-  .overlay{clip-path:circle(0% at 52px 40px)}
-  .overlay.open{clip-path:circle(150% at 52px 40px)}
-  .overlay .close{right:auto;left:28px}
-  .overlay nav a.sub{font-size:clamp(15px,2.2vw,22px);font-weight:800;opacity:.8}
-  .overlay nav .div{height:2px;background:#0c0c0c;margin:12px 0;opacity:.8}
-  .stage-n{font-family:Consolas,monospace;color:var(--acid);font-size:12px;letter-spacing:2px}
-  .how{color:var(--acid);font-size:13.5px;font-weight:700;margin-top:10px}
-  .fair{border:1px solid var(--acid);background:var(--acid-soft);padding:20px 24px;margin-top:26px;font-size:14px;line-height:1.8}
-  .fair b{color:var(--acid)}
+  /* ===== 브리핑 사이트와 같은 틀 ===== */
+  :root{--bg:#EDF0EE;--panel:#FFFFFF;--panel2:#F4F6F5;--line:#C9D1CE;--line2:#A9B4B0;
+    --acid:#2F8F5B;--acid-d:#23704A;--acid-soft:rgba(47,143,91,.09);--txt:#1C2529;--muted:#5B6B70;
+    --ok:#2F8F5B;--warn:#E0A800;--bad:#C43D2F;--idle:#8A9894;--ink:#1C2529;--paper:#EDF0EE;--sheet:#fff;--steel:#5B6B70;--rule:#C9D1CE;--run:#2F8F5B;--focus:#1F5FBF;color-scheme:light}
+  html{scroll-snap-type:none!important}
+  body{font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:var(--bg);color:var(--txt);word-break:keep-all;overflow-wrap:anywhere}
+  .wrap{max-width:1080px;padding:0 20px}
+  header.top{position:static;mix-blend-mode:normal;display:flex;align-items:center;gap:14px;padding:18px 0;border-bottom:2px solid var(--ink)}
+  header.top .logo{font-weight:700;font-size:17px;letter-spacing:0;text-decoration:none;color:var(--ink)}
+  header.top .logo span{display:inline-block;width:10px;height:10px;background:var(--run);border-radius:50%;margin-right:8px}
+  section.snap{min-height:auto;padding:56px 0;display:block}
+  #cover{padding:44px 0 70px}
+  #cover h1{font-size:clamp(30px,5vw,52px);font-weight:700;letter-spacing:-.02em;line-height:1.2}
+  #cover h1 em{color:var(--run)}
+  h2.big{font-weight:700;letter-spacing:-.02em;font-size:clamp(26px,3.6vw,38px)}
+  .kicker{letter-spacing:2px;font-size:12px}
+  .btn{border-radius:4px;font-weight:700;letter-spacing:0;border-color:var(--ink);color:var(--ink)}
+  .btn.acid{background:var(--ink);border-color:var(--ink);color:#fff}
+  .btn.acid:hover{background:#000;color:#fff}
+  .g2,.g3,.g4{background:var(--rule);border-color:var(--rule)}
+  .cell{background:var(--sheet)}
+  .jump{display:flex;flex-wrap:wrap;gap:8px;padding:14px 0;border-bottom:1px solid var(--rule);position:sticky;top:0;background:var(--bg);z-index:20}
+  .jump a{font-size:13.5px;padding:6px 12px;border:1px solid var(--rule);background:var(--sheet);border-radius:999px;color:var(--ink)}
+  .jump a.go{background:var(--warn);border-color:var(--warn);font-weight:700}
+  .stage-n{font-family:Consolas,monospace;color:var(--run);font-size:12px;letter-spacing:2px}
+  .how{color:var(--run);font-size:13.5px;font-weight:700;margin-top:10px}
+  .fair{border-left:6px solid var(--run);background:var(--sheet);padding:18px 22px;margin-top:26px;font-size:14.5px;line-height:1.8}
+  .fair b{color:var(--ink)}
+  #contact{background:var(--ink)!important;color:#fff!important;border-radius:6px;margin:30px 0 40px;padding:40px 0!important}
+  #contact .kicker{color:#C9D1CE!important;opacity:1}
+  #contact h2.big,#contact h2.big em{color:#fff!important;text-decoration:none}
+  #contact .sub{color:#C9D1CE!important}
+  #contact .btn{color:#fff;border-color:#fff}
+  #contact .btn.acid{background:var(--warn);border-color:var(--warn);color:var(--ink)}
+  .sim{background:var(--bg)}
+  .sim-top{background:var(--ink);color:#fff}
+  .sim-top .tt{color:#fff}
+  .sim-top .x,.sim-top .simMenu{color:#fff;border-color:#5B6B70;background:transparent}
+  .sim-top .x:hover{background:var(--warn);color:var(--ink);border-color:var(--warn)}
+  .sim-top .clk{color:#C9D1CE}
+  footer{font-family:inherit;border-top:1px solid var(--rule)}
+  @media(max-width:720px){.jump{position:static}}
 </style><link rel="canonical" href="https://briefing.nimo.ai.kr/nimo.html">
 <meta property="og:title" content="스마트공장 지원사업과 설비 모니터링·MES — NIMO 시연 | 제조업 지원사업 브리핑">
 <meta property="og:description" content="설치 없이 브라우저에서 NIMO 설비 모니터링과 MES를 시연해 보세요. 스마트공장 기초·고도화, 제조 AI 지원사업에 필요한 가동률 실측, 설비 연동 MES, 사용로그 전송, 도입 효과 리포트.">
@@ -415,33 +448,31 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Ccircle cx=%228%22 cy=%228%22 r=%226%22 fill=%22%232F8F5B%22/%3E%3C/svg%3E">
 <link rel="alternate" type="application/rss+xml" title="제조업 지원사업 브리핑" href="https://briefing.nimo.ai.kr/rss.xml">
+<style id="siteMenuCss">
+header.top{justify-content:flex-start!important;gap:14px}header.top nav{display:none!important}
+.mbtn{display:inline-flex;align-items:center;gap:8px;background:none;border:1.5px solid var(--ink,#1C2529);border-radius:4px;padding:7px 11px;font:inherit;font-size:13px;font-weight:700;color:var(--ink,#1C2529);cursor:pointer}
+.mbtn i{display:block;width:16px;height:2px;background:currentColor;box-shadow:0 5px 0 currentColor,0 -5px 0 currentColor}
+.mbar{display:flex;align-items:center;gap:14px;max-width:1080px;margin:0 auto;padding:14px 20px}
+.mdrawer{position:fixed;inset:0;z-index:1000;visibility:hidden}
+.mdrawer.open{visibility:visible}
+.mdrawer .shade{position:absolute;inset:0;background:rgba(28,37,41,.45);opacity:0;transition:opacity .2s}
+.mdrawer.open .shade{opacity:1}
+.mdrawer .panel{position:absolute;top:0;left:0;bottom:0;width:min(320px,86vw);background:#1C2529;color:#fff;padding:18px 0;transform:translateX(-100%);transition:transform .25s ease;overflow:auto;box-shadow:4px 0 24px rgba(0,0,0,.25)}
+.mdrawer.open .panel{transform:none}
+.mdrawer .mhead{display:flex;justify-content:space-between;align-items:center;padding:0 20px 14px;border-bottom:1px solid #3A474C;font-weight:700}
+.mdrawer .mclose{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}
+.mdrawer a{display:flex;gap:12px;align-items:baseline;padding:15px 20px;color:#fff;text-decoration:none;font-size:17px;font-weight:500;border-bottom:1px solid #2B363B}
+.mdrawer a small{font-size:11px;color:#8FA0A6;width:18px;font-variant-numeric:tabular-nums}
+.mdrawer a:hover,.mdrawer a[aria-current]{background:#2B363B}.mdrawer a[aria-current]{box-shadow:inset 4px 0 0 #2F8F5B}
+.mdrawer a.hl{color:#E0A800}
+.mdrawer .mfoot{padding:16px 20px;font-size:12.5px;color:#8FA0A6;line-height:1.6}
+.mdrawer .mfoot a{display:inline-block;padding:10px 14px;margin-top:10px;border:none;background:#E0A800;color:#1C2529;font-weight:700;font-size:14px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){.mdrawer .panel,.mdrawer .shade{transition:none}}
+</style>
 </head>
 <body>
 
-<header>
-  <div class="bar">
-    <button class="menu-btn" id="menuOpen" aria-label="메뉴 열기"><span class="lines"><i></i><i></i><i></i></span><span>MENU</span></button>
-    <a class="logo" href="./">제조업 지원사업 브리핑 <i>· NIMO</i></a>
-  </div>
-</header>
-
-<div class="overlay" id="overlay">
-  <button class="close" id="menuClose" aria-label="메뉴 닫기">✕</button>
-  <nav>
-    <a href="./"><small>01</small>공고 검색</a>
-    <a href="guide.html"><small>02</small>모아보기</a>
-    <a href="resources.html"><small>03</small>자료실</a>
-    <a href="weekly/"><small>04</small>주간 브리핑</a>
-    <a href="services.html"><small>05</small>신청 도움</a>
-    <div class="div"></div>
-    <a class="sub" href="#cover"><small>NIMO</small>지원사업과 NIMO</a>
-    <a class="sub" href="#nimo"><small>NIMO</small>10개 기능 모듈</a>
-    <a class="sub" href="#mes"><small>NIMO</small>NICE MES</a>
-    <a class="sub" href="#hmi"><small>NIMO</small>INNO-HMI · 도입 비용</a>
-    <a class="sub" href="#process"><small>NIMO</small>도입 절차 · FAQ</a>
-    <a href="#" onclick="overlay.classList.remove('open');openSim('dash');return false;"><small>▶</small>설치 없이 시연하기</a>
-  </nav>
-</div>
+<div class="wrap"><header class="top"><button class="mbtn" id="siteMenuBtn" aria-controls="siteMenu" aria-expanded="false"><i></i>메뉴</button><a class="logo" href="./"><span aria-hidden="true"></span>제조업 지원사업 브리핑</a></header></div>
 
 <main>
   <section class="snap" id="cover">
@@ -463,6 +494,12 @@
     </div>
     <div class="marquee"><div>SMART FACTORY — NIMO EDGE AGENT — NICE MES — OEE ANALYTICS — PREDICTIVE MAINTENANCE — GOV LOG TRANSMIT — EFFECT REPORT — SMART FACTORY — NIMO EDGE AGENT — NICE MES — OEE ANALYTICS — PREDICTIVE MAINTENANCE — GOV LOG TRANSMIT — EFFECT REPORT — </div></div>
   </section>
+
+  <div class="wrap"><nav class="jump" aria-label="NIMO 페이지 바로가기">
+    <a class="go" href="#" onclick="openSim('dash');return false;">▶ 설치 없이 시연하기</a>
+    <a href="#gov">지원사업과 NIMO</a><a href="#hmi">INNO-HMI · 도입 비용</a><a href="#nimo">10개 기능 모듈</a>
+    <a href="#mes">NICE MES</a><a href="#arch">아키텍처</a><a href="#process">도입 절차</a><a href="#faq">FAQ</a><a href="#contact">도입 상담</a>
+  </nav></div>
 
   <section class="snap" id="gov">
     <div class="wrap">
@@ -577,7 +614,7 @@
           <div class="dbox">
             <div class="bt"><span style="color:var(--muted)">주축 회전수 (RPM) · 60초 롤링</span><span id="rpmVal">2,140 rpm</span></div>
             <svg class="spark" id="spark" viewBox="0 0 600 92" preserveAspectRatio="none">
-              <polyline id="sparkLine" fill="none" stroke="#c8f31d" stroke-width="2" points=""></polyline>
+              <polyline id="sparkLine" fill="none" stroke="#2F8F5B" stroke-width="2" points=""></polyline>
             </svg>
             <div class="bt" style="margin-top:18px"><span style="color:var(--muted)">OEE 히트맵 · 최근 60분</span><span>45 blocks</span></div>
             <div class="heat" id="heat"></div>
@@ -814,12 +851,6 @@
 </div>
 
 <script>
-/* ===== 오버레이 메뉴 ===== */
-const overlay=document.getElementById('overlay');
-document.getElementById('menuOpen').onclick=()=>overlay.classList.add('open');
-document.getElementById('menuClose').onclick=()=>overlay.classList.remove('open');
-overlay.querySelectorAll('a').forEach(a=>a.onclick=()=>overlay.classList.remove('open'));
-
 /* ===== 카운터 ===== */
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
   e.target.querySelectorAll('[data-count]').forEach(runCount);io.unobserve(e.target);}});},{threshold:.2});
@@ -965,8 +996,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
   const EQ=['WIRE-EDM-AQ750S','BOS630S 연삭기','EZ-43CS 슈퍼드릴','EZ-53CS 슈퍼드릴','EZ-64CS 슈퍼드릴',
             'EZ-85CS 슈퍼드릴','EZ-106CS 슈퍼드릴','MY535S 정밀드릴','MY650S 정밀드릴','MY960S 정밀드릴',
             'SEDM-430NCS','SEDM-640NCS','INNO-HMI 테스트기'];
-  const STA=[{t:'가동',c:'#22c55e',bg:'rgba(34,197,94,.14)'},{t:'유휴',c:'#f5b13d',bg:'rgba(245,177,61,.14)'},
-             {t:'알람',c:'#ef4444',bg:'rgba(239,68,68,.14)'},{t:'정지',c:'#6f7d8f',bg:'rgba(111,125,143,.16)'}];
+  const STA=[{t:'가동',c:'#2F8F5B',bg:'rgba(47,143,91,.14)'},{t:'유휴',c:'#E0A800',bg:'rgba(224,168,0,.14)'},
+             {t:'알람',c:'#C43D2F',bg:'rgba(196,61,47,.14)'},{t:'정지',c:'#8A9894',bg:'rgba(111,125,143,.16)'}];
   const eqList=document.getElementById('eqList');
   let st=EQ.map(()=>Math.random()<.72?0:(Math.random()<.6?1:(Math.random()<.5?2:3)));
   function renderEq(){
@@ -981,7 +1012,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
   // 히트맵
   const heat=document.getElementById('heat');
-  const HC=['rgba(111,125,143,.25)','rgba(245,177,61,.55)','rgba(34,197,94,.45)','rgba(34,197,94,.85)'];
+  const HC=['rgba(111,125,143,.25)','rgba(224,168,0,.55)','rgba(47,143,91,.45)','rgba(47,143,91,.85)'];
   const cells=[];
   for(let i=0;i<45;i++){const d=document.createElement('div');d.className='hc';
     d.style.background=HC[Math.random()<.65?(Math.random()<.5?2:3):(Math.random()<.6?1:0)];
@@ -1021,7 +1052,7 @@ const SIM_EQ=[
   {n:'MY650S 정밀드릴',t:'FANUC'},{n:'MY960S 정밀드릴',t:'MODBUS'},
   {n:'SEDM-430NCS',t:'MODBUS'},{n:'SEDM-640NCS',t:'MODBUS'},
   {n:'INNO-HMI 테스트기',t:'FANUC'}];
-const SIM_ST=[['가동','p-run','#22c55e'],['유휴','p-idle','#f5b13d'],['알람','p-alarm','#ef4444'],['정지','p-stop','#8a94a4']];
+const SIM_ST=[['가동','p-run','#2F8F5B'],['유휴','p-idle','#E0A800'],['알람','p-alarm','#C43D2F'],['정지','p-stop','#8A9894']];
 const rnd=(a,b)=>a+Math.random()*(b-a);
 const ri=(a,b)=>Math.floor(rnd(a,b+1));
 const pad2=n=>String(n).padStart(2,'0');
@@ -1033,7 +1064,7 @@ function every(ms,fn){simTimers.push(setInterval(fn,ms));}
 
 /* --- 공통 위젯 --- */
 function sparkSVG(id,color){return `<svg viewBox="0 0 200 40" preserveAspectRatio="none">
-  <polyline id="${id}" fill="none" stroke="${color||'#c8f31d'}" stroke-width="1.6" points=""/></svg>`;}
+  <polyline id="${id}" fill="none" stroke="${color||'#2F8F5B'}" stroke-width="1.6" points=""/></svg>`;}
 function fillSpark(id,base,range){
   const el=document.getElementById(id);if(!el)return;
   let pts=Array.from({length:40},()=>base+rnd(-range,range));
@@ -1046,23 +1077,23 @@ function donut(pct,label,sublabel,color){
   const r=44,c=2*Math.PI*r,off=c*(1-pct/100);
   return `<div class="dn">
     <svg viewBox="0 0 110 110">
-      <circle cx="55" cy="55" r="${r}" fill="none" stroke="#1e1e1e" stroke-width="11"/>
+      <circle cx="55" cy="55" r="${r}" fill="none" stroke="#DDE3E0" stroke-width="11"/>
       <circle cx="55" cy="55" r="${r}" fill="none" stroke="${color}" stroke-width="11"
         stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"
         transform="rotate(-90 55 55)" stroke-linecap="butt"/>
-      <text x="55" y="61" text-anchor="middle" fill="#f2f2f0" font-size="21"
+      <text x="55" y="61" text-anchor="middle" fill="#1C2529" font-size="21"
         font-family="Consolas,monospace" font-weight="700">${pct}%</text>
     </svg>
     <div class="dl">${label}</div><div class="ds">${sublabel}</div></div>`;
 }
 function gauge(pct,label,sub){
-  const color=pct<80?'#22c55e':(pct<95?'#f5b13d':'#ef4444');
+  const color=pct<80?'#2F8F5B':(pct<95?'#E0A800':'#C43D2F');
   const r=42,c=2*Math.PI*r,off=c*(1-pct/100);
   return `<div class="gg"><svg viewBox="0 0 104 104">
-    <circle cx="52" cy="52" r="${r}" fill="none" stroke="#1e1e1e" stroke-width="10"/>
+    <circle cx="52" cy="52" r="${r}" fill="none" stroke="#DDE3E0" stroke-width="10"/>
     <circle cx="52" cy="52" r="${r}" fill="none" stroke="${color}" stroke-width="10"
       stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 52 52)"/>
-    <text x="52" y="58" text-anchor="middle" fill="#f2f2f0" font-size="19"
+    <text x="52" y="58" text-anchor="middle" fill="#1C2529" font-size="19"
       font-family="Consolas,monospace" font-weight="700">${pct}%</text></svg>
     <div class="gl">${label}</div><div class="gs">${sub}</div></div>`;
 }
@@ -1083,7 +1114,7 @@ function scDash(){
   alarms.sort((a,b)=>b[0].localeCompare(a[0]));
   const lab=days7();
   return `<div class="sim-h"><h3>메인 대시보드</h3><span>MODULE 01</span>
-    <span class="rt">업체명 <b style="color:#f2f2f0">주식회사 이노팩</b> · NIMO ID <b style="color:#f2f2f0">INNOFAC-0001</b></span></div>
+    <span class="rt">업체명 <b style="color:#1C2529">주식회사 이노팩</b> · NIMO ID <b style="color:#1C2529">INNOFAC-0001</b></span></div>
   <div class="sgrid s4">
     <div class="sc"><div class="l">설비 총 개수</div><div class="v">13<small> EA</small></div></div>
     <div class="sc"><div class="l">온라인 / 오프라인</div><div class="v">${on}<small> / ${13-on}</small></div></div>
@@ -1091,16 +1122,16 @@ function scDash(){
     <div class="sc"><div class="l">금일 알람</div><div class="v">${alarms.length}<small> 건</small></div></div>
   </div>
   <div class="sgrid s4">
-    <div class="sc"><div class="l">RUN</div><div class="v" style="color:#22c55e">${simState.filter(s=>s===0).length}</div></div>
-    <div class="sc"><div class="l">IDLE</div><div class="v" style="color:#f5b13d">${simState.filter(s=>s===1).length}</div></div>
-    <div class="sc"><div class="l">ALARM</div><div class="v" style="color:#ef4444">${simState.filter(s=>s===2).length}</div></div>
-    <div class="sc"><div class="l">STOP</div><div class="v" style="color:#8a94a4">${simState.filter(s=>s===3).length}</div></div>
+    <div class="sc"><div class="l">RUN</div><div class="v" style="color:#2F8F5B">${simState.filter(s=>s===0).length}</div></div>
+    <div class="sc"><div class="l">IDLE</div><div class="v" style="color:#E0A800">${simState.filter(s=>s===1).length}</div></div>
+    <div class="sc"><div class="l">ALARM</div><div class="v" style="color:#C43D2F">${simState.filter(s=>s===2).length}</div></div>
+    <div class="sc"><div class="l">STOP</div><div class="v" style="color:#8A9894">${simState.filter(s=>s===3).length}</div></div>
   </div>
   <div class="pane">
     <div class="ph"><span>실시간 알람 리스트 · 오늘</span><b>${alarms.length} / 5건씩 페이지</b></div>
     <table class="st"><tr><th>발생시각</th><th>설비명</th><th>알람번호</th><th>메시지</th></tr>
-      ${alarms.map(a=>`<tr><td style="font-family:Consolas,monospace;color:#8f8f8a">${a[0]}</td>
-        <td>${a[1]}</td><td style="font-family:Consolas,monospace;color:#ef4444">${a[2]}</td><td>${a[3]}</td></tr>`).join('')}
+      ${alarms.map(a=>`<tr><td style="font-family:Consolas,monospace;color:#5B6B70">${a[0]}</td>
+        <td>${a[1]}</td><td style="font-family:Consolas,monospace;color:#C43D2F">${a[2]}</td><td>${a[3]}</td></tr>`).join('')}
     </table>
   </div>
   <div class="sgrid s2" style="background:transparent;border:none;gap:16px">
@@ -1116,10 +1147,10 @@ function scDash(){
   <div class="sgrid s2" style="background:transparent;border:none;gap:16px">
     <div class="pane" style="margin:0"><div class="ph"><span>Top 5 · 알람 발생 설비 (최근 7일)</span><b>RANK</b></div>
       <table class="st">${['EZ-85CS 슈퍼드릴|9','BOS630S 연삭기|7','WIRE-EDM-AQ750S|5','MY650S 정밀드릴|4','SEDM-640NCS|2']
-        .map((r,i)=>{const [a,b]=r.split('|');return `<tr><td style="color:#c8f31d;font-family:Consolas,monospace">${i+1}</td><td>${a}</td><td style="text-align:right;font-family:Consolas,monospace">${b}건</td></tr>`;}).join('')}</table></div>
+        .map((r,i)=>{const [a,b]=r.split('|');return `<tr><td style="color:#2F8F5B;font-family:Consolas,monospace">${i+1}</td><td>${a}</td><td style="text-align:right;font-family:Consolas,monospace">${b}건</td></tr>`;}).join('')}</table></div>
     <div class="pane" style="margin:0"><div class="ph"><span>Top 5 · 유휴 시간 상위 설비</span><b>RANK</b></div>
       <table class="st">${['SEDM-430NCS|4.2h','EZ-43CS 슈퍼드릴|3.6h','MY960S 정밀드릴|2.9h','EZ-53CS 슈퍼드릴|2.1h','INNO-HMI 테스트기|1.4h']
-        .map((r,i)=>{const [a,b]=r.split('|');return `<tr><td style="color:#c8f31d;font-family:Consolas,monospace">${i+1}</td><td>${a}</td><td style="text-align:right;font-family:Consolas,monospace">${b}</td></tr>`;}).join('')}</table></div>
+        .map((r,i)=>{const [a,b]=r.split('|');return `<tr><td style="color:#2F8F5B;font-family:Consolas,monospace">${i+1}</td><td>${a}</td><td style="text-align:right;font-family:Consolas,monospace">${b}</td></tr>`;}).join('')}</table></div>
   </div>`;
 }
 
@@ -1140,15 +1171,15 @@ function scMon(){
     <div class="ph"><span>전체 설비 상태</span><b>13 EA</b></div>
     <table class="st"><tr><th>설비명</th><th>타입</th><th>상태</th><th>주축 RPM</th><th>이송 F</th><th>실행 프로그램</th></tr>
     ${SIM_EQ.map((e,i)=>{const s=SIM_ST[simState[i]];
-      return `<tr><td>${e.n}</td><td style="font-family:Consolas,monospace;color:#8f8f8a">${e.t}</td>
+      return `<tr><td>${e.n}</td><td style="font-family:Consolas,monospace;color:#5B6B70">${e.t}</td>
         <td><span class="pill ${s[1]}">${s[0]}</span></td>
         <td style="font-family:Consolas,monospace">${simState[i]===0?num(ri(1600,2600)):'—'}</td>
         <td style="font-family:Consolas,monospace">${simState[i]===0?num(ri(120,900)):'—'}</td>
-        <td style="font-family:Consolas,monospace;color:#8f8f8a">${simState[i]===0?'O'+ri(1000,9999)+'.NC':'—'}</td></tr>`;}).join('')}
+        <td style="font-family:Consolas,monospace;color:#5B6B70">${simState[i]===0?'O'+ri(1000,9999)+'.NC':'—'}</td></tr>`;}).join('')}
     </table></div>`;
 }
 function afterMon(){
-  const HC=['rgba(111,125,143,.25)','rgba(245,177,61,.55)','rgba(34,197,94,.45)','rgba(34,197,94,.85)'];
+  const HC=['rgba(111,125,143,.25)','rgba(224,168,0,.55)','rgba(47,143,91,.45)','rgba(47,143,91,.85)'];
   SIM_EQ.slice(0,8).forEach((e,i)=>{
     fillSpark('mspk'+i,2100,340);
     const h=document.getElementById('mh'+i);if(!h)return;
@@ -1163,16 +1194,16 @@ function scOee(){
   const today=new Date(),from=new Date(today);from.setDate(today.getDate()-29);
   const f=d=>`${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
   return `<div class="sim-h"><h3>설비 기간별 조회 (OEE)</h3><span>MODULE 04</span>
-    <span class="rt">조회기간 <b style="color:#c8f31d;font-family:Consolas,monospace">${f(from)} ~ ${f(today)}</b> · 설비 전체</span></div>
+    <span class="rt">조회기간 <b style="color:#2F8F5B;font-family:Consolas,monospace">${f(from)} ~ ${f(today)}</b> · 설비 전체</span></div>
   <div class="donuts">
-    ${donut(a,'Availability 가용률','실가동 ÷ 계획가동','#22c55e')}
-    ${donut(p,'Performance 성능률','기준 사이클 대비','#3d7dd6')}
-    ${donut(q,'Quality 품질률','양품 ÷ 총 생산','#a78bfa')}
-    ${donut(oee,'OEE 종합 설비효율','A × P × Q','#c8f31d')}
+    ${donut(a,'Availability 가용률','실가동 ÷ 계획가동','#2F8F5B')}
+    ${donut(p,'Performance 성능률','기준 사이클 대비','#1F5FBF')}
+    ${donut(q,'Quality 품질률','양품 ÷ 총 생산','#7A5AC8')}
+    ${donut(oee,'OEE 종합 설비효율','A × P × Q','#2F8F5B')}
   </div>
   <div class="pane" style="margin-top:16px">
     <div class="ph"><span>시간 분석 (누적)</span><b>HOURS</b></div>
-    <div class="tbar"><div class="tl"><span>전체 시간 (All Day)</span><b>720.0 h</b></div><div class="tt"><i style="width:100%;background:#2f2f2f"></i></div></div>
+    <div class="tbar"><div class="tl"><span>전체 시간 (All Day)</span><b>720.0 h</b></div><div class="tt"><i style="width:100%;background:#C9D1CE"></i></div></div>
     <div class="tbar"><div class="tl"><span>부하 시간 (Planned Production)</span><b>528.0 h</b></div><div class="tt"><i style="width:73%"></i></div></div>
     <div class="tbar"><div class="tl"><span>실제 가동 시간 (Net Run)</span><b>${(528*a/100).toFixed(1)} h</b></div><div class="tt"><i style="width:${73*a/100}%"></i></div></div>
     <div class="tbar"><div class="tl"><span>비가동 시간 (Non-run)</span><b>${(528*(100-a)/100).toFixed(1)} h</b></div><div class="tt"><i class="g" style="width:${73*(100-a)/100}%"></i></div></div>
@@ -1189,7 +1220,7 @@ function scOee(){
 }
 function afterOee(){
   const h=document.getElementById('oeeHeat');if(!h)return;
-  const HC=['rgba(111,125,143,.22)','rgba(245,177,61,.5)','rgba(34,197,94,.4)','rgba(34,197,94,.85)'];
+  const HC=['rgba(111,125,143,.22)','rgba(224,168,0,.5)','rgba(47,143,91,.4)','rgba(47,143,91,.85)'];
   let s='';
   for(let d=0;d<30;d++){s+='<div style="display:grid;gap:2px">';
     for(let t=0;t<24;t++){const v=(t<7||t>20)?(Math.random()<.75?0:1):(Math.random()<.7?3:(Math.random()<.6?2:1));
@@ -1205,31 +1236,31 @@ function scNc(){
     x=Math.max(20,Math.min(460,x));y=Math.max(20,Math.min(220,y));pts.push([x,y]);}
   const path=pts.map(p=>`${p[0].toFixed(0)},${p[1].toFixed(0)}`).join(' ');
   return `<div class="sim-h"><h3>NC 가공 예측 (3D Viewer)</h3><span>MODULE 05</span>
-    <span class="rt">파일 <b style="color:#c8f31d;font-family:Consolas,monospace">CORE_A_ROUGH.nc</b> · 12,480 라인</span></div>
+    <span class="rt">파일 <b style="color:#2F8F5B;font-family:Consolas,monospace">CORE_A_ROUGH.nc</b> · 12,480 라인</span></div>
   <div class="sgrid s4">
     <div class="sc"><div class="l">총 예상 가공 시간</div><div class="v" style="font-size:20px">01:47:22</div></div>
     <div class="sc"><div class="l">XY 가공 범위</div><div class="v" style="font-size:20px">248 × 176<small> mm</small></div></div>
-    <div class="sc"><div class="l">Z 최대 깊이</div><div class="v" style="font-size:20px;color:#f5b13d">-42.5<small> mm</small></div></div>
+    <div class="sc"><div class="l">Z 최대 깊이</div><div class="v" style="font-size:20px;color:#E0A800">-42.5<small> mm</small></div></div>
     <div class="sc"><div class="l">가공 특성</div><div class="v" style="font-size:20px">자유곡면</div></div>
   </div>
   <div class="sgrid s2" style="background:transparent;border:none;gap:16px">
     <div class="pane" style="margin:0">
       <div class="ph"><span>2D 가공 경로 시뮬레이션 · XY 평면</span><b id="ncProg">진행률 0%</b></div>
-      <svg viewBox="0 0 480 240" style="width:100%;height:230px;background:#080808;border:1px solid #1b1b1b">
-        <polyline points="${path}" fill="none" stroke="#2f5a1f" stroke-width="1.2"/>
-        <polyline id="ncDone" points="" fill="none" stroke="#c8f31d" stroke-width="1.8"/>
-        <circle id="ncTool" cx="${pts[0][0]}" cy="${pts[0][1]}" r="4.5" fill="#ef4444"/>
+      <svg viewBox="0 0 480 240" style="width:100%;height:230px;background:#F4F6F5;border:1px solid #DDE3E0">
+        <polyline points="${path}" fill="none" stroke="#D7EBDF" stroke-width="1.2"/>
+        <polyline id="ncDone" points="" fill="none" stroke="#2F8F5B" stroke-width="1.8"/>
+        <circle id="ncTool" cx="${pts[0][0]}" cy="${pts[0][1]}" r="4.5" fill="#C43D2F"/>
       </svg>
-      <div style="font-size:11px;color:#5b5b5b;margin-top:7px;font-family:Consolas,monospace">잔여 시간 <span id="ncLeft">01:47:22</span> · 3D 뷰어(Three.js)는 앱에서 회전·줌 지원</div>
+      <div style="font-size:11px;color:#8A9894;margin-top:7px;font-family:Consolas,monospace">잔여 시간 <span id="ncLeft">01:47:22</span> · 3D 뷰어(Three.js)는 앱에서 회전·줌 지원</div>
     </div>
     <div>
       <div class="pane"><div class="ph"><span>사용 공구 목록</span><b>4 TOOLS</b></div>
         <table class="st"><tr><th>T</th><th>종류</th><th>Ø</th><th>사용 구간</th></tr>
-          <tr><td style="font-family:Consolas,monospace;color:#c8f31d">T01</td><td>FACE MILL</td><td>Ø50</td><td>00:00 ~ 00:12</td></tr>
-          <tr><td style="font-family:Consolas,monospace;color:#c8f31d">T04</td><td>ENDMILL</td><td>Ø12</td><td>00:12 ~ 01:05</td></tr>
-          <tr><td style="font-family:Consolas,monospace;color:#c8f31d">T07</td><td>BALL ENDMILL</td><td>Ø6</td><td>01:05 ~ 01:38</td></tr>
-          <tr><td style="font-family:Consolas,monospace;color:#c8f31d">T11</td><td>DRILL</td><td>Ø8.5</td><td>01:38 ~ 01:47</td></tr></table></div>
-      <div class="pane"><div class="ph"><span>안전 주의사항 자동 검출</span><b style="color:#ef4444">2 WARNING</b></div>
+          <tr><td style="font-family:Consolas,monospace;color:#2F8F5B">T01</td><td>FACE MILL</td><td>Ø50</td><td>00:00 ~ 00:12</td></tr>
+          <tr><td style="font-family:Consolas,monospace;color:#2F8F5B">T04</td><td>ENDMILL</td><td>Ø12</td><td>00:12 ~ 01:05</td></tr>
+          <tr><td style="font-family:Consolas,monospace;color:#2F8F5B">T07</td><td>BALL ENDMILL</td><td>Ø6</td><td>01:05 ~ 01:38</td></tr>
+          <tr><td style="font-family:Consolas,monospace;color:#2F8F5B">T11</td><td>DRILL</td><td>Ø8.5</td><td>01:38 ~ 01:47</td></tr></table></div>
+      <div class="pane"><div class="ph"><span>안전 주의사항 자동 검출</span><b style="color:#C43D2F">2 WARNING</b></div>
         <div class="warn"><b>Z &lt; -30mm</b> — 진동 및 칩 배출 주의 (N2140 구간, Z-42.5)</div>
         <div class="warn"><b>가공 범위 248mm</b> — 스트로크 여유 확인 권장</div>
         <div class="okbox"><b>G43 공구 길이 보정</b> — 전 공구 정상 선언 확인</div></div>
@@ -1254,7 +1285,7 @@ function afterNc(){
 /* --- 화면 5 : 예지 보전 --- */
 function scPm(){
   return `<div class="sim-h"><h3>예지 보전 (PM)</h3><span>MODULE 08</span>
-    <span class="rt">대상 설비 <b style="color:#f2f2f0">BOS630S 연삭기</b> · 최근 90일 기준</span></div>
+    <span class="rt">대상 설비 <b style="color:#1C2529">BOS630S 연삭기</b> · 최근 90일 기준</span></div>
   <div class="gauges">
     ${gauge(ri(58,72),'정기 점검','2,000시간 기준 · 기구부 종합')}
     ${gauge(ri(82,93),'공구 교체','200시간 기준 · 평균 한계치')}
@@ -1262,7 +1293,7 @@ function scPm(){
   </div>
   <div class="sgrid s3" style="margin-top:16px">
     <div class="sc"><div class="l">Weibull 형상모수 β</div><div class="v">1.8<small> (마모형)</small></div></div>
-    <div class="sc"><div class="l">향후 50H 고장 확률</div><div class="v" style="color:#f5b13d">12.4<small>%</small></div></div>
+    <div class="sc"><div class="l">향후 50H 고장 확률</div><div class="v" style="color:#E0A800">12.4<small>%</small></div></div>
     <div class="sc"><div class="l">잔여 안전 운영 (RUL)</div><div class="v">${ri(180,340)}<small> H</small></div></div>
   </div>
   <div class="pane"><div class="ph"><span>설비별 AI 진단 · 알람 패턴 분석</span><b>GEMINI</b></div>
@@ -1271,9 +1302,9 @@ function scPm(){
     <div class="okbox"><b>온도 상승</b> — 기준 범위 내 안정. 별도 조치 불필요.</div></div>
   <div class="pane"><div class="ph"><span>주축 알람 Top 3</span><b>90 DAYS</b></div>
     <table class="st"><tr><th>순위</th><th>알람</th><th>발생</th><th>최근 발생일</th></tr>
-      <tr><td style="color:#c8f31d;font-family:Consolas,monospace">1</td><td>AL-2031 주축 과부하</td><td>4회</td><td>3일 전</td></tr>
-      <tr><td style="color:#c8f31d;font-family:Consolas,monospace">2</td><td>AL-1120 윤활 압력 저하</td><td>3회</td><td>6일 전</td></tr>
-      <tr><td style="color:#c8f31d;font-family:Consolas,monospace">3</td><td>AL-4402 툴 체인지 타임아웃</td><td>2회</td><td>15일 전</td></tr></table></div>`;
+      <tr><td style="color:#2F8F5B;font-family:Consolas,monospace">1</td><td>AL-2031 주축 과부하</td><td>4회</td><td>3일 전</td></tr>
+      <tr><td style="color:#2F8F5B;font-family:Consolas,monospace">2</td><td>AL-1120 윤활 압력 저하</td><td>3회</td><td>6일 전</td></tr>
+      <tr><td style="color:#2F8F5B;font-family:Consolas,monospace">3</td><td>AL-4402 툴 체인지 타임아웃</td><td>2회</td><td>15일 전</td></tr></table></div>`;
 }
 
 /* --- 화면 6 : 에너지 & ESG --- */
@@ -1290,14 +1321,14 @@ function scEsg(){
   <div class="pane"><div class="ph"><span>7일 설비별 전력 · 누적 스택</span><b>kWh</b></div>
     <div style="display:flex;align-items:flex-end;gap:10px;height:150px">
       ${lab.map(()=>{const segs=[ri(18,34),ri(12,26),ri(10,22),ri(8,18),ri(5,14)];
-        const cols=['#c8f31d','#3d7dd6','#a78bfa','#f5b13d','#22c55e'];
+        const cols=['#2F8F5B','#1F5FBF','#7A5AC8','#E0A800','#2F8F5B'];
         return `<div style="flex:1;display:flex;flex-direction:column-reverse;gap:1px">
           ${segs.map((v,i)=>`<div style="height:${v*1.4}px;background:${cols[i]};opacity:.85"></div>`).join('')}</div>`;}).join('')}
     </div>
     <div class="xlab">${lab.map(d=>`<span>${d}</span>`).join('')}</div>
-    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:10.5px;color:#8f8f8a;font-family:Consolas,monospace">
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:10.5px;color:#5B6B70;font-family:Consolas,monospace">
       ${['AQ750S','BOS630S','EZ-85CS','MY650S','SEDM-640'].map((n,i)=>
-        `<span><i style="display:inline-block;width:9px;height:9px;background:${['#c8f31d','#3d7dd6','#a78bfa','#f5b13d','#22c55e'][i]};margin-right:5px"></i>${n}</span>`).join('')}
+        `<span><i style="display:inline-block;width:9px;height:9px;background:${['#2F8F5B','#1F5FBF','#7A5AC8','#E0A800','#2F8F5B'][i]};margin-right:5px"></i>${n}</span>`).join('')}
     </div></div>
   <div class="pane"><div class="ph"><span>AI EMS 처방</span><b>GEMINI</b></div>
     <div class="okbox" style="margin-bottom:9px"><b>피크 분산</b> — 14:00~16:00 구간에 전력 사용이 집중되어 있습니다.
@@ -1319,11 +1350,11 @@ function scMes(){
   });
   const cols=['수주 관리','프로그램','가공','조립/제작','납품 관리'];
   return `<div class="sim-h"><h3>NICE MES · 생산관리 대시보드</h3><span>mes.nimo.ai.kr</span>
-    <span class="rt">워크플로우 <b style="color:#c8f31d;font-family:Consolas,monospace">TPL_ADVANCED_5</b> 적용</span></div>
+    <span class="rt">워크플로우 <b style="color:#2F8F5B;font-family:Consolas,monospace">TPL_ADVANCED_5</b> 적용</span></div>
   <div class="sgrid s4">
     <div class="sc"><div class="l">종합 수율 (Yield)</div><div class="v">98.2<small>%</small></div></div>
     <div class="sc"><div class="l">종합 납기 준수율</div><div class="v">94.6<small>%</small></div></div>
-    <div class="sc"><div class="l">평균 설비 가동률</div><div class="v">${ri(78,88)}<small>%</small> <small style="color:#c8f31d">NIMO 연동</small></div></div>
+    <div class="sc"><div class="l">평균 설비 가동률</div><div class="v">${ri(78,88)}<small>%</small> <small style="color:#2F8F5B">NIMO 연동</small></div></div>
     <div class="sc"><div class="l">평균 물류 소요</div><div class="v">6.4<small> 일</small></div></div>
   </div>
   <div class="sgrid s3">
@@ -1333,9 +1364,9 @@ function scMes(){
   </div>
   <div class="pane"><div class="ph"><span>수주 현황</span><b>6 ORDERS</b></div>
     <table class="st"><tr><th>수주번호</th><th>거래처</th><th>품목</th><th>수량</th><th>납기</th><th>현재 공정</th></tr>
-      ${rows.map(r=>`<tr><td style="font-family:Consolas,monospace;color:#c8f31d">${r.no}</td>
+      ${rows.map(r=>`<tr><td style="font-family:Consolas,monospace;color:#2F8F5B">${r.no}</td>
         <td>${r.c}</td><td>${r.it}</td><td style="font-family:Consolas,monospace">${r.q}</td>
-        <td style="font-family:Consolas,monospace;color:${r.late?'#ef4444':'#8f8f8a'}">${r.due}${r.late?' ⚠':''}</td>
+        <td style="font-family:Consolas,monospace;color:${r.late?'#C43D2F':'#5B6B70'}">${r.due}${r.late?' ⚠':''}</td>
         <td><span class="pill p-run">${r.st}</span></td></tr>`).join('')}
     </table></div>
   <div class="pane"><div class="ph"><span>공정 진행 (칸반)</span><b>WORKFLOW</b></div>
@@ -1349,10 +1380,10 @@ function scMes(){
     </div></div>
   <div class="pane"><div class="ph"><span>불량 통계 · 유형별 (파레토)</span><b>THIS MONTH</b></div>
     <table class="st"><tr><th>불량유형</th><th>코드</th><th>건수</th><th>비중</th></tr>
-      <tr><td>치수 공차 이탈</td><td style="font-family:Consolas,monospace">D-101</td><td>7</td><td style="color:#c8f31d;font-family:Consolas,monospace">38.9%</td></tr>
-      <tr><td>표면 스크래치</td><td style="font-family:Consolas,monospace">D-204</td><td>5</td><td style="color:#c8f31d;font-family:Consolas,monospace">27.8%</td></tr>
-      <tr><td>소재 결함</td><td style="font-family:Consolas,monospace">D-310</td><td>3</td><td style="color:#c8f31d;font-family:Consolas,monospace">16.7%</td></tr>
-      <tr><td>조립 간섭</td><td style="font-family:Consolas,monospace">D-405</td><td>3</td><td style="color:#c8f31d;font-family:Consolas,monospace">16.7%</td></tr></table></div>`;
+      <tr><td>치수 공차 이탈</td><td style="font-family:Consolas,monospace">D-101</td><td>7</td><td style="color:#2F8F5B;font-family:Consolas,monospace">38.9%</td></tr>
+      <tr><td>표면 스크래치</td><td style="font-family:Consolas,monospace">D-204</td><td>5</td><td style="color:#2F8F5B;font-family:Consolas,monospace">27.8%</td></tr>
+      <tr><td>소재 결함</td><td style="font-family:Consolas,monospace">D-310</td><td>3</td><td style="color:#2F8F5B;font-family:Consolas,monospace">16.7%</td></tr>
+      <tr><td>조립 간섭</td><td style="font-family:Consolas,monospace">D-405</td><td>3</td><td style="color:#2F8F5B;font-family:Consolas,monospace">16.7%</td></tr></table></div>`;
 }
 
 /* --- 시연 구동 --- */
@@ -1396,4 +1427,5 @@ function closeSim(){
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&simEl.classList.contains('open'))closeSim();});
 
 </script>
+<div class="mdrawer" id="siteMenu" aria-hidden="true"><div class="shade" data-close></div><nav class="panel" aria-label="사이트 메뉴"><div class="mhead">메뉴<button class="mclose" data-close aria-label="메뉴 닫기">×</button></div><a href="./"><small>01</small>공고 검색</a><a href="guide.html"><small>02</small>모아보기</a><a href="resources.html"><small>03</small>자료실</a><a href="weekly/"><small>04</small>주간 브리핑</a><a href="services.html"><small>05</small>신청 도움</a><a href="nimo.html" aria-current="page" class="hl"><small>06</small>NIMO 설비 모니터링 · 시연</a><div class="mfoot">우리 회사가 신청할 수 있는 공고가 궁금하다면<br><a href="services.html#apply">무료 진단 신청</a></div></nav></div><script>(function(){var d=document.getElementById("siteMenu"),b=document.getElementById("siteMenuBtn");if(!d||!b)return;function s(o){d.classList.toggle("open",o);d.setAttribute("aria-hidden",!o);b.setAttribute("aria-expanded",o);if(o)d.querySelector("a").focus();else b.focus()}b.onclick=function(){s(true)};d.querySelectorAll("[data-close]").forEach(function(x){x.onclick=function(){s(false)}});document.addEventListener("keydown",function(e){if(e.key==="Escape"&&d.classList.contains("open"))s(false)})})();</script>
 </body></html>
