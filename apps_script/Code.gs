@@ -210,7 +210,7 @@ function sendCustomerReply_(c, r) {
   }
   L.push("", "※ 이 메일은 공고 정보를 규칙에 따라 자동으로 정리한 참고자료입니다. 신청 가능 여부를 판단한 것이 아니며, 최종 자격 판단은 운영기관에서 합니다.",
     "※ 궁금한 점은 이 메일에 회신하시면 담당자에게 전달됩니다.", "",
-    BRAND + " | 주식회사 이노팩 | " + SITE.replace("https://", ""));
+    BRAND + " | " + SITE.replace("https://", ""));
   MailApp.sendEmail({ to: c.email, replyTo: NOTIFY_EMAIL, name: BRAND,
     subject: "[nimo] " + (c.company || "") + " 신청 접수 및 참고 공고 안내", body: L.join("\n") });
 }
@@ -235,7 +235,7 @@ function ownerDraft_(c, r) {
   L.push("", "사업계획서 작성이 필요하시면 검토(99,000원) 또는 작성 지원(290,000원~)으로",
     "도와드릴 수 있습니다. 필요하시면 이 메일에 회신만 주세요.", "",
     "※ 본 진단은 공고문 기준의 참고 의견이며, 최종 자격 판단은 운영기관에서 합니다.", "",
-    "김기훈 드림", "주식회사 이노팩 | briefing.nimo.ai.kr | [전화]");
+    "김기훈 드림", "제조업 지원사업 브리핑 | briefing.nimo.ai.kr | [전화]");
   return L.filter(x => x !== null).join("\n");
 }
 
@@ -321,7 +321,7 @@ const SUB_HEADERS = ["신청일", "회사명", "담당자", "이메일", "지역
                      "상태", "만료일", "최근 발송", "입금 확인일", "비고"];
 const SUB_PRICE = "연 9,900원 (부가세 포함)";
 const TRIAL_DAYS = 30;
-const PAY_INFO = "";   // 입금 계좌가 정해지면 예: "OO은행 000-0000-0000 (예금주 주식회사 이노팩)"
+const PAY_INFO = "";   // 입금 계좌가 정해지면 예: "OO은행 000-0000-0000 (예금주 [예금주])"
 
 function subSheet_() {
   const ss = SpreadsheetApp.getActive();
@@ -371,7 +371,7 @@ function alertBody_(c, welcome, exp) {
   L.push("", "전체 공고 검색: " + SITE + "  ·  신청 가능 여부 무료 진단: " + SITE + "/services.html",
     "", "※ 공고 정보를 규칙에 따라 자동으로 고른 참고자료입니다. 신청 자격은 원문 공고와 운영기관에서 확인하세요.",
     "※ 조건(지역·업종·관심 키워드)을 바꾸거나 해지하려면 이 메일에 회신해 주세요.",
-    "", BRAND + " | 주식회사 이노팩");
+    "", BRAND);
   return L.join("\n");
 }
 
@@ -388,7 +388,7 @@ function payNotice_(c, exp, final) {
           : "맞춤 공고 알림 이용 기간이 " + exp + "에 끝납니다.",
     "계속 받아보시려면 " + SUB_PRICE + "을 입금해 주세요. 입금 확인 후 1년간 매주 보내드립니다.",
     pay, "입금자명은 회사명으로 해 주시고, 현금영수증·세금계산서가 필요하면 회신으로 알려주세요.",
-    "원하지 않으시면 따로 하실 일은 없습니다. 자동으로 결제되지 않습니다.", "", BRAND + " | 주식회사 이노팩"];
+    "원하지 않으시면 따로 하실 일은 없습니다. 자동으로 결제되지 않습니다.", "", BRAND];
   MailApp.sendEmail({ to: c.email, replyTo: NOTIFY_EMAIL, name: BRAND,
     subject: final ? "[nimo] 맞춤 공고 알림이 종료되었습니다" : "[nimo] 맞춤 공고 알림 이용 기간 안내", body: L.join("\n") });
 }

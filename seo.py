@@ -62,7 +62,7 @@ def nimo_box(item, prefix="../"):
     return (f'<aside style="margin:26px 0;padding:16px 18px;background:#fff;border:1px solid var(--rule);border-left:6px solid var(--run);font-size:14.5px;line-height:1.65">'
             f'<b>이 사업에 설비 데이터나 MES가 필요하다면</b><br>가동률 실측(성과지표 기준값), 설비 연동 MES, 스마트공장 사용로그 전송, 도입 전후 효과 리포트를 '
             f'NIMO 하나로 준비할 수 있습니다. <a href="{prefix}nimo.html">NIMO 알아보기</a>'
-            f'<br><span style="font-size:12.5px;color:var(--steel)">NIMO는 이 사이트 운영사(이노팩) 제품이며, 무료 진단은 도입 여부와 관계없이 제공합니다. 공급기업 선택은 신청 기업이 정합니다.</span></aside>')
+            f'<br><span style="font-size:12.5px;color:var(--steel)">NIMO는 이 사이트 운영자와 관련된 제품이며, 무료 진단은 도입 여부와 관계없이 제공합니다. 공급기업 선택은 신청 기업이 정합니다.</span></aside>')
 
 def page(item, cfg, today, verify_meta):
     st, cls = status_of(item, today)
@@ -105,7 +105,7 @@ def page(item, cfg, today, verify_meta):
 {f'<h2>공고 첨부 서류</h2><ul class="files">{files}</ul>' if files else ''}
 <h2>원문 공고</h2><p><a href="{esc(item['url'])}" target="_blank" rel="noopener">{"K-Startup" if "k-startup" in (item.get("url") or "") else "기업마당"}에서 원문 공고 보기</a></p>
 <footer>이 페이지는 기업마당(bizinfo.go.kr) 공개 정보를 정리한 참고자료입니다. 지원 조건과 일정은 반드시 원문 공고와 운영기관에서 확인하세요. 최종 갱신 {today.isoformat()}<br>
-운영: 주식회사 이노팩 · {esc(cfg['footer'])} · <a href="../privacy.html">개인정보처리방침</a></footer>
+운영: 제조업 지원사업 브리핑 · {esc(cfg['footer'])} · <a href="../privacy.html">개인정보처리방침</a></footer>
 </div></body></html>"""
 
 def build(docs, items, cfg, today=None, extra_paths=()):
@@ -175,7 +175,7 @@ def _meta_for(html_text, url, cfg, fname, verify_meta):
     if fname == "index.html" and "application/ld+json" not in html_text:
         ld = {"@context": "https://schema.org", "@type": "WebSite", "name": cfg["brand"], "url": cfg["site_url"] + "/",
               "description": DEFAULT_DESC["index.html"],
-              "publisher": {"@type": "Organization", "name": "주식회사 이노팩", "email": cfg.get("contact_email", "")}}
+              "publisher": {"@type": "Organization", "name": "제조업 지원사업 브리핑", "email": cfg.get("contact_email", "")}}
         add.append(f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>')
     return "\n".join(add)
 

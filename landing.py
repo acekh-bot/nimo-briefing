@@ -110,7 +110,7 @@ def _page(cfg, today, title, h1, crumb, lead, body, desc):
 <p>회사 정보를 남겨주시면 신청할 만한 공고와 준비할 서류를 바로 메일로 보내드리고, 담당자가 공고문을 확인해 다시 연락드립니다. 무료입니다.</p>
 <a href="../services.html#apply">신청 가능 여부 무료 진단</a><a class="ghost" href="../">전체 공고 검색</a></section>
 <footer>이 페이지는 기업마당(bizinfo.go.kr) 공개 정보를 자동으로 정리한 참고자료이며 매일 아침 갱신됩니다. 지원 조건과 일정은 반드시 원문 공고와 운영기관에서 확인하세요. 최종 갱신 {today.isoformat()}<br>
-운영: 주식회사 이노팩 · {esc(cfg['footer'])} · <a href="../privacy.html">개인정보처리방침</a></footer>
+운영: 제조업 지원사업 브리핑 · {esc(cfg['footer'])} · <a href="../privacy.html">개인정보처리방침</a></footer>
 </div></body></html>"""
 
 

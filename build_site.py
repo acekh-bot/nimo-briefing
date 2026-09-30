@@ -199,7 +199,7 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);line-height:1.7;bor
 <ul class="list" id="list"></ul>
 
 <section style="margin:40px 0 0;padding:20px 22px;background:#fff;border:1px solid var(--rule);border-left:6px solid var(--run);display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap">
-<div><b style="font-size:16px">스마트공장 사업을 준비한다면, 설비 데이터부터</b><p style="margin:4px 0 0;font-size:14px;color:var(--steel);line-height:1.6">가동률 실측, 설비 연동 MES, 사용로그 전송과 도입 효과 리포트까지. 운영사 이노팩의 NIMO를 소개합니다.</p></div>
+<div><b style="font-size:16px">스마트공장 사업을 준비한다면, 설비 데이터부터</b><p style="margin:4px 0 0;font-size:14px;color:var(--steel);line-height:1.6">가동률 실측, 설비 연동 MES, 사용로그 전송과 도입 효과 리포트까지. 운영자가 관여한 설비 모니터링 NIMO를 소개합니다.</p></div>
 <a href="nimo.html" style="font-weight:700;color:var(--ink);white-space:nowrap">NIMO 알아보기 →</a></section>
 <section class="cta" id="subscribe">
 <div><h3>우리 회사에 맞는 공고만 받아보세요</h3>
@@ -207,7 +207,7 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);line-height:1.7;bor
 <a href="services.html?service=%EB%A7%9E%EC%B6%A4%20%EC%95%8C%EB%A6%BC%20%EA%B5%AC%EB%8F%85&title=%EB%A7%9E%EC%B6%A4%20%EA%B3%B5%EA%B3%A0%20%EC%95%8C%EB%A6%BC%20%EA%B5%AC%EB%8F%85#apply">첫 달 무료로 받아보기</a>
 </section>
 
-<footer>본 사이트는 기업마당(bizinfo.go.kr) 공개 정보를 자동으로 분류한 참고자료입니다. 지원 조건과 일정은 반드시 원문 공고에서 확인하세요.<br>%%FOOTER%%<br>운영: 주식회사 이노팩 · briefing.nimo.ai.kr</footer>
+<footer>본 사이트는 기업마당(bizinfo.go.kr) 공개 정보를 자동으로 분류한 참고자료입니다. 지원 조건과 일정은 반드시 원문 공고에서 확인하세요.<br>%%FOOTER%%<br>운영: 제조업 지원사업 브리핑 · briefing.nimo.ai.kr</footer>
 </div>
 <script>
 let DATA=%%DATA%%,FULL=false;

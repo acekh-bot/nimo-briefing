@@ -205,7 +205,7 @@ def page(date, weeks, arch, cfg, today):
 <a href="../{SUB}">첫 달 무료로 받아보기</a></section>
 </main></div>
 <footer>기업마당(bizinfo.go.kr) 공개 정보를 자동으로 정리한 참고자료입니다. 지원 조건과 일정은 원문 공고에서 확인하세요. 마지막 갱신 {today.isoformat()}<br>
-운영: 주식회사 이노팩 · {esc(cfg['footer'])} · <a href="../privacy.html">개인정보처리방침</a></footer>
+운영: 제조업 지원사업 브리핑 · {esc(cfg['footer'])} · <a href="../privacy.html">개인정보처리방침</a></footer>
 </div></body></html>"""
 
 
