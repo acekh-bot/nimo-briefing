@@ -37,6 +37,9 @@ ul.files{margin:0;padding-left:20px;line-height:1.8;font-size:14.5px}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 footer{padding:24px 0 48px;font-size:13px;color:var(--steel);border-top:1px solid var(--rule);margin-top:30px;line-height:1.7}
 a{color:var(--focus)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}
+.tags a{font-size:13px;color:var(--run);background:#E6F2EB;border-radius:999px;padding:3px 10px;text-decoration:none}
+.tags a:hover{background:var(--run);color:#fff}
 .chk{margin:26px 0;background:var(--sheet);border:1px solid var(--rule);padding:18px 20px}
 .chk h2{margin:0 0 6px}.chk-sub{margin:0 0 12px;font-size:13.5px;color:var(--steel);line-height:1.6}
 .chk ul{list-style:none;margin:0;padding:0}.chk li{border-top:1px solid #E4E9E6;padding:9px 2px;font-size:14.5px;line-height:1.55}
@@ -117,6 +120,50 @@ def checklist(item, today, prefix="../"):
 <ul>{lis}</ul></section>"""
 
 
+def tags_for(item, prefix="../"):
+    """화면에 보이는 해시태그 (검색어 + 사이트 안 연결). (표시 글자, 링크) 목록"""
+    from landing import REGIONS as R_SLUG, CATS as C_SLUG
+    from urllib.parse import quote as q
+    out = []
+    year = (item.get("end") or "")[:4] or None
+    for r in R_SLUG:
+        if r in item["region"]:
+            out.append((f"#{r}지원사업", f"{prefix}r/{R_SLUG[r]}.html"))
+            out.append((f"#{r}제조업", f"{prefix}r/{R_SLUG[r]}.html"))
+    if item["region"] == "전국":
+        out.append(("#전국지원사업", f"{prefix}guide.html"))
+    for c in item.get("cats", []):
+        word = c.replace("·", "")
+        link = f"{prefix}c/{C_SLUG[c]}.html" if c in C_SLUG else f"{prefix}guide.html"
+        out.append((f"#{word}지원사업", link))
+    if item.get("end"):
+        y, m = item["end"][:4], int(item["end"][5:7])
+        import datetime as _dt
+        t0 = _dt.date.today().replace(day=1)
+        nxt = (t0 + _dt.timedelta(days=32)).replace(day=1)
+        has_page = item["end"][:7] in (t0.isoformat()[:7], nxt.isoformat()[:7])   # 월별 페이지는 이번 달·다음 달만 있음
+        out.append((f"#{m}월마감", f"{prefix}m/{y}-{m:02d}.html" if has_page else f"{prefix}guide.html"))
+    t = item["title"]
+    for w, tag in (("스마트공장", "#스마트공장구축"), ("스마트제조", "#스마트제조"), ("MES", "#MES도입"), ("AI", "#제조AI"),
+                   ("AX", "#AX전환"), ("DX", "#디지털전환"), ("안전", "#산업안전"), ("중대재해", "#중대재해예방"),
+                   ("위험성평가", "#위험성평가"), ("뿌리", "#뿌리산업"), ("소부장", "#소부장"), ("수출", "#수출지원"),
+                   ("바우처", "#바우처"), ("소공인", "#소공인지원"), ("R&D", "#RnD지원"), ("기술개발", "#기술개발지원"),
+                   ("탄소", "#탄소중립"), ("에너지", "#에너지효율"), ("컨설팅", "#컨설팅지원"), ("인력", "#인력지원")):
+        if w in t:
+            out.append((tag, f"{prefix}?q={q(w)}"))
+    op = (item.get("operator") or item.get("agency") or "").strip()
+    if op and len(op) <= 20:
+        out.append(("#" + op.replace(" ", ""), f"{prefix}?q={q(op)}"))
+    out += [("#제조업지원사업", f"{prefix}"), ("#정부지원사업", f"{prefix}"), ("#중소기업지원", f"{prefix}?scope=all")]
+    if year:
+        out.append((f"#{year}지원사업", f"{prefix}"))
+    seen, uniq = set(), []
+    for label, link in out:
+        if label not in seen:
+            seen.add(label); uniq.append((label, link))
+    return uniq[:14]
+
+
 def page(item, cfg, today, verify_meta):
     st, cls = status_of(item, today)
     closed = cls == "closed"
@@ -135,12 +182,28 @@ def page(item, cfg, today, verify_meta):
 <a href="%s">신청 가능 여부 무료 진단</a>%s</section>""" % (apply_q, apply_link)) if not closed else \
         """<section class="cta"><h2>이 공고는 마감되었습니다</h2><p>비슷한 사업은 매년 반복해서 공고됩니다. 다음 공고가 올라오면 알려드릴까요?</p>
 <a href="../services.html#apply">다음 공고 알림 신청</a><a class="ghost" href="../">진행 중인 공고 보기</a></section>"""
-    ld = json.dumps({"@context": "https://schema.org", "@type": "WebPage", "name": item["title"],
-                     "description": desc, "dateModified": today.isoformat()}, ensure_ascii=False)
+    tags = tags_for(item)
+    tag_html = '<div class="tags">' + "".join(f'<a href="{esc(l)}">{esc(t)}</a>' for t, l in tags) + "</div>"
+    kw = ", ".join(t.lstrip("#") for t, _ in tags)
+    base = cfg["site_url"]
+    from landing import REGIONS as R_SLUG, CATS as C_SLUG
+    crumbs = [("제조업 지원사업", base + "/")]
+    rg = next((r for r in R_SLUG if r in item["region"]), None)
+    if rg:
+        crumbs.append((f"{rg} 제조업 지원사업", f"{base}/r/{R_SLUG[rg]}.html"))
+    cg = next((c for c in item.get("cats", []) if c in C_SLUG), None)
+    if cg:
+        crumbs.append((f"{cg} 지원사업", f"{base}/c/{C_SLUG[cg]}.html"))
+    crumbs.append((item["title"], f"{base}/p/{item['id']}.html"))
+    ld = json.dumps([{"@context": "https://schema.org", "@type": "WebPage", "name": item["title"],
+                      "description": desc, "dateModified": today.isoformat(), "keywords": kw},
+                     {"@context": "https://schema.org", "@type": "BreadcrumbList",
+                      "itemListElement": [{"@type": "ListItem", "position": n, "name": nm, "item": u}
+                                          for n, (nm, u) in enumerate(crumbs, 1)]}], ensure_ascii=False)
     return f"""<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{esc(item["title"])} | 신청방법·마감일 정리</title>
-<meta name="description" content="{esc(desc)}">{verify_meta}
+<meta name="description" content="{esc(desc)}"><meta name="keywords" content="{esc(kw)}">{verify_meta}
 <link rel="canonical" href="{cfg['site_url']}/p/{esc(item['id'])}.html">
 <meta property="og:title" content="{esc(item['title'])}"><meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="article"><meta property="og:url" content="{cfg['site_url']}/p/{esc(item['id'])}.html">
@@ -151,6 +214,7 @@ def page(item, cfg, today, verify_meta):
 <div class="crumb"><a href="../">제조업 지원사업</a> / {esc(item['region'])} / {esc(', '.join(item['cats']))}</div>
 <h1>{esc(item['title'])}</h1>
 <span class="status {cls}">{st}</span>
+{tag_html}
 <table>{trs}</table>
 {cta}
 {nimo_box(item)}

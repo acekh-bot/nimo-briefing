@@ -262,6 +262,7 @@ let DATA=%%DATA%%,FULL=false;
 const DAY=864e5,SPAN=90,today=new Date(new Date().toDateString());
 const $=s=>document.querySelector(s);
 const state={q:"",region:"",sort:"dday",scope:"1",cats:new Set()};
+{const u=new URLSearchParams(location.search);if(u.get("q"))state.q=u.get("q");if(u.get("scope")==="all")state.scope="all";}
 function days(d){return d?Math.round((new Date(d)-today)/DAY):null}
 function ticks(){const t=$("#ticks");t.innerHTML="";[0,30,60,90].forEach(n=>{const d=new Date(+today+n*DAY);const s=document.createElement("span");
 s.style.left=(n/SPAN*100)+"%";if(n===90){s.style.left="auto";s.style.right="0";s.style.transform="none"}
@@ -295,7 +296,7 @@ $("#sort").addEventListener("change",e=>{state.sort=e.target.value;render()});
 $("#scope").addEventListener("change",e=>{state.scope=e.target.value;render()});
 document.querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>{const k=c.dataset.cat,on=!state.cats.has(k);
 on?state.cats.add(k):state.cats.delete(k);c.setAttribute("aria-pressed",on);render()}));
-ticks();render();
+$("#q").value=state.q;$("#scope").value=state.scope;ticks();render();
 </script></body></html>"""
 
 if __name__ == "__main__":
