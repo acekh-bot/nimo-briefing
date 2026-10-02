@@ -47,6 +47,46 @@ def is_recent(reg, today, days=7):
 def esc(s):
     return html.escape(str(s or ""))
 
+FAQ = [
+    ("제조업이 신청할 수 있는 정부지원사업은 어디서 찾나요?",
+     "정부·지자체 지원사업 공고는 기업마당(bizinfo.go.kr)에 모이지만 진행 중인 공고가 1,500건이 넘어 제조업에 맞는 공고를 고르기 어렵습니다. 이 사이트는 그중 스마트공장, 산업안전, 제조 기술개발처럼 제조업에 해당하는 공고만 골라 매일 아침 마감일 순으로 정리합니다."),
+    ("스마트공장 지원사업은 어떻게 신청하나요?",
+     "공고문에서 지원 대상과 자격(수준확인, 중복 수혜 제한 등)을 확인하고, 공급기업과 구축 범위를 협의한 뒤 사업계획서를 작성해 공고에 적힌 시스템(예: 스마트공장 사업관리시스템)으로 접수합니다. 절차와 서류는 공고마다 다르니 각 공고 페이지의 신청 준비 체크리스트를 참고하세요."),
+    ("산업안전 지원사업에는 어떤 것이 있나요?",
+     "안전시설·장비 개선비 지원(예: 안전일터 조성지원), 위험성평가 컨설팅, 방호장치·보호구 구입 지원, 지자체의 소규모 사업장 안전조치 지원 등이 있습니다. 분야별 모아보기의 '산업안전·중대재해 예방 지원사업'에서 진행 중인 공고를 볼 수 있습니다."),
+    ("우리 회사가 신청할 수 있는지 어떻게 알 수 있나요?",
+     "공고문의 지원 대상과 지원 제외 대상을 회사의 업종, 규모, 소재지, 지원 이력과 하나씩 대조해야 합니다. 판단이 어려우면 신청 도움 페이지에서 무료 진단을 신청하면 공고문 기준으로 자격 요건과 준비 서류를 정리해 드립니다. 최종 판단은 운영기관이 합니다."),
+    ("사업계획서는 누가 써야 하나요?",
+     "사업계획서는 신청하는 회사가 직접 작성하고 직접 제출합니다. 검토나 작성 지원을 받더라도 내용은 회사의 실제 자료를 기준으로 해야 하며, 이 사이트의 지원 서비스는 성공보수 없이 고정 요금으로만 운영합니다."),
+]
+
+
+def seo_block(items, date):
+    """메인 페이지 하단: 이번 달 요약 문단 + 자주 묻는 질문 (검색엔진이 읽는 본문)"""
+    core = [i for i in items if i["tier"] == 1]
+    cat = {}
+    for i in core:
+        for c in i["cats"]:
+            cat[c] = cat.get(c, 0) + 1
+    reg = {}
+    for i in core:
+        if i["region"] != "전국":
+            reg[i["region"]] = reg.get(i["region"], 0) + 1
+    top_c = ", ".join(f"{c} {n}건" for c, n in sorted(cat.items(), key=lambda x: -x[1])[:5])
+    top_r = ", ".join(f"{r} {n}건" for r, n in sorted(reg.items(), key=lambda x: -x[1])[:6])
+    soon = sum(1 for i in core if i["dday"] is not None and 0 <= i["dday"] <= 14)
+    y, m, d = date[:4], int(date[5:7]), int(date[8:])
+    summary = (f"{y}년 {m}월 {d}일 기준, 진행 중인 제조업 정부지원사업은 {len(core)}건이고 중소기업이 신청할 수 있는 일반 공고까지 합치면 {len(items)}건입니다. "
+               f"분야별로는 {top_c} 순으로 많고, 지역 공고는 {top_r} 순입니다. 2주 안에 마감되는 제조업 공고는 {soon}건입니다.")
+    qa = "".join(f"<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>" for q, a in FAQ)
+    ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage",
+                     "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ]},
+                    ensure_ascii=False)
+    return (f'<section class="seo"><h2>{m}월 제조업 정부지원사업 한눈에</h2><p>{esc(summary)}</p>'
+            f'<p>지역·분야·마감 월별로 나눠 보려면 <a href="guide.html">모아보기</a>를, 매주 새로 올라온 공고는 <a href="weekly/">주간 브리핑</a>을 보세요.</p>'
+            f'<h2>자주 묻는 질문</h2>{qa}</section><script type="application/ld+json">{ld}</script>'), summary
+
+
 def page_index(items, date):
     regions = sorted({i["region"] for i in items}, key=lambda r: (r != "전국", r))
     cats = [c for c in gb.CFG["categories"]] + ["제조 일반", "중소기업 일반"]
@@ -57,12 +97,15 @@ def page_index(items, date):
     (DOCS / "data" / "list.json").write_text(json.dumps(light, ensure_ascii=False), encoding="utf-8")
     data = json.dumps([i for i in light if i["tier"] == 1], ensure_ascii=False).replace("</", "<\\/")
     region_opts = "".join(f'<option value="{esc(r)}">{esc(r)}</option>' for r in regions)
+    seo_html, summary = seo_block(items, date)
     cat_btns = "".join(f'<button type="button" class="chip" data-cat="{esc(c)}" aria-pressed="false">{esc(c)}</button>' for c in cats)
     return TEMPLATE.replace("%%DATA%%", data).replace("%%REGIONS%%", region_opts)\
         .replace("%%CATS%%", cat_btns).replace("%%TOTAL%%", str(sum(i["tier"] == 1 for i in items)))\
         .replace("%%ALL%%", str(len(items)))\
         .replace("%%NEW%%", str(n_new)).replace("%%DATE%%", f"{int(date[5:7])}월 {int(date[8:])}일")\
-        .replace("%%BRAND%%", esc(gb.CFG["brand"])).replace("%%FOOTER%%", esc(gb.CFG["footer"]))
+        .replace("%%BRAND%%", esc(gb.CFG["brand"])).replace("%%FOOTER%%", esc(gb.CFG["footer"]))\
+        .replace("%%SEO%%", seo_html).replace("%%DESC%%", esc(summary[:150]))\
+        .replace("%%YM%%", f"{date[:4]}년 {int(date[5:7])}월")
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--sample"); ap.add_argument("--weekly", action="store_true")
@@ -115,8 +158,8 @@ def main():
 TEMPLATE = r"""<!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>%%BRAND%% | 제조업 정부지원사업 검색</title>
-%%VERIFY%%<meta name="description" content="스마트공장, 산업안전, 제조 기술개발 등 제조업이 신청할 수 있는 정부지원사업을 모아 마감일 순으로 보여줍니다. 중소기업 일반 공고까지 매일 갱신.">
+<title>%%YM%% 제조업 정부지원사업 모음 (%%TOTAL%%건) · 스마트공장·산업안전 마감순 | %%BRAND%%</title>
+%%VERIFY%%<meta name="description" content="%%DESC%%">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -171,6 +214,10 @@ input[type=search]{flex:1;min-width:220px}
 .cta{margin:48px 0;padding:28px;background:var(--ink);color:#fff;border-radius:6px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
 .cta h3{margin:0 0 6px;font-size:20px}.cta p{margin:0;color:#C9D1CE;font-size:14px;line-height:1.6}
 .cta a{background:var(--warn);color:var(--ink);text-decoration:none;font-weight:700;padding:12px 18px;border-radius:4px;white-space:nowrap}
+.seo{margin:44px 0 0;padding:24px 0 0;border-top:1px solid var(--rule);max-width:820px}
+.seo h2{font-size:19px;margin:0 0 10px}.seo h2+p{margin-top:0}.seo p{line-height:1.75;font-size:15px;margin:0 0 12px}
+.seo details{background:var(--sheet);border:1px solid var(--rule);border-radius:4px;margin:0 0 8px;padding:12px 16px}
+.seo summary{cursor:pointer;font-weight:500}.seo details p{margin:10px 0 0;color:var(--steel);font-size:14.5px}
 footer{padding:24px 0 48px;font-size:13px;color:var(--steel);line-height:1.7;border-top:1px solid var(--rule)}
 @media (max-width:720px){.controls{position:static}input[type=search]{flex-basis:100%}select{flex:1}.status{gap:18px}.status b{font-size:22px}.track{background:none;border-bottom:1px dashed var(--rule)}.axis{display:none}.item{grid-template-columns:1fr;gap:10px}.track{margin-top:14px}.cta{grid-template-columns:1fr}nav a:not(:last-child){display:none}}
 @media (prefers-reduced-motion:no-preference){.bar{transform-origin:left;animation:grow .6s ease-out both}@keyframes grow{from{transform:scaleX(0)}}}
@@ -201,6 +248,7 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);line-height:1.7;bor
 <section style="margin:40px 0 0;padding:20px 22px;background:#fff;border:1px solid var(--rule);border-left:6px solid var(--run);display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap">
 <div><b style="font-size:16px">스마트공장 사업을 준비한다면, 설비 데이터부터</b><p style="margin:4px 0 0;font-size:14px;color:var(--steel);line-height:1.6">가동률 실측, 설비 연동 MES, 사용로그 전송과 도입 효과 리포트까지. 운영자가 관여한 설비 모니터링 NIMO를 소개합니다.</p></div>
 <a href="nimo.html" style="font-weight:700;color:var(--ink);white-space:nowrap">NIMO 알아보기 →</a></section>
+%%SEO%%
 <section class="cta" id="subscribe">
 <div><h3>우리 회사에 맞는 공고만 받아보세요</h3>
 <p>지역·규모·업종을 한 번 남기면 매주 월요일 아침, 조건에 맞는 새 공고와 마감 임박 공고만 메일로 보내드립니다. 첫 달 무료, 이후 연 9,900원(한 달 825원꼴). 자동 결제는 없습니다.</p></div>
