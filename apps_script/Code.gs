@@ -17,6 +17,10 @@ const HEADERS = ["접수시각","서비스","회사명","담당자","연락처",
                  "관심사업","공고ID","문의내용","희망시기","결제선호","유입페이지","처리상태"];
 
 function doPost(e) {
+  if (!e || !e.postData) {   // 편집기에서 ▶ 실행한 경우: 신청 폼이 부르는 함수라 데이터가 없음
+    Logger.log("doPost는 사이트 신청 폼이 자동으로 실행합니다. 편집기에서는 setup, testRecommend, installTriggers만 실행하세요.");
+    return ok_();
+  }
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
