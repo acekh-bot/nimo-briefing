@@ -36,7 +36,13 @@ h2{font-size:19px;margin:30px 0 10px}
 ul.files{margin:0;padding-left:20px;line-height:1.8;font-size:14.5px}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 footer{padding:24px 0 48px;font-size:13px;color:var(--steel);border-top:1px solid var(--rule);margin-top:30px;line-height:1.7}
-a{color:var(--focus)}"""
+a{color:var(--focus)}
+.chk{margin:26px 0;background:var(--sheet);border:1px solid var(--rule);padding:18px 20px}
+.chk h2{margin:0 0 6px}.chk-sub{margin:0 0 12px;font-size:13.5px;color:var(--steel);line-height:1.6}
+.chk ul{list-style:none;margin:0;padding:0}.chk li{border-top:1px solid #E4E9E6;padding:9px 2px;font-size:14.5px;line-height:1.55}
+.chk label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}.chk input{margin-top:4px;flex:none;width:16px;height:16px;accent-color:#2F8F5B}
+.chk .ck{flex:none;font-size:12px;font-weight:700;color:#fff;background:var(--ink);border-radius:3px;padding:1px 6px;margin-top:2px}
+.chk input:checked~*{color:var(--steel);text-decoration:line-through}"""
 
 HEAD_FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
               '<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">')
@@ -63,6 +69,53 @@ def nimo_box(item, prefix="../"):
             f'<b>이 사업에 설비 데이터나 MES가 필요하다면</b><br>가동률 실측(성과지표 기준값), 설비 연동 MES, 스마트공장 사용로그 전송, 도입 전후 효과 리포트를 '
             f'NIMO 하나로 준비할 수 있습니다. <a href="{prefix}nimo.html">NIMO 알아보기</a>'
             f'<br><span style="font-size:12.5px;color:var(--steel)">NIMO는 이 사이트 운영자와 관련된 제품이며, 무료 진단은 도입 여부와 관계없이 제공합니다. 공급기업 선택은 신청 기업이 정합니다.</span></aside>')
+
+CHECK_TIPS = {
+    "스마트공장": ["스마트공장 수준확인이나 사전 진단이 신청 조건인지 공고문에서 확인",
+                "공급기업(구축 업체)과 견적·구축 범위를 미리 협의",
+                "성과지표 기준값(가동률·불량률 등)을 최근 2~4주 실측해 두기"],
+    "산업안전": ["위험성평가 결과나 아차사고 기록으로 개선 대상의 근거 마련",
+              "개선 품목 견적은 2곳 이상 받아 비교",
+              "설치 전 현장 사진을 같은 위치·각도로 찍어 두기"],
+    "기술·R&D": ["개발 목표와 성능 지표를 수치로 정리", "보유 특허·인증·연구 인력 현황 정리"],
+    "판로·수출": ["최근 수출·전시회 참가 실적과 제품 소개 자료(카탈로그) 준비"],
+    "AI·바우처": ["AI·SW를 적용할 데이터가 지금 쌓이고 있는지(기간·양) 확인", "공급기업 풀(POOL) 등록 여부와 매칭 방식 확인"],
+    "에너지·환경": ["최근 1년 전력·가스 사용량 자료 준비"],
+    "인력·고용": ["4대보험 가입자 명부로 현재 인원·고용 유지 요건 확인"],
+}
+
+
+def checklist(item, today, prefix="../"):
+    """공고 정보로 만든 신청 준비 체크리스트 (참고용, 공고문 우선)"""
+    st, cls = status_of(item, today)
+    if cls == "closed":
+        return ""
+    who = item.get("target") or item.get("who") or "공고문 지원대상"
+    reg = item["region"]
+    rows = [("자격", f"지원대상 \"{who}\"에 해당하는지"),
+            ("자격", f"사업장(공장) 소재지가 {reg + ' 지역' if reg != '전국' else '공고의 지역 조건'}에 맞는지"),
+            ("자격", "같은·비슷한 사업을 이미 지원받았는지 (중복 수혜 제한)"),
+            ("일정", f"접수 기간 {item.get('period') or '공고문 확인'}" + (f" · {st}" if item.get("end") else "")
+             + " — 온라인 접수는 마감 2~3일 전에 끝내기"),
+            ("서류", "공통 서류: 사업자등록증명, 중소기업확인서, 국세·지방세 납세증명, 최근 재무제표, 4대보험 가입자 명부")]
+    for f in (item.get("files") or [])[:6]:
+        rows.append(("서류", f"공고 첨부 양식: {f}"))
+    if item.get("method"):
+        rows.append(("신청", f"신청 방법: {item['method'][:80]}"))
+    if item.get("inquiry"):
+        rows.append(("문의", f"헷갈리는 조건은 미리 문의: {item['inquiry'][:80]}"))
+    for c in item.get("cats", []):
+        rows += [("준비", t) for t in CHECK_TIPS.get(c, [])]
+    seen, uniq = set(), []
+    for k, v in rows:
+        if v not in seen:
+            seen.add(v); uniq.append((k, v))
+    lis = "".join(f'<li><label><input type="checkbox"> <span class="ck">{k}</span> {esc(v)}</label></li>' for k, v in uniq[:16])
+    return f"""<section class="chk"><h2>신청 준비 체크리스트</h2>
+<p class="chk-sub">이 공고 정보로 자동으로 만든 점검표입니다. 최종 기준은 공고문과 운영기관 안내입니다.
+엑셀로 관리하려면 <a href="{prefix}files/free-application-checklist.xlsx" download>신청 준비 체크리스트</a> · <a href="{prefix}files/free-deadline-tracker.xlsx" download>마감 관리표</a>(무료)를 쓰세요.</p>
+<ul>{lis}</ul></section>"""
+
 
 def page(item, cfg, today, verify_meta):
     st, cls = status_of(item, today)
@@ -101,6 +154,7 @@ def page(item, cfg, today, verify_meta):
 <table>{trs}</table>
 {cta}
 {nimo_box(item)}
+{checklist(item, today)}
 <h2>사업 개요</h2><div class="body">{body}</div>
 {f'<h2>공고 첨부 서류</h2><ul class="files">{files}</ul>' if files else ''}
 <h2>원문 공고</h2><p><a href="{esc(item['url'])}" target="_blank" rel="noopener">{"K-Startup" if "k-startup" in (item.get("url") or "") else "기업마당"}에서 원문 공고 보기</a></p>
@@ -180,6 +234,23 @@ def _meta_for(html_text, url, cfg, fname, verify_meta):
     return "\n".join(add)
 
 
+def site_extras(t, cfg):
+    """설정값이 있으면 모든 페이지에: 방문 측정(Cloudflare, 쿠키 없음), 구글 소유확인, 사업자 정보"""
+    tok = cfg.get("cf_analytics_token")
+    if tok and "cloudflareinsights" not in t:
+        t = t.replace("</body>", "<script defer src=\"https://static.cloudflareinsights.com/beacon.min.js\" "
+                      f"data-cf-beacon='{{\"token\": \"{esc(tok)}\"}}'></script>\n</body>", 1)
+    g = cfg.get("google_verification")
+    if g and "google-site-verification" not in t:
+        t = t.replace("</head>", f'<meta name="google-site-verification" content="{esc(g)}">\n</head>', 1)
+    biz = cfg.get("business_info")
+    if biz and 'class="bizinfo"' not in t:
+        line = f'<div class="bizinfo" style="font-size:12px;color:#5B6B70;line-height:1.6;margin-top:6px">{esc(biz)}</div>'
+        i = t.rfind("</footer>")
+        t = t[:i] + line + t[i:] if i >= 0 else t.replace("</body>", line + "\n</body>", 1)
+    return t
+
+
 def enrich(docs, items, cfg, verify_meta=""):
     """모든 페이지 <head>에 canonical·og·아이콘·RSS 링크를 넣고 rss.xml을 만든다 (이미 있으면 건너뜀)"""
     base = cfg["site_url"]
@@ -191,7 +262,7 @@ def enrich(docs, items, cfg, verify_meta=""):
         add = _meta_for(t, url, cfg, rel, verify_meta)
         if add:
             t = t.replace("</head>", add + "\n</head>", 1)
-        p.write_text(inject_menu(t, rel), encoding="utf-8")
+        p.write_text(site_extras(inject_menu(t, rel), cfg), encoding="utf-8")
     # RSS: 최근 등록 순 50건 (네이버 서치어드바이저 RSS 제출용)
     now = dt.datetime.now(dt.timezone(dt.timedelta(hours=9)))
     def pub(i):

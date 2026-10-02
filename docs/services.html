@@ -185,4 +185,5 @@ try{await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"
 f.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=true);
 msg.className="msg ok";msg.textContent="신청이 접수되었습니다. "+data.email+"로 참고 공고 안내 메일을 바로 보내드렸고, 담당자가 2영업일 안에 다시 연락드리겠습니다. (메일이 안 보이면 스팸함을 확인해 주세요)";btn.textContent="접수 완료"}
 catch(err){btn.disabled=false;btn.textContent="신청하기";msg.className="msg err";msg.textContent="전송하지 못했습니다. 잠시 후 다시 시도하거나 "+EMAIL+"로 메일 주세요."}});
-</script></body></html>
+</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "8709aef60d6d49cea26838006e7f5cda"}'></script>
+</body></html>
