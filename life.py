@@ -58,6 +58,11 @@ def fetch(key, per=1000, max_pages=30):
     return out
 
 
+def _ymd(s):
+    d = re.sub(r"\D", "", s or "")
+    return f"{d[:4]}-{d[4:6]}-{d[6:8]}" if len(d) >= 8 else ""
+
+
 def parse_end(text, today):
     """'2026.10.31까지', '2026-10-31' 같은 표기에서 마지막 날짜. 상시·없음은 None"""
     if not text or "상시" in text:
@@ -100,7 +105,7 @@ def normalize(raw, today):
             "criteria": g(r, "선정기준"), "content": g(r, "지원내용"), "kind": g(r, "지원유형"),
             "how": g(r, "신청방법"), "deadline": g(r, "신청기한"), "end": end.isoformat() if end else "",
             "office": g(r, "접수기관", "접수기관명"), "tel": g(r, "전화문의"), "url": g(r, "상세조회URL") or GOV24.format(sid),
-            "updated": g(r, "수정일시")[:10], "views": views, "cats": cats})
+            "updated": _ymd(g(r, "수정일시")), "views": views, "cats": cats})
     items.sort(key=lambda i: -i["views"])
     return items
 
@@ -113,7 +118,7 @@ ul.rows{list-style:none;margin:0 0 24px;padding:0;background:var(--sheet);border
 ul.rows li{padding:13px 16px;border-bottom:1px solid var(--rule)}ul.rows li:last-child{border-bottom:none}
 ul.rows a.t{font-weight:500;color:var(--ink);text-decoration:none;line-height:1.5}ul.rows a.t:hover{text-decoration:underline}
 .m{font-size:13px;color:var(--steel);margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 12px}
-.m .d{font-weight:700;color:var(--run)}.m .d.alarm{color:var(--alarm)}
+.m .d{font-weight:700;color:var(--run)}.m .d.alarm{color:var(--alarm)}.m .d.n{font-weight:400;color:var(--steel)}
 .o{font-size:14px;margin:5px 0 0;line-height:1.55;color:var(--ink)}
 .search{display:flex;gap:8px;margin:0 0 14px}.search input{flex:1;font:inherit;font-size:16px;padding:11px 14px;border:1px solid var(--rule);border-radius:6px;background:var(--sheet)}
 table.kv{width:100%;border-collapse:collapse;background:var(--sheet);border:1px solid var(--rule);margin:0 0 20px}
@@ -130,7 +135,7 @@ DISCLAIMER = ("이 페이지는 행정안전부 '대한민국 공공서비스(�
               "이 사이트는 신청을 대행하지 않습니다.")
 
 
-def _page(cfg, today, depth, title, h1, crumb, lead, body, desc):
+def _page(cfg, today, depth, title, h1, crumb, lead, body, desc, stamp=None):
     up = "../" * depth
     life = up + "life/"
     return f"""<!doctype html><html lang="ko"><head><meta charset="utf-8">
@@ -147,33 +152,36 @@ def _page(cfg, today, depth, title, h1, crumb, lead, body, desc):
 {f'<p class="lead">{lead}</p>' if lead else ''}
 {body}
 <div class="biz">🏭 <b>사업을 하고 계신가요?</b> 제조업·중소기업이 신청할 수 있는 정부지원사업은 <a href="{up}">제조업 지원사업 브리핑</a>에서 마감일 순으로 볼 수 있습니다.</div>
-<footer>{esc(DISCLAIMER)} 최종 갱신 {today.isoformat()}<br>
+<footer>{esc(DISCLAIMER)} {stamp or '최종 갱신 ' + today.isoformat()}<br>
 운영: 제조업 지원사업 브리핑 · {esc(cfg['footer'])} · <a href="{up}privacy.html">개인정보처리방침</a></footer>
 </div></body></html>"""
 
 
-def _label(i, today):
+def _label(i, today, dyn=True):
     if not i["end"]:
-        return "상시·기한 확인", ""
+        return "상시·기한 확인", "n"
+    if not dyn:   # 상세 페이지는 날마다 바뀌지 않게 날짜로만 표시 (저장소가 매일 불어나지 않도록)
+        return f"{i['end'][5:].replace('-', '/')}까지", ""
     d = (dt.date.fromisoformat(i["end"]) - today).days
     return ("오늘 마감" if d == 0 else f"D-{d}"), ("alarm" if d <= 14 else "")
 
 
-def _rows(lst, today, up, detail):
+def _rows(lst, today, up, detail, dyn=True):
     out = []
     for i in lst:
         href = f"{up}life/s/{i['id']}.html" if i["id"] in detail else i["url"]
         ext = "" if i["id"] in detail else ' rel="nofollow noopener" target="_blank"'
-        lab, cls = _label(i, today)
+        lab, cls = _label(i, today, dyn)
         out.append(f'<li><a class="t" href="{esc(href)}"{ext}>{esc(i["name"])}</a>'
                    f'<div class="m"><span class="d {cls}">{lab}</span><span>{esc(i["org"])}</span>'
-                   f'<span>{esc(i["kind"] or i["field"])}</span></div>'
+                   f'<span>{esc((i["kind"] or i["field"]).replace("||", "·"))}</span></div>'
                    + (f'<p class="o">{esc(i["summary"][:120])}</p>' if i["summary"] else "") + "</li>")
     return '<ul class="rows">' + "".join(out) + "</ul>"
 
 
 def _multiline(s):
-    return "<br>".join(esc(x.strip()) for x in (s or "").splitlines() if x.strip()) or "정부24 원문 확인"
+    s = (s or "").replace("||", "\n").replace("\r", "")
+    return "<br>".join(esc(x.strip()) for x in s.splitlines() if x.strip()) or "정부24 원문 확인"
 
 
 def build(docs, items, cfg, today=None):
@@ -217,8 +225,10 @@ def build(docs, items, cfg, today=None):
     # 상세
     for sid in detail:
         i = by_id[sid]
-        rel = [x for x in items if x["id"] != sid and set(x["cats"]) & set(i["cats"]) and x["id"] in detail][:8]
-        lab, _ = _label(i, today)
+        # 같은 대표 대상(첫 번째 묶음)에서 많이 찾는 순 — 조회수 순위는 천천히 바뀌어 페이지가 매일 바뀌지 않음
+        main_cat = i["cats"][0] if i["cats"] else None
+        rel = [x for x in items if x["id"] != sid and main_cat in x["cats"] and x["id"] in detail][:8] if main_cat else []
+        lab, _ = _label(i, today, False)
         tags = "".join(f'<a href="../t/{c}.html">{esc(tnames[c])}</a>' for c in i["cats"] if c in tnames)
         body = ((f'<div class="chips">{tags}</div>' if tags else "")
                 + f'<p class="lead">{esc(i["summary"])}</p>' if i["summary"] else (f'<div class="chips">{tags}</div>' if tags else ""))
@@ -233,19 +243,20 @@ def build(docs, items, cfg, today=None):
                  + f'<tr><th>담당</th><td>{esc(i["org"])} {esc(i["dept"])}</td></tr></table>')
         body += (f'<a class="go" href="{esc(i["url"])}" rel="nofollow noopener" target="_blank">정부24에서 원문 보기·신청</a>'
                  f'<a class="go ghost" href="../">다른 혜택 찾기</a>')
-        body += f'<p class="note">{esc(DISCLAIMER)}{" 정보 수정일 " + esc(i["updated"]) if i["updated"] else ""}</p>'
+        body += f'<p class="note">{esc(DISCLAIMER)}</p>'
         if rel:
-            body += "<h2>함께 볼 만한 혜택</h2>" + _rows(rel, today, "../../", detail)
+            body += "<h2>함께 볼 만한 혜택</h2>" + _rows(rel, today, "../../", detail, False)
         desc = f"{i['name']}: {i['summary'] or i['content']}"[:150]
         (root / "s" / f"{sid}.html").write_text(_page(
             cfg, today, 2, f"{i['name']} 신청 방법·대상·지원 내용 | {i['org']}", i["name"],
-            f'<a href="../">생활 지원금</a>{" / " + tags.split("</a>")[0] + "</a>" if tags else ""}', "", body, desc), encoding="utf-8")
+            f'<a href="../">생활 지원금</a>{" / " + tags.split("</a>")[0] + "</a>" if tags else ""}', "", body, desc,
+            stamp=f"정보 수정일 {i['updated']}" if i["updated"] else "정부24 원문 기준"), encoding="utf-8")
         paths.append(f"life/s/{sid}.html")
 
     # 검색용 데이터
     (root / "data.json").write_text(json.dumps(
-        [{"i": i["id"], "n": i["name"], "o": i["org"], "c": i["cats"], "e": i["end"], "s": i["summary"][:80],
-          "u": f"s/{i['id']}.html" if i["id"] in detail else i["url"], "x": 0 if i["id"] in detail else 1} for i in items],
+        [{"i": i["id"], "n": i["name"], "o": i["org"], "c": i["cats"], "e": i["end"], "s": i["summary"][:45],
+          **({"d": 1} if i["id"] in detail else {})} for i in items],
         ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
     # 첫 화면
@@ -261,12 +272,13 @@ def build(docs, items, cfg, today=None):
             + "<h2>많이 찾는 혜택 TOP 30</h2>" + _rows(items[:30], today, "../", detail))
     js = """<script>
 (()=>{let all=[],cat="",shown=50;const $=s=>document.querySelector(s);
-const lab=e=>{if(!e)return["상시·기한 확인",""];const d=Math.round((new Date(e)-new Date(new Date().toDateString()))/864e5);return[d<=0?"오늘 마감":"D-"+d,d<=14?"alarm":""]};
+const lab=e=>{if(!e)return["상시·기한 확인","n"];const d=Math.round((new Date(e)-new Date(new Date().toDateString()))/864e5);return[d<=0?"오늘 마감":"D-"+d,d<=14?"alarm":""]};
 const h=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function draw(){const q=$("#q").value.trim().toLowerCase().split(/\\s+/).filter(Boolean);
 const r=all.filter(i=>(!cat||i.c.includes(cat))&&q.every(w=>(i.n+" "+i.o+" "+i.s).toLowerCase().includes(w)));
 $("#res").innerHTML=`<p class="m">${r.length.toLocaleString()}건</p><ul class="rows">`+r.slice(0,shown).map(i=>{const[l,c]=lab(i.e);
-return`<li><a class="t" href="${h(i.u)}"${i.x?' rel="nofollow noopener" target="_blank"':""}>${h(i.n)}</a><div class="m"><span class="d ${c}">${l}</span><span>${h(i.o)}</span></div>${i.s?`<p class="o">${h(i.s)}</p>`:""}</li>`}).join("")+"</ul>";
+const u=i.d?`s/${i.i}.html`:`https://www.gov.kr/portal/rcvfvrSvc/dtlEx/${i.i}`;
+return`<li><a class="t" href="${h(u)}"${i.d?"":' rel="nofollow noopener" target="_blank"'}>${h(i.n)}</a><div class="m"><span class="d ${c}">${l}</span><span>${h(i.o)}</span></div>${i.s?`<p class="o">${h(i.s)}</p>`:""}</li>`}).join("")+"</ul>";
 $("#more").hidden=r.length<=shown;}
 fetch("data.json").then(r=>r.json()).then(d=>{all=d;const u=new URLSearchParams(location.search);if(u.get("q"))$("#q").value=u.get("q");draw();});
 $("#q").addEventListener("input",()=>{shown=50;draw()});$("#more").onclick=()=>{shown+=50;draw()};
