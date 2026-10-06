@@ -17,6 +17,7 @@ jobs:
           TZ: Asia/Seoul            # 날짜 계산을 한국 시간으로
           BIZINFO_API_KEY: ${{ secrets.BIZINFO_API_KEY }}
           KSTARTUP_API_KEY: ${{ secrets.KSTARTUP_API_KEY }}   # 선택: 없으면 기업마당만
+          DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}       # 선택: 생활 지원금(정부24 공공서비스). 없으면 건너뜀
         run: python build_site.py
       - name: 변경사항 저장
         run: |

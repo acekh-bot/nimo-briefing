@@ -318,10 +318,12 @@ def site_extras(t, cfg):
 def enrich(docs, items, cfg, verify_meta=""):
     """모든 페이지 <head>에 canonical·og·아이콘·RSS 링크를 넣고 rss.xml을 만든다 (이미 있으면 건너뜀)"""
     base = cfg["site_url"]
-    pages = [p for p in docs.glob("*.html")] + [f for sub in ("weekly", "p", "r", "c", "m") for f in (docs / sub).glob("*.html")]
+    global LIFE_ON
+    LIFE_ON = (docs / "life" / "index.html").exists()   # 생활 지원금 페이지가 있을 때만 메뉴에 보임
+    pages = [p for p in docs.glob("*.html")] + [f for sub in ("weekly", "p", "r", "c", "m", "life", "life/t", "life/s") for f in (docs / sub).glob("*.html")]
     for p in pages:
         rel = p.relative_to(docs).as_posix()
-        url = f"{base}/" if rel == "index.html" else f"{base}/weekly/" if rel == "weekly/index.html" else f"{base}/{rel}"
+        url = f"{base}/" if rel == "index.html" else f"{base}/{rel[:-10]}" if rel.endswith("/index.html") else f"{base}/{rel}"
         t = p.read_text(encoding="utf-8")
         add = _meta_for(t, url, cfg, rel, verify_meta)
         if add:
@@ -352,7 +354,9 @@ def enrich(docs, items, cfg, verify_meta=""):
 # 컴퓨터: 왼쪽 고정 사이드바 / 휴대폰: 화면 위에 붙는 메뉴 줄. 햄버거처럼 숨기지 않는다 (사용자 피드백)
 MENU_ITEMS = [("", "공고 검색", "진행 중인 지원사업"), ("guide.html", "모아보기", "지역·분야·월별"),
               ("weekly/", "주간 브리핑", "이번 주 새 공고"), ("resources.html", "자료실", "서식·가이드"),
-              ("services.html", "신청 도움", "무료 진단·계획서"), ("nimo.html", "NIMO 시연", "설비 모니터링·MES")]
+              ("services.html", "신청 도움", "무료 진단·계획서"), ("nimo.html", "NIMO 시연", "설비 모니터링·MES"),
+              ("life/", "생활 지원금", "청년·어르신·누구나")]
+LIFE_ON = False
 SIDE_W = 236
 MENU_CSS = f"""<style id="siteMenuCss">
 header.top nav{{display:none!important}}
@@ -397,8 +401,12 @@ def _menu_html(prefix, rel):
         cur = "guide.html"
     elif rel.startswith("p/"):
         cur = ""
+    elif rel.startswith("life/"):
+        cur = "life/"
     rows = []
     for href, label, note in MENU_ITEMS:
+        if href == "life/" and not LIFE_ON:
+            continue
         url = (prefix + href) if (prefix or href) else "./"
         curattr = ' aria-current="page"' if href == cur else ""
         cls = ' class="nimo"' if href == "nimo.html" else ""
