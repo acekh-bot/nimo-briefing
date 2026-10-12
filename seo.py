@@ -320,7 +320,7 @@ def enrich(docs, items, cfg, verify_meta=""):
     base = cfg["site_url"]
     global LIFE_ON
     LIFE_ON = (docs / "life" / "index.html").exists()   # 생활 지원금 페이지가 있을 때만 메뉴에 보임
-    pages = [p for p in docs.glob("*.html")] + [f for sub in ("weekly", "p", "r", "c", "m", "life", "life/t", "life/s") for f in (docs / sub).glob("*.html")]
+    pages = [p for p in docs.glob("*.html")] + [f for sub in ("weekly", "p", "r", "c", "m", "life", "life/t", "life/s", "blog") for f in (docs / sub).glob("*.html")]
     for p in pages:
         rel = p.relative_to(docs).as_posix()
         url = f"{base}/" if rel == "index.html" else f"{base}/{rel[:-10]}" if rel.endswith("/index.html") else f"{base}/{rel}"
@@ -353,7 +353,8 @@ def enrich(docs, items, cfg, verify_meta=""):
 # ---------- 고정 사이드바 메뉴 (모든 페이지 같은 자리) ----------
 # 컴퓨터: 왼쪽 고정 사이드바 / 휴대폰: 화면 위에 붙는 메뉴 줄. 햄버거처럼 숨기지 않는다 (사용자 피드백)
 MENU_ITEMS = [("", "공고 검색", "진행 중인 지원사업"), ("guide.html", "모아보기", "지역·분야·월별"),
-              ("weekly/", "주간 브리핑", "이번 주 새 공고"), ("resources.html", "자료실", "서식·가이드"),
+              ("weekly/", "주간 브리핑", "이번 주 새 공고"), ("blog/", "친칠라 블로그", "공고 해설·기술노트"),
+              ("resources.html", "자료실", "서식·가이드"),
               ("services.html", "신청 도움", "무료 진단·계획서"), ("nimo.html", "NIMO 시연", "설비 모니터링·MES"),
               ("life/", "생활 지원금", "청년·어르신·누구나")]
 LIFE_ON = False
@@ -403,6 +404,8 @@ def _menu_html(prefix, rel):
         cur = ""
     elif rel.startswith("life/"):
         cur = "life/"
+    elif rel.startswith("blog/"):
+        cur = "blog/"
     rows = []
     for href, label, note in MENU_ITEMS:
         if href == "life/" and not LIFE_ON:

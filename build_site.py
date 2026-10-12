@@ -14,6 +14,7 @@ import seo
 import landing
 import weekly as weekly_mod
 import life
+import blogfeed
 
 DOCS = gb.BASE / "docs"
 
@@ -139,6 +140,7 @@ def main():
     weekly_mod.build(DOCS, items, gb.CFG)
     extra = landing.build(DOCS, items, gb.CFG)
     extra += life.run(DOCS, gb.CFG)   # 생활 지원금 (DATA_GO_KR_KEY 있을 때만)
+    extra += blogfeed.run(DOCS, gb.CFG)   # 네이버 블로그 새 글 (제목·요약·링크만)
     verify_meta, n_arch = seo.build(DOCS, items, gb.CFG, extra_paths=extra)
     for res in [DOCS / "resources.html", DOCS / "services.html", DOCS / "privacy.html", DOCS / "nimo.html"]:
         if not res.exists():
