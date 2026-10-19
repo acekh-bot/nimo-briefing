@@ -89,6 +89,18 @@ def seo_block(items, date):
             f'<h2>자주 묻는 질문</h2>{qa}</section><script type="application/ld+json">{ld}</script>'), summary
 
 
+def nimo_summary(items, date):
+    """NIMO 페이지 첫 화면 숫자·공고 띠·도입 도우미 추천용 (스마트공장·AI 관련 제조 핵심 공고)"""
+    sf = [i for i in items if i.get("tier") == 1 and set(i.get("cats", [])) & {"스마트공장", "AI·바우처"}
+          and not any(w in i["title"] for w in ("주관기관", "공급기업", "운영기관", "포상"))]
+    live = [i for i in sf if i.get("dday") is None or i["dday"] >= 0]
+    live.sort(key=lambda i: (i.get("dday") is None, i.get("dday") or 0))
+    return {"date": date, "core": sum(1 for i in items if i.get("tier") == 1), "sf": len(live),
+            "soon": sum(1 for i in live if i.get("dday") is not None and i["dday"] <= 14),
+            "items": [{"id": i["id"], "t": i["title"], "e": i.get("end") or "", "d": i.get("dday"),
+                       "r": i.get("region") or "전국"} for i in live[:80]]}
+
+
 def page_index(items, date):
     regions = sorted({i["region"] for i in items}, key=lambda r: (r != "전국", r))
     cats = [c for c in gb.CFG["categories"]] + ["제조 일반", "중소기업 일반"]
@@ -119,6 +131,7 @@ def main():
     (DOCS / "data").mkdir(parents=True, exist_ok=True)
     (DOCS / "weekly").mkdir(exist_ok=True)
     (DOCS / "data" / "programs.json").write_text(json.dumps(items, ensure_ascii=False), encoding="utf-8")
+    (DOCS / "data" / "nimo_summary.json").write_text(json.dumps(nimo_summary(items, date), ensure_ascii=False), encoding="utf-8")
     (DOCS / "index.html").write_text(page_index(items, date), encoding="utf-8")  # verify meta 주입은 아래에서
 
     # 주간 브리핑: 이번에 처음 잡힌 공고
