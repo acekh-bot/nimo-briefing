@@ -360,8 +360,8 @@ def enrich(docs, items, cfg, verify_meta=""):
 
 # ---------- 고정 사이드바 메뉴 (모든 페이지 같은 자리) ----------
 # 컴퓨터: 왼쪽 고정 사이드바 / 휴대폰: 화면 위에 붙는 메뉴 줄. 햄버거처럼 숨기지 않는다 (사용자 피드백)
-MENU_ITEMS = [("", "공고 검색", "진행 중인 지원사업"), ("guide.html", "모아보기", "지역·분야·월별"),
-              ("smart.html", "스마트공장·공방", "전문 분야·도입 도우미"), ("weekly/", "주간 브리핑", "이번 주 새 공고"), ("blog/", "친칠라 블로그", "공고 해설·기술노트"),
+MENU_ITEMS = [("", "공고 검색", "진행 중인 지원사업"), ("smart.html", "우리 공장 진단", "1분 도우미 · 스마트공장·공방"), ("guide.html", "모아보기", "지역·분야·월별"),
+              ("weekly/", "주간 브리핑", "이번 주 새 공고"), ("blog/", "친칠라 블로그", "공고 해설·기술노트"),
               ("resources.html", "자료실", "서식·가이드"),
               ("services.html", "신청 도움", "무료 진단·계획서"), ("nimo.html", "NIMO 시연", "설비 모니터링·MES"),
               ("life/", "생활 지원금", "청년·어르신·누구나")]
@@ -379,6 +379,7 @@ header.top nav{{display:none!important}}
 .snav .items a[aria-current]{{background:#2B363B;box-shadow:inset 3px 0 0 #2F8F5B}}
 .snav .items a:hover{{background:#2B363B}}
 .snav .items a.nimo b{{color:#E0A800}}
+.snav .items a.pick{{background:#24493A}}.snav .items a.pick b{{color:#9BE0B6}}.snav .items a.pick:hover{{background:#2C5A47}}
 .snav .apply{{display:block;background:#E0A800;color:#1C2529!important;font-weight:700;text-align:center;border-radius:4px}}
 .snav :focus-visible{{outline:3px solid #6FA8FF;outline-offset:2px}}
 @media (min-width:960px){{
@@ -420,7 +421,7 @@ def _menu_html(prefix, rel):
             continue
         url = (prefix + href) if (prefix or href) else "./"
         curattr = ' aria-current="page"' if href == cur else ""
-        cls = ' class="nimo"' if href == "nimo.html" else ""
+        cls = ' class="nimo"' if href == "nimo.html" else ' class="pick"' if href == "smart.html" else ""
         rows.append(f'<a href="{url}"{curattr}{cls}><b>{label}</b><small>{note}</small></a>')
     return (f'<nav class="snav" id="siteNav" aria-label="사이트 메뉴">'
             f'<a class="brand" href="{prefix or "./"}"><i aria-hidden="true"></i><span>제조업 지원사업<br></span>브리핑</a>'

@@ -255,7 +255,12 @@ input[type=search]{flex:1;min-width:220px}
 footer{padding:24px 0 48px;font-size:13px;color:var(--steel);line-height:1.7;border-top:1px solid var(--rule)}
 @media (max-width:720px){.controls{position:static}input[type=search]{flex-basis:100%}select{flex:1}.status{gap:18px}.status b{font-size:22px}.track{background:none;border-bottom:1px dashed var(--rule)}.axis{display:none}.item{grid-template-columns:1fr;gap:10px}.track{margin-top:14px}.cta{grid-template-columns:1fr}nav a:not(:last-child){display:none}}
 @media (prefers-reduced-motion:no-preference){.bar{transform-origin:left;animation:grow .6s ease-out both}@keyframes grow{from{transform:scaleX(0)}}}
-</style></head>
+.quick{margin:6px 0 30px;padding:22px 24px;background:#E6F2EB;border:1px solid #BFDCC9;border-radius:14px}
+.quick-h span{font-size:13px;font-weight:700;color:var(--run)}.quick-h h2{font-size:clamp(19px,2.6vw,24px);margin:4px 0 6px;letter-spacing:-.02em}
+.quick-h p{margin:0;color:var(--steel);font-size:14.5px;line-height:1.65;max-width:70ch}.quick-h a{color:var(--run);font-weight:700;text-decoration:none}
+.quick .nh{margin-top:14px;max-width:none}
+@media (max-width:640px){.quick{padding:16px 14px}}
+</style><link rel="stylesheet" href="helper.css"></head>
 <body><div class="wrap">
 <header class="top"><a class="logo" href="./"><span aria-hidden="true"></span>%%BRAND%%</a>
 <nav><a href="resources.html">자료실</a><a href="weekly/">주간 브리핑</a><a href="nimo.html">NIMO</a><a href="services.html">신청 도움</a></nav></header>
@@ -264,6 +269,10 @@ footer{padding:24px 0 48px;font-size:13px;color:var(--steel);line-height:1.7;bor
 <h1>우리 공장이 신청할 수 있는 정부지원사업, 마감 순서대로.</h1>
 <p>기업마당의 전체 공고 중 스마트공장, 산업안전, 제조 기술개발처럼 제조업에 해당하는 공고를 먼저 골라 보여주고, 중소기업이 신청할 수 있는 일반 공고까지 매일 아침 갱신합니다.</p>
 <div class="status"><div><b>%%TOTAL%%</b>제조업 핵심 공고</div><div><b>%%ALL%%</b>중소기업 전체 공고</div><div><b>%%NEW%%</b>이번 주 새 공고</div><div><b>%%DATE%%</b>마지막 갱신</div></div>
+</section>
+<section class="quick" id="helper" aria-label="1분 도입 도우미">
+<div class="quick-h"><span>🧭 1분 도입 도우미</span><h2>우리 공장에 맞는 지원사업, 질문 9개로 찾기</h2><p>업종·규모·설비·고민을 고르면 맞는 사업 방향과 지금 신청할 수 있는 공고를 바로 보여 드립니다. 신청 버튼을 누르면 답이 신청서에 미리 채워집니다. <a href="smart.html">스마트공장·스마트공방 전문 분야 보기 →</a></p></div>
+<div id="nh" class="nh" data-base=""></div>
 </section>
 
 <div class="controls">
@@ -331,7 +340,7 @@ $("#scope").addEventListener("change",e=>{state.scope=e.target.value;render()});
 document.querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>{const k=c.dataset.cat,on=!state.cats.has(k);
 on?state.cats.add(k):state.cats.delete(k);c.setAttribute("aria-pressed",on);render()}));
 $("#q").value=state.q;$("#scope").value=state.scope;ticks();render();
-</script></body></html>"""
+</script><script src="helper.js" defer></script></body></html>"""
 
 if __name__ == "__main__":
     main()
