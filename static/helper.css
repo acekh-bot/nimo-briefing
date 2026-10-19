@@ -1,0 +1,42 @@
+/* 스마트공장·공방 도입 도우미 (smart.html, nimo.html 공용) */
+.nh{background:#fff;border:1px solid #C9D1CE;border-radius:14px;padding:18px;max-width:860px;margin-top:22px;box-shadow:0 10px 30px rgba(28,37,41,.07);font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#1C2529}
+.nh-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.nh-step{font-size:12.5px;font-weight:700;color:#2F8F5B;letter-spacing:.05em}
+.nh-bar{flex:1;height:5px;background:#EDF0EE;border-radius:3px;overflow:hidden}.nh-bar i{display:block;height:100%;background:#2F8F5B;transition:width .3s}
+.nh-top button{font:inherit;font-size:13px;border:1px solid #C9D1CE;background:#fff;border-radius:999px;padding:4px 12px;cursor:pointer;color:#1C2529}
+.nh-thread{display:flex;flex-direction:column;gap:9px}
+.nh-b{max-width:88%;padding:11px 15px;border-radius:14px;font-size:15px;line-height:1.6}
+.nh-b.new{animation:nhin .25s ease}
+@keyframes nhin{from{opacity:0;transform:translateY(6px)}}
+@media (prefers-reduced-motion:reduce){.nh-b.new,.nh-res{animation:none}}
+.nh-b.bot{background:#F4F6F5;border:1px solid #DDE3E0;align-self:flex-start;border-top-left-radius:4px}
+.nh-b.bot small{display:block;color:#5B6B70;font-size:13px;margin-top:2px}
+.nh-b.me{background:#2F8F5B;color:#fff;align-self:flex-end;border-top-right-radius:4px}
+.nh-opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.nh-opts.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr))}
+.nh-opts button{font:inherit;font-size:14.5px;border:1.5px solid #2F8F5B;background:#fff;color:#1C2529;border-radius:999px;padding:9px 15px;cursor:pointer;text-align:center}
+.nh-opts button:hover,.nh-opts button:focus-visible{background:#E6F2EB;outline:none}
+.nh-opts button[aria-pressed="true"]{background:#2F8F5B;color:#fff}
+.nh-opts .nh-next{background:#1C2529;color:#fff;border-color:#1C2529;font-weight:700}
+.nh-opts .nh-next:disabled{opacity:.35;cursor:default}
+.nh-hint{width:100%;font-size:12.5px;color:#5B6B70;margin:2px 0 0}
+.nh-res{border:1.5px solid #2F8F5B;border-radius:12px;padding:16px 18px;background:#fff;align-self:stretch;animation:nhin .3s ease}
+.nh-res h4{margin:16px 0 6px;font-size:15.5px;color:#1C2529}.nh-res h4:first-child{margin-top:0}
+.nh-res p{margin:0 0 6px;font-size:14.5px;line-height:1.7;color:#1C2529}
+.nh-route{border-left:3px solid #2F8F5B;background:#F7FAF8;padding:10px 12px;margin:8px 0;border-radius:0 8px 8px 0}
+.nh-route b{display:block;font-size:15px;margin-bottom:2px}.nh-route p{margin:0;font-size:14px}
+.nh-route.warn{border-left-color:#E0A800;background:#FFFBEF}
+.nh-flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0 4px;font-size:13px}
+.nh-flow span{background:#F4F6F5;border:1px solid #DDE3E0;border-radius:6px;padding:5px 9px}.nh-flow i{font-style:normal;color:#2F8F5B;font-weight:700}
+.nh-sims{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.nh-sims button,.nh-sims a{font:inherit;font-size:13.5px;border:0;background:#1C2529;color:#fff;border-radius:6px;padding:8px 12px;cursor:pointer;text-decoration:none}
+.nh-gov{list-style:none;margin:6px 0 0;padding:0}.nh-gov li{padding:8px 0;border-bottom:1px solid #EDF0EE;font-size:14px}
+.nh-gov a{color:#1C2529;text-decoration:none;font-weight:500}.nh-gov a:hover{text-decoration:underline}
+.nh-gov small{display:block;color:#5B6B70;font-size:12.5px}
+.nh-sum{display:grid;grid-template-columns:110px 1fr;gap:4px 10px;font-size:13.5px;background:#F4F6F5;border-radius:8px;padding:10px 12px}
+.nh-sum dt{color:#5B6B70}.nh-sum dd{margin:0}
+.nh-cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.nh-cta a{display:inline-block;text-decoration:none;font-weight:700;font-size:14.5px;padding:11px 16px;border-radius:8px;background:#2F8F5B;color:#fff}
+.nh-cta a.g{background:#fff;color:#1C2529;border:1px solid #C9D1CE}
+.nh-fine{font-size:12.5px;color:#5B6B70;line-height:1.6;margin-top:10px}
+@media (max-width:720px){.nh{padding:14px}.nh-b{max-width:100%}.nh-sum{grid-template-columns:88px 1fr}}

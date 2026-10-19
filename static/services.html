@@ -141,6 +141,7 @@ const q=new URLSearchParams(location.search);
 if(q.get("title")){const b=document.getElementById("programBox");b.style.display="block";b.textContent=({"자료 구매":"선택한 자료: ","NIMO 상담":"상담 주제: ","맞춤 알림 구독":"신청: "}[q.get("service")]||"선택한 공고: ")+q.get("title");
 if(q.get("service")==="맞춤 알림 구독"){document.getElementById("program").placeholder="관심 사업·키워드 (예: 스마트공장, 산업안전, 수출)"}else{document.getElementById("program").value=q.get("title")}document.getElementById("program_id").value=q.get("program")||""}
 if(q.get("biz"))document.getElementById("biz").value=q.get("biz");
+["region","staff","when"].forEach(k=>{const v=q.get(k),el=document.getElementById(k);if(v&&el&&[...el.options].some(o=>o.value===v||o.text===v))el.value=v});
 if(q.get("memo"))document.getElementById("memo").value=q.get("memo");
 if(q.get("service")){const r=document.querySelector(`input[name=service][value="${CSS.escape(q.get("service"))}"]`);if(r)r.checked=true}
 function subNote(){const on=document.querySelector("input[name=service]:checked")?.value==="맞춤 알림 구독";let n=document.getElementById("subNote");

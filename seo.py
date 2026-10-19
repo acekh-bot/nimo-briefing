@@ -241,7 +241,7 @@ def build(docs, items, cfg, today=None, extra_paths=()):
             continue
         (docs / "p" / f"{i['id']}.html").write_text(page(i, cfg, today, verify_meta), encoding="utf-8")
     base = cfg["site_url"]
-    urls = [f"{base}/", f"{base}/services.html", f"{base}/resources.html", f"{base}/nimo.html", f"{base}/weekly/"]
+    urls = [f"{base}/", f"{base}/services.html", f"{base}/resources.html", f"{base}/nimo.html", f"{base}/smart.html", f"{base}/weekly/"]
     urls += [f"{base}/weekly/{f.name}" for f in sorted((docs / "weekly").glob("20*.html"))]
     urls += [f"{base}/{x}" for x in extra_paths]
     urls += [f"{base}/p/{k}.html" for k in arch if re.fullmatch(r"[A-Za-z0-9_\-]+", k or "")]
@@ -260,7 +260,11 @@ DEFAULT_DESC = {
     "weekly/index.html": "매주 월요일 새로 올라온 제조업 정부지원사업 공고를 모은 주간 브리핑 목록.",
 }
 KEYWORDS = "제조업 지원사업, 정부지원사업, 스마트공장 지원사업, 산업안전 지원사업, 중소기업 지원사업, 기업마당, 사업계획서"
-FAVICON = ('<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E'
+# 검색 결과 아이콘은 실제 파일이어야 한다(구글: 48px 배수, data: 주소 불가). 파일은 도구/사이트_아이콘_만들기.py
+FAVICON = ('<link rel="icon" href="/favicon.ico" sizes="48x48">'
+           '<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">'
+           '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">')
+OLD_FAVICON = ('<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E'
            '%3Ccircle cx=%228%22 cy=%228%22 r=%226%22 fill=%22%232F8F5B%22/%3E%3C/svg%3E">')
 
 
@@ -290,10 +294,13 @@ def _meta_for(html_text, url, cfg, fname, verify_meta):
         add.append(FAVICON)
     if 'type="application/rss+xml"' not in html_text:
         add.append(f'<link rel="alternate" type="application/rss+xml" title="{esc(cfg["brand"])}" href="{cfg["site_url"]}/rss.xml">')
-    if fname == "index.html" and "application/ld+json" not in html_text:
-        ld = {"@context": "https://schema.org", "@type": "WebSite", "name": cfg["brand"], "url": cfg["site_url"] + "/",
-              "description": DEFAULT_DESC["index.html"],
-              "publisher": {"@type": "Organization", "name": "제조업 지원사업 브리핑", "email": cfg.get("contact_email", "")}}
+    if fname == "index.html" and '"WebSite"' not in html_text:
+        # 검색 결과에 'ai.kr' 대신 사이트 이름이 나오도록 (구글 사이트 이름: WebSite 구조화 데이터)
+        ld = {"@context": "https://schema.org", "@type": "WebSite", "name": cfg["brand"],
+              "alternateName": ["제조업 정부지원사업 브리핑", "briefing.nimo.ai.kr"], "url": cfg["site_url"] + "/",
+              "description": DEFAULT_DESC["index.html"], "inLanguage": "ko-KR",
+              "publisher": {"@type": "Organization", "name": cfg["brand"], "url": cfg["site_url"] + "/",
+                            "logo": cfg["site_url"] + "/icon-512.png", "email": cfg.get("contact_email", "")}}
         add.append(f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>')
     return "\n".join(add)
 
@@ -325,6 +332,7 @@ def enrich(docs, items, cfg, verify_meta=""):
         rel = p.relative_to(docs).as_posix()
         url = f"{base}/" if rel == "index.html" else f"{base}/{rel[:-10]}" if rel.endswith("/index.html") else f"{base}/{rel}"
         t = p.read_text(encoding="utf-8")
+        t = t.replace(OLD_FAVICON, FAVICON)          # 예전 data: 아이콘이 박힌 페이지는 파일 아이콘으로 교체
         add = _meta_for(t, url, cfg, rel, verify_meta)
         if add:
             t = t.replace("</head>", add + "\n</head>", 1)
@@ -353,7 +361,7 @@ def enrich(docs, items, cfg, verify_meta=""):
 # ---------- 고정 사이드바 메뉴 (모든 페이지 같은 자리) ----------
 # 컴퓨터: 왼쪽 고정 사이드바 / 휴대폰: 화면 위에 붙는 메뉴 줄. 햄버거처럼 숨기지 않는다 (사용자 피드백)
 MENU_ITEMS = [("", "공고 검색", "진행 중인 지원사업"), ("guide.html", "모아보기", "지역·분야·월별"),
-              ("weekly/", "주간 브리핑", "이번 주 새 공고"), ("blog/", "친칠라 블로그", "공고 해설·기술노트"),
+              ("smart.html", "스마트공장·공방", "전문 분야·도입 도우미"), ("weekly/", "주간 브리핑", "이번 주 새 공고"), ("blog/", "친칠라 블로그", "공고 해설·기술노트"),
               ("resources.html", "자료실", "서식·가이드"),
               ("services.html", "신청 도움", "무료 진단·계획서"), ("nimo.html", "NIMO 시연", "설비 모니터링·MES"),
               ("life/", "생활 지원금", "청년·어르신·누구나")]

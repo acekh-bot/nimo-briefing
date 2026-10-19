@@ -90,15 +90,32 @@ def seo_block(items, date):
 
 
 def nimo_summary(items, date):
-    """NIMO 페이지 첫 화면 숫자·공고 띠·도입 도우미 추천용 (스마트공장·AI 관련 제조 핵심 공고)"""
-    sf = [i for i in items if i.get("tier") == 1 and set(i.get("cats", [])) & {"스마트공장", "AI·바우처"}
-          and not any(w in i["title"] for w in ("주관기관", "공급기업", "운영기관", "포상"))]
-    live = [i for i in sf if i.get("dday") is None or i["dday"] >= 0]
-    live.sort(key=lambda i: (i.get("dday") is None, i.get("dday") or 0))
-    return {"date": date, "core": sum(1 for i in items if i.get("tier") == 1), "sf": len(live),
-            "soon": sum(1 for i in live if i.get("dday") is not None and i["dday"] <= 14),
-            "items": [{"id": i["id"], "t": i["title"], "e": i.get("end") or "", "d": i.get("dday"),
-                       "r": i.get("region") or "전국"} for i in live[:80]]}
+    """NIMO·스마트공장 페이지의 숫자, 공고 띠, 도입 도우미 추천용 (태그: sf 스마트공장, ai 제조AI·AX, gb 스마트공방·소공인, prep 상시 준비, safe 안전)"""
+    skip = ("주관기관", "공급기업", "운영기관", "포상", "전문기관")
+    out = []
+    for i in items:
+        if i.get("dday") is not None and i["dday"] < 0 or any(w in i["title"] for w in skip):
+            continue
+        t, cats = i["title"], set(i.get("cats", []))
+        tags = []
+        if "스마트공장" in cats or "스마트공장" in t:
+            tags.append("sf")
+        if any(w in t for w in ("AI", "AX", "인공지능", "디지털전환", "DX", "제조데이터", "제조 데이터")):
+            tags.append("ai")
+        if any(w in t for w in ("공방", "소공인", "스마트상점", "클린제조")):
+            tags.append("gb")
+        if any(w in t for w in ("수준확인", "멘토단", "DX", "AX 컨설팅", "기초컨설팅")):
+            tags.append("prep")
+        if "산업안전" in cats and i.get("tier") == 1:
+            tags.append("safe")
+        if tags:
+            out.append((i, tags))
+    out.sort(key=lambda x: (x[0].get("dday") is None, x[0].get("dday") or 0))
+    live_sf = [i for i, tg in out if {"sf", "ai"} & set(tg) and i.get("tier") == 1]
+    return {"date": date, "core": sum(1 for i in items if i.get("tier") == 1), "sf": len(live_sf),
+            "soon": sum(1 for i in live_sf if i.get("dday") is not None and i["dday"] <= 14),
+            "items": [{"id": i["id"], "t": i["title"], "e": i.get("end") or "", "r": i.get("region") or "전국",
+                       "g": tg, "k": 1 if i.get("tier") == 1 else 0} for i, tg in out[:220]]}
 
 
 def page_index(items, date):
@@ -155,7 +172,7 @@ def main():
     extra += life.run(DOCS, gb.CFG)   # 생활 지원금 (DATA_GO_KR_KEY 있을 때만)
     extra += blogfeed.run(DOCS, gb.CFG)   # 네이버 블로그 새 글 (제목·요약·링크만)
     verify_meta, n_arch = seo.build(DOCS, items, gb.CFG, extra_paths=extra)
-    for res in [DOCS / "resources.html", DOCS / "services.html", DOCS / "privacy.html", DOCS / "nimo.html"]:
+    for res in [DOCS / "resources.html", DOCS / "services.html", DOCS / "privacy.html", DOCS / "nimo.html", DOCS / "smart.html"]:
         if not res.exists():
             continue
         t = res.read_text(encoding="utf-8").replace("%%VERIFY%%", verify_meta)
